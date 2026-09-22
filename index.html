@@ -1,0 +1,3142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>聊天</title>
+<style>
+  :root{
+    --primary: #1f5f6c;
+    --secondary: #d2e6ec;
+    --accent: #d1d1d1;
+    --text: #5a5a5a;
+    --light-text: #8a8a8a;
+    --highlight: #e1b2b2;
+
+    --bg: #f2f5f6;
+    --panel: #ffffff;
+    --bar: #ffffff;
+    --line: #e6edef;
+    --soft: #eef5f7;
+
+    --msg-self-bg: rgba(241, 214, 214, 0.8);
+    --msg-other-bg: rgba(219, 229, 241, 0.8);
+    --chat-bg: #f2f5f6;
+    --chat-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --chat-font-size: 15px;
+
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    --font-size-base: 15px;
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+  html,body{height:100%;margin:0;padding:0}
+
+  body{
+    font-family:var(--font-family);
+    font-size:var(--font-size-base);
+    background:#e3eaec;
+    color:var(--text);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  svg{display:block}
+
+  .app{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    width:100%;
+    max-width:600px;
+    height:100vh;
+    height:100dvh;
+    margin:0 auto;
+    background:var(--panel);
+    overflow:hidden;
+    box-shadow:0 0 0 1px rgba(31,95,108,.07), 0 16px 60px rgba(31,95,108,.10);
+  }
+
+  /* ============ 顶栏 ============ */
+  .chat-header{
+    flex:0 0 auto;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 8px 0 14px;
+    padding-top:env(safe-area-inset-top,0px);
+    min-height:calc(56px + env(safe-area-inset-top,0px));
+    background:var(--bar);
+    border-bottom:1px solid var(--line);
+    z-index:3;
+  }
+
+  .chat-avatar{
+    flex:0 0 auto;
+    width:38px;height:38px;
+    border-radius:50%;
+    background:#e8ecef;
+    display:grid;place-items:center;
+    color:#b8c0c7;
+    overflow:hidden;
+    background-size:cover;
+    background-position:center;
+  }
+  .chat-avatar svg{width:22px;height:22px}
+
+  .chat-info{flex:1;min-width:0;}
+  .chat-name{
+    font-size:16px;font-weight:600;color:var(--text);
+    line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .chat-status{margin-top:3px;font-size:11.5px;color:var(--light-text);}
+
+  .icon-btn{
+    flex:0 0 auto;
+    width:40px;height:40px;
+    display:grid;place-items:center;
+    border:0;border-radius:10px;
+    background:transparent;
+    color:var(--text);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .icon-btn:active{background:var(--secondary);color:var(--primary)}
+
+  /* ============ 消息区 ============ */
+  .messages{
+    flex:1 1 auto;min-height:0;
+    overflow-y:auto;overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    display:flex;flex-direction:column;gap:12px;
+    padding:18px 14px 22px;
+    background:var(--chat-bg);
+    background-size:cover;
+    background-position:center;
+    font-family:var(--chat-font-family);
+    font-size:var(--chat-font-size);
+  }
+  .messages::-webkit-scrollbar{width:5px}
+  .messages::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+  .msg{display:flex;align-items:flex-start;gap:8px;max-width:100%;}
+  .msg.out{flex-direction:row-reverse}
+
+  .msg-avatar{
+    flex:0 0 auto;width:36px;height:36px;border-radius:50%;
+    overflow:hidden;background:#e8ecef;
+    display:grid;place-items:center;color:#b8c0c7;
+    background-size:cover;background-position:center;
+  }
+  .msg-avatar svg{width:20px;height:20px}
+
+  .bubble-wrap{
+    display:flex;flex-direction:column;max-width:76%;min-width:0;
+  }
+  .msg.out .bubble-wrap{align-items:flex-end}
+
+  .bubble{
+    padding:10px 14px;
+    border-radius:14px;
+    font-size:var(--chat-font-size);
+    line-height:1.45;
+    white-space:pre-wrap;
+    word-break:break-word;
+    color:var(--text);
+  }
+
+  .bubble.style-rounded{border-radius:14px;}
+  .msg.in .bubble.style-rounded{background:var(--msg-other-bg);border-bottom-left-radius:5px;}
+  .msg.out .bubble.style-rounded{background:var(--msg-self-bg);border-bottom-right-radius:5px;}
+
+  .bubble.style-soft{border-radius:20px;}
+  .msg.in .bubble.style-soft{background:var(--msg-other-bg);}
+  .msg.out .bubble.style-soft{background:var(--msg-self-bg);}
+
+  .bubble.style-square{border-radius:4px;}
+  .msg.in .bubble.style-square{background:var(--msg-other-bg);}
+  .msg.out .bubble.style-square{background:var(--msg-self-bg);}
+
+  .bubble.style-tail{border-radius:12px;}
+  .msg.in .bubble.style-tail{background:var(--msg-other-bg);border-bottom-left-radius:2px;}
+  .msg.out .bubble.style-tail{background:var(--msg-self-bg);border-bottom-right-radius:2px;}
+
+  .bubble.style-plain{background:transparent !important;padding:6px 2px;border-radius:0;}
+
+  /* 表情消息：无气泡背景 */
+  .bubble.bubble-sticker{
+    background:transparent !important;
+    padding:0;
+    max-width:140px;
+  }
+  .bubble.bubble-sticker img{
+    display:block;
+    width:100%;
+    max-width:140px;
+    border-radius:12px;
+    background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+  }
+
+  /* emoji 消息：小一点，套回气泡 */
+.bubble.bubble-emoji{
+  font-size:20px;
+  line-height:1.4;
+  padding:10px 14px;
+  border-radius:14px;
+}
+.msg.in .bubble.bubble-emoji{
+  background:var(--msg-other-bg);
+  border-bottom-left-radius:5px;
+}
+.msg.out .bubble.bubble-emoji{
+  background:var(--msg-self-bg);
+  border-bottom-right-radius:5px;
+}
+
+  .msg:last-child{animation:pop .22s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .empty-tip{text-align:center;color:var(--light-text);font-size:14px;padding:40px 20px;}
+
+  /* ============ 输入中提示 ============ */
+  .typing-bar{
+    flex:0 0 auto;
+    display:none;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    background:var(--chat-bg);
+    border-top:1px solid var(--line);
+    font-size:13px;
+    color:var(--light-text);
+    font-family:var(--chat-font-family);
+  }
+  .typing-bar.show{display:flex;animation:typingIn .25s ease;}
+  @keyframes typingIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  .typing-dots{display:inline-flex;align-items:center;gap:4px;height:14px;}
+  .typing-dots span{
+    display:inline-block;width:5px;height:5px;border-radius:50%;
+    background:var(--light-text);
+    animation:dotBounce 1.2s infinite ease-in-out;
+  }
+  .typing-dots span:nth-child(1){animation-delay:0s;}
+  .typing-dots span:nth-child(2){animation-delay:.18s;}
+  .typing-dots span:nth-child(3){animation-delay:.36s;}
+  @keyframes dotBounce{
+    0%, 80%, 100%{transform:translateY(0);opacity:.5;}
+    40%{transform:translateY(-4px);opacity:1;}
+  }
+
+  /* ============ 输入区 ============ */
+  .composer{
+    flex:0 0 auto;display:flex;align-items:center;gap:8px;
+    padding:8px 12px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px));
+    background:var(--bar);border-top:1px solid var(--line);
+  }
+  .composer input{
+    flex:1;min-width:0;height:40px;padding:0 16px;
+    border:0;border-radius:20px;background:var(--secondary);
+    font-size:var(--font-size-base);font-family:inherit;color:var(--text);
+    outline:none;transition:background .16s ease;
+  }
+  .composer input::placeholder{color:var(--light-text)}
+  .composer input:focus{background:#c9e0e7}
+
+  .send-btn{
+    flex:0 0 auto;width:40px;height:40px;
+    display:grid;place-items:center;
+    border:0;border-radius:50%;
+    background:var(--primary);color:#fff;
+    cursor:pointer;transition:opacity .18s ease, transform .12s ease;
+  }
+  .send-btn svg{width:18px;height:18px;margin-left:2px}
+  .send-btn:disabled{opacity:.3;cursor:default}
+  .send-btn:not(:disabled):active{transform:scale(.92)}
+
+  /* ============ 表情面板 ============ */
+  .sticker-panel{
+    position:absolute;
+    left:0;right:0;bottom:0;
+    z-index:15;
+    background:var(--panel);
+    border-top-left-radius:18px;
+    border-top-right-radius:18px;
+    box-shadow:0 -6px 24px rgba(0,0,0,.12);
+    transform:translateY(100%);
+    transition:transform .28s cubic-bezier(.32,.72,0,1);
+    max-height:60%;
+    display:flex;
+    flex-direction:column;
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  .sticker-panel.open{transform:translateY(0);}
+  .sticker-panel-header{
+    display:flex;align-items:center;
+    padding:14px 16px 10px;
+    gap:10px;
+  }
+  .sticker-panel-title{
+    flex:1;
+    font-size:15px;font-weight:600;
+    color:var(--text);
+  }
+  .sticker-actions{
+    display:flex;gap:8px;
+    padding:0 16px 10px;
+  }
+  .sticker-actions button{
+    flex:1;
+    height:34px;
+    border:1px solid var(--accent);
+    border-radius:9px;
+    background:#fff;
+    color:var(--text);
+    font-size:13px;
+    font-family:inherit;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .sticker-actions button:active{background:var(--soft)}
+  .sticker-grid-scroll{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    padding:0 16px 16px;
+  }
+  .sticker-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+  }
+  .sticker-cell{
+    position:relative;
+    aspect-ratio:1/1;
+    border-radius:10px;
+    background:var(--soft);
+    overflow:hidden;
+    cursor:pointer;
+    transition:transform .14s ease;
+  }
+  .sticker-cell:active{transform:scale(.94)}
+  .sticker-cell img{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .sticker-cell-del{
+    position:absolute;
+    top:3px;right:3px;
+    width:20px;height:20px;
+    display:grid;place-items:center;
+    border:0;border-radius:50%;
+    background:rgba(255,255,255,.88);
+    color:#8a8a8a;
+    cursor:pointer;
+  }
+  .sticker-cell-del:active{background:var(--highlight);color:#fff}
+  .sticker-cell-add{
+    display:grid;place-items:center;
+    border:1px dashed var(--accent);
+    background:#fff;
+    color:var(--light-text);
+    aspect-ratio:1/1;
+    border-radius:10px;
+    cursor:pointer;
+  }
+  .sticker-cell-add:active{background:var(--soft)}
+  .sticker-cell-add svg{width:24px;height:24px}
+
+  .sticker-empty{
+    text-align:center;
+    padding:36px 20px;
+    color:var(--light-text);
+    font-size:13.5px;
+    line-height:1.7;
+  }
+
+  /* ============ 覆盖层页面 ============ */
+  .page{
+    position:absolute;inset:0;z-index:20;
+    display:flex;flex-direction:column;
+    background:var(--bg);
+    transform:translateX(100%);
+    transition:transform .3s cubic-bezier(.32,.72,0,1);
+    will-change:transform;
+  }
+  .page.open{transform:translateX(0)}
+
+  .page-header{
+    flex:0 0 auto;display:flex;align-items:center;gap:6px;
+    padding:0 8px 0 6px;
+    padding-top:env(safe-area-inset-top,0px);
+    min-height:calc(54px + env(safe-area-inset-top,0px));
+    background:var(--bar);border-bottom:1px solid var(--line);
+  }
+  .page-header .page-title{
+    flex:1;min-width:0;font-size:16px;font-weight:600;
+    color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+
+  .page-body{
+    flex:1;min-height:0;overflow-y:auto;
+    background:var(--bg);
+    padding-bottom:20px;
+  }
+  .page-body::-webkit-scrollbar{width:5px}
+  .page-body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
+
+  /* ============ 通用 ============ */
+  .field-group{background:var(--panel);margin-bottom:10px;}
+  .field{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 16px;border-bottom:1px solid var(--line);
+  }
+  .field:last-child{border-bottom:0}
+  .field-label{
+    flex:0 0 auto;width:74px;font-size:14px;color:var(--light-text);
+  }
+  .field input[type="text"],
+  .field input[type="number"]{
+    flex:1;min-width:0;height:38px;padding:0 12px;
+    border:1px solid var(--accent);border-radius:8px;
+    background:#fff;font-size:14.5px;font-family:inherit;
+    color:var(--text);outline:none;
+    transition:border-color .15s ease;
+  }
+  .field input:focus{border-color:var(--primary)}
+
+  .avatar-picker{display:flex;align-items:center;gap:14px;cursor:pointer;}
+  .avatar-preview{
+    width:64px;height:64px;border-radius:50%;
+    background:#e8ecef;display:grid;place-items:center;
+    color:#b8c0c7;overflow:hidden;flex:0 0 auto;
+    background-size:cover;background-position:center;
+  }
+  .avatar-preview svg{width:32px;height:32px}
+  .avatar-hint{font-size:13px;color:var(--light-text);line-height:1.5;}
+
+  .actions{padding:18px 16px;display:flex;flex-direction:column;gap:10px;}
+  .btn-primary{
+    width:100%;height:44px;border:0;border-radius:10px;
+    background:var(--primary);color:#fff;
+    font-size:16px;font-family:inherit;font-weight:500;
+    cursor:pointer;transition:opacity .16s ease;
+  }
+  .btn-primary:active{opacity:.82}
+  .btn-ghost{
+    width:100%;height:42px;border:1px solid var(--accent);
+    border-radius:10px;background:#fff;color:var(--text);
+    font-size:15px;font-family:inherit;
+    cursor:pointer;transition:background .15s ease;
+  }
+  .btn-ghost:active{background:var(--soft)}
+  .btn-danger{
+    width:100%;height:42px;border:0;border-radius:10px;
+    background:#f7eaea;color:var(--highlight);
+    font-size:15px;font-family:inherit;
+    cursor:pointer;transition:background .15s ease;
+  }
+  .btn-danger:active{background:#f0d8d8}
+
+  .tip{
+    padding:16px 20px 24px;text-align:center;
+    font-size:12.5px;line-height:1.7;color:var(--light-text);
+  }
+
+  .entry-row{cursor:pointer;}
+  .entry-row .entry-value{
+    flex:1;text-align:right;font-size:13px;color:var(--light-text);
+  }
+
+  /* ============ 词条库 ============ */
+  .cards-search{padding:12px 14px 0;background:var(--bg);}
+  .cards-search input{
+    width:100%;height:40px;padding:0 14px;
+    border:1px solid var(--accent);border-radius:10px;
+    background:#fff;font-size:14px;font-family:inherit;
+    color:var(--text);outline:none;
+    transition:border-color .15s ease;
+  }
+  .cards-search input:focus{border-color:var(--primary)}
+  .cards-search input::placeholder{color:var(--light-text)}
+
+  .cards-toolbar{
+    display:flex;gap:8px;
+    padding:12px 14px;
+    background:var(--bg);
+    flex-wrap:wrap;
+  }
+  .toolbar-btn{
+    flex:1;min-width:calc(50% - 4px);
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    height:42px;padding:0 12px;
+    border:1px solid var(--accent);border-radius:10px;
+    background:#fff;color:var(--text);
+    font-size:14px;font-family:inherit;
+    cursor:pointer;transition:background .15s ease;
+  }
+  .toolbar-btn:active{background:var(--soft)}
+  .toolbar-btn svg{width:16px;height:16px}
+
+  .group-card{
+    margin:12px 14px;
+    background:var(--panel);
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 2px 8px rgba(31,95,108,.05);
+  }
+  .group-head{
+    display:flex;align-items:center;gap:12px;
+    padding:14px 16px;
+    cursor:pointer;
+    background:var(--panel);
+    transition:background .14s ease;
+  }
+  .group-head:active{background:var(--soft)}
+  .group-color{
+    flex:0 0 auto;
+    width:6px;height:22px;
+    border-radius:3px;
+    background:var(--primary);
+  }
+  .group-name{
+    flex:1;min-width:0;
+    font-size:15px;font-weight:600;
+    color:var(--text);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .group-count{
+    flex:0 0 auto;
+    font-size:12.5px;
+    color:var(--light-text);
+    background:var(--soft);
+    padding:2px 9px;
+    border-radius:10px;
+  }
+  .group-arrow{
+    flex:0 0 auto;
+    color:var(--accent);
+    transition:transform .22s ease;
+  }
+  .group-card.open .group-arrow{transform:rotate(90deg)}
+
+  .group-body{
+    display:none;
+    border-top:1px solid var(--line);
+    padding:4px 0 10px;
+    background:var(--panel);
+  }
+  .group-card.open .group-body{display:block}
+
+  .card-item{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  .card-item:last-child{border-bottom:0}
+  .card-text{
+    flex:1;min-width:0;
+    font-size:14.5px;
+    color:var(--text);
+    line-height:1.45;
+    word-break:break-word;
+  }
+  .card-del{
+    flex:0 0 auto;
+    width:30px;height:30px;
+    display:grid;place-items:center;
+    border:0;border-radius:8px;
+    background:transparent;
+    color:var(--light-text);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .card-del:active{background:#f7eaea;color:var(--highlight)}
+
+  /* emoji 项 */
+  .emoji-item{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+    cursor:pointer;
+    transition:background .14s ease;
+  }
+  .emoji-item:active{background:var(--soft)}
+  .emoji-item:last-child{border-bottom:0}
+  .emoji-char{
+    flex:0 0 auto;
+    font-size:26px;
+    line-height:1;
+    width:34px;
+    text-align:center;
+  }
+  .emoji-toggle{
+    flex:1;
+    font-size:13px;
+    color:var(--light-text);
+  }
+  .emoji-item.off .emoji-char,
+  .emoji-item.off .emoji-toggle{opacity:.35;}
+  .emoji-item .emoji-switch{
+    flex:0 0 auto;
+    width:40px;height:22px;
+    border-radius:11px;
+    background:#d8dde2;
+    position:relative;
+    transition:background .2s ease;
+  }
+  .emoji-item .emoji-switch::before{
+    content:"";
+    position:absolute;
+    width:16px;height:16px;
+    left:3px;top:3px;
+    background:#fff;
+    border-radius:50%;
+    transition:transform .2s ease;
+    box-shadow:0 1px 2px rgba(0,0,0,.15);
+  }
+  .emoji-item.on .emoji-switch{background:var(--primary);}
+  .emoji-item.on .emoji-switch::before{transform:translateX(18px);}
+
+  .emoji-del{
+    flex:0 0 auto;
+    width:30px;height:30px;
+    display:grid;place-items:center;
+    border:0;border-radius:8px;
+    background:transparent;
+    color:var(--light-text);
+    cursor:pointer;
+  }
+  .emoji-del:active{background:#f7eaea;color:var(--highlight)}
+
+  .group-actions-row{
+    display:flex;gap:8px;
+    padding:10px 16px;
+    border-top:1px dashed var(--line);
+  }
+  .group-actions-row button{
+    flex:1;
+    height:34px;
+    border:1px solid var(--accent);
+    border-radius:8px;
+    background:#fff;
+    color:var(--text);
+    font-size:13px;
+    font-family:inherit;
+    cursor:pointer;
+  }
+  .group-actions-row button:active{background:var(--soft)}
+
+  .group-add{
+    display:flex;gap:8px;
+    padding:10px 16px;
+    border-top:1px dashed var(--line);
+  }
+  .group-add input{
+    flex:1;min-width:0;
+    height:38px;padding:0 12px;
+    border:1px solid var(--accent);border-radius:9px;
+    background:#fff;font-size:14px;font-family:inherit;
+    color:var(--text);outline:none;
+  }
+  .group-add input:focus{border-color:var(--primary)}
+  .group-add button{
+    flex:0 0 auto;
+    width:38px;height:38px;
+    display:grid;place-items:center;
+    border:0;border-radius:9px;
+    background:var(--secondary);
+    color:var(--primary);
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .group-add button:active{background:var(--primary);color:#fff}
+
+  .group-foot{
+    display:flex;gap:8px;
+    padding:10px 16px;
+    background:var(--soft);
+    border-top:1px solid var(--line);
+  }
+  .group-foot button{
+    flex:1;height:34px;
+    border:0;border-radius:8px;
+    background:transparent;
+    font-size:13px;font-family:inherit;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .group-foot .foot-del{color:var(--highlight);}
+  .group-foot .foot-del:active{background:#f7eaea;}
+  .group-foot .foot-color{color:var(--primary);}
+  .group-foot .foot-color:active{background:var(--secondary);}
+
+  .empty-cards{
+    text-align:center;
+    padding:60px 24px;
+    color:var(--light-text);
+    font-size:14px;
+    line-height:1.8;
+  }
+
+  /* ============ 批量导入 ============ */
+  .import-area{padding:16px;}
+  .import-area textarea{
+    width:100%;
+    min-height:280px;
+    padding:14px;
+    border:1px solid var(--accent);
+    border-radius:12px;
+    background:var(--panel);
+    font-size:14px;
+    line-height:1.7;
+    font-family:inherit;
+    color:var(--text);
+    outline:none;
+    resize:vertical;
+  }
+  .import-area textarea:focus{border-color:var(--primary)}
+  .import-hint{
+    font-size:12.5px;
+    color:var(--light-text);
+    line-height:1.8;
+    margin-top:10px;
+    padding:0 4px;
+  }
+  .import-hint code{
+    background:var(--soft);
+    padding:1px 6px;
+    border-radius:5px;
+    font-family:monospace;
+    color:var(--primary);
+  }
+
+  /* ============ 聊天美化 ============ */
+  .beautify-section-title{
+    padding:16px 16px 8px;
+    font-size:13px;
+    color:var(--light-text);
+    background:var(--bg);
+  }
+
+  .style-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:0 16px 14px;
+    background:var(--panel);
+  }
+  .style-chip{
+    padding:8px 14px;
+    border:1px solid var(--accent);
+    border-radius:18px;
+    background:#fff;
+    color:var(--text);
+    font-size:13.5px;
+    font-family:inherit;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .style-chip.active{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+  }
+
+  .color-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  .color-row:last-child{border-bottom:0}
+  .color-row-label{
+    flex:1;
+    font-size:14px;
+    color:var(--text);
+  }
+  .color-input-wrap{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .color-input-wrap input[type="color"]{
+    width:42px;height:34px;
+    padding:2px;
+    border:1px solid var(--accent);
+    border-radius:8px;
+    background:#fff;
+    cursor:pointer;
+  }
+  .color-reset{
+    font-size:12.5px;
+    color:var(--light-text);
+    background:var(--soft);
+    border:0;
+    padding:6px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .color-reset:active{background:var(--secondary);color:var(--primary)}
+
+  .css-area{padding:12px 16px 16px;background:var(--panel);}
+  .css-area textarea{
+    width:100%;
+    min-height:100px;
+    padding:12px;
+    border:1px solid var(--accent);
+    border-radius:10px;
+    background:#fff;
+    font-size:12.5px;
+    line-height:1.6;
+    font-family:monospace;
+    color:var(--text);
+    outline:none;
+    resize:vertical;
+  }
+  .css-area textarea:focus{border-color:var(--primary)}
+  .css-actions{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+  }
+  .css-actions button{
+    flex:1;
+    height:38px;
+    border:1px solid var(--accent);
+    border-radius:9px;
+    background:#fff;
+    color:var(--text);
+    font-size:14px;
+    font-family:inherit;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .css-actions button:active{background:var(--soft)}
+  .css-actions .css-apply{
+    background:var(--primary);
+    color:#fff;
+    border-color:var(--primary);
+  }
+  .css-actions .css-apply:active{opacity:.85}
+
+  .bg-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:0 16px 14px;
+    background:var(--panel);
+  }
+  .bg-swatch{
+    width:48px;height:48px;
+    border-radius:10px;
+    border:2px solid transparent;
+    cursor:pointer;
+    transition:transform .14s ease, border-color .14s ease;
+    background-size:cover;
+    background-position:center;
+    position:relative;
+  }
+  .bg-swatch:active{transform:scale(.94)}
+  .bg-swatch.active{
+    border-color:var(--primary);
+    box-shadow:0 0 0 2px rgba(31,95,108,.15);
+  }
+  .bg-swatch.default-bg::after{
+    content:"默认";
+    position:absolute;
+    inset:0;
+    display:grid;place-items:center;
+    font-size:10.5px;
+    color:var(--light-text);
+  }
+
+  .bg-upload-row{
+    display:flex;
+    gap:8px;
+    padding:0 16px 16px;
+    background:var(--panel);
+  }
+  .bg-upload-row button{
+    flex:1;
+    height:38px;
+    border:1px solid var(--accent);
+    border-radius:9px;
+    background:#fff;
+    color:var(--text);
+    font-size:13.5px;
+    font-family:inherit;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .bg-upload-row button:active{background:var(--soft)}
+
+  /* 开关 */
+  .switch{
+    position:relative;
+    display:inline-block;
+    width:46px;
+    height:26px;
+    flex:0 0 auto;
+  }
+  .switch input{opacity:0;width:0;height:0;}
+  .switch-slider{
+    position:absolute;
+    inset:0;
+    background:#d8dde2;
+    border-radius:26px;
+    transition:background .2s ease;
+    cursor:pointer;
+  }
+  .switch-slider::before{
+    content:"";
+    position:absolute;
+    width:20px;height:20px;
+    left:3px;top:3px;
+    background:#fff;
+    border-radius:50%;
+    transition:transform .2s ease;
+    box-shadow:0 1px 3px rgba(0,0,0,.15);
+  }
+  .switch input:checked + .switch-slider{background:var(--primary);}
+  .switch input:checked + .switch-slider::before{transform:translateX(20px);}
+
+  .font-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:0 16px 14px;
+    background:var(--panel);
+  }
+  .font-chip{
+    padding:8px 14px;
+    border:1px solid var(--accent);
+    border-radius:18px;
+    background:#fff;
+    color:var(--text);
+    font-size:13.5px;
+    font-family:inherit;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .font-chip.active{
+    background:var(--primary);
+    border-color:var(--primary);
+    color:#fff;
+  }
+
+  .preview-zone{
+    padding:14px 16px;
+    background:var(--panel);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .preview-bubble{
+    max-width:70%;
+    padding:10px 14px;
+    font-size:14px;
+    line-height:1.45;
+    color:var(--text);
+  }
+  .preview-bubble.in{align-self:flex-start;background:var(--msg-other-bg);}
+  .preview-bubble.out{align-self:flex-end;background:var(--msg-self-bg);}
+  .preview-bubble.style-rounded.in{border-bottom-left-radius:5px;border-radius:14px;}
+  .preview-bubble.style-rounded.out{border-bottom-right-radius:5px;border-radius:14px;}
+  .preview-bubble.style-soft{border-radius:20px;}
+  .preview-bubble.style-square{border-radius:4px;}
+  .preview-bubble.style-tail.in{border-radius:12px;border-bottom-left-radius:2px;}
+  .preview-bubble.style-tail.out{border-radius:12px;border-bottom-right-radius:2px;}
+  .preview-bubble.style-plain{background:transparent !important;padding:6px 2px;border-radius:0;}
+
+  /* ============ 加减器 ============ */
+  .stepper-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px;
+    border-bottom:1px solid var(--line);
+  }
+  .stepper-row:last-child{border-bottom:0}
+  .stepper-label{
+    flex:1;
+    font-size:14.5px;
+    color:var(--text);
+  }
+  .stepper-ctrl{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .stepper-btn{
+    width:34px;height:34px;
+    display:grid;place-items:center;
+    border:0;border-radius:8px;
+    background:var(--soft);
+    color:var(--text);
+    font-size:18px;
+    font-family:inherit;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .stepper-btn:active{background:var(--secondary);color:var(--primary)}
+  .stepper-value{
+    min-width:40px;
+    text-align:center;
+    font-size:15px;
+    font-weight:600;
+    color:var(--text);
+  }
+  .stepper-unit{
+    font-size:12.5px;
+    color:var(--light-text);
+  }
+
+  /* ============ 弹窗 ============ */
+  .dialog-bg{
+    position:fixed;inset:0;
+    background:rgba(0,0,0,.35);
+    z-index:200;
+    display:none;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .dialog-bg.open{display:flex;}
+  .dialog{
+    width:100%;max-width:320px;
+    background:#fff;border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 12px 40px rgba(0,0,0,.18);
+  }
+  .dialog-title{
+    padding:18px 20px 10px;
+    font-size:16px;font-weight:600;
+    color:var(--text);text-align:center;
+  }
+  .dialog-body{
+    padding:0 20px 14px;
+    font-size:13.5px;color:var(--light-text);
+    text-align:center;line-height:1.6;
+  }
+  .dialog-btns{display:flex;border-top:1px solid var(--line);}
+  .dialog-btn{
+    flex:1;height:48px;border:0;background:transparent;
+    color:var(--text);font-size:15px;font-family:inherit;
+    cursor:pointer;transition:background .15s ease;
+  }
+  .dialog-btn:active{background:var(--soft)}
+  .dialog-btn.primary{color:var(--primary);font-weight:600;border-left:1px solid var(--line);}
+  .dialog-btn.danger{color:var(--highlight);font-weight:600;border-left:1px solid var(--line);}
+
+  /* 图片消息 */
+  .bubble.bubble-image{
+    background:transparent !important;
+    padding:0;
+  }
+  .bubble.bubble-image img{
+    display:block;
+    max-width:200px;
+    border-radius:12px;
+    background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="chat-header">
+    <div class="chat-avatar" id="headerAvatar"></div>
+    <div class="chat-info">
+      <div class="chat-name" id="headerName">TA</div>
+      <div class="chat-status" id="headerStatus">在线</div>
+    </div>
+    <button class="icon-btn" id="openSettings" aria-label="设置">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+      </svg>
+    </button>
+  </header>
+
+  <div class="messages" id="messages"></div>
+
+  <div class="typing-bar" id="typingBar">
+    <span>对方正在输入</span>
+    <span class="typing-dots"><span></span><span></span><span></span></span>
+  </div>
+
+  <form class="composer" id="composer" autocomplete="off">
+    <button type="button" class="icon-btn" id="openStickerPanel" aria-label="表情">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+        <circle cx="9" cy="9.5" r="0.8" fill="currentColor"/>
+        <circle cx="15" cy="9.5" r="0.8" fill="currentColor"/>
+      </svg>
+    </button>
+    <input id="msgInput" type="text" placeholder="发送消息" enterkeyhint="send">
+    <button type="submit" class="send-btn" id="sendBtn" disabled aria-label="发送">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>
+      </svg>
+    </button>
+  </form>
+
+  <!-- 表情面板 -->
+  <div class="sticker-panel" id="stickerPanel">
+    <div class="sticker-panel-header">
+      <div class="sticker-panel-title">我的表情</div>
+      <button class="icon-btn" id="closeStickerPanel" aria-label="关闭">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="sticker-actions">
+      <button id="stickerAddBtn">添加</button>
+      <button id="stickerUrlBtn">链接导入</button>
+    </div>
+    <div class="sticker-grid-scroll">
+      <div class="sticker-grid" id="userStickerGrid"></div>
+    </div>
+    <input type="file" id="stickerUploadFile" accept="image/*" style="display:none;">
+  </div>
+
+  <!-- ============ 人物设置页 ============ -->
+  <section class="page" id="settingsPage">
+    <header class="page-header">
+      <button class="icon-btn" id="settingsBack" aria-label="返回">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <div class="page-title">人物设置</div>
+    </header>
+
+    <div class="page-body">
+      <div class="field-group">
+        <div class="field" style="flex-direction:column;align-items:stretch;gap:12px;padding:20px 16px;">
+          <span class="field-label" style="width:auto;">头像</span>
+          <div class="avatar-picker" id="avatarPicker">
+            <div class="avatar-preview" id="avatarPreview"></div>
+            <div class="avatar-hint">点击选择图片<br>作为 TA 的头像</div>
+          </div>
+          <input type="file" id="avatarFile" accept="image/*" style="display:none;">
+        </div>
+      </div>
+
+      <div class="field-group">
+  <div class="field" style="flex-direction:column;align-items:stretch;gap:12px;padding:20px 16px;">
+    <span class="field-label" style="width:auto;">我的头像</span>
+    <div class="avatar-picker" id="myAvatarPicker">
+      <div class="avatar-preview" id="myAvatarPreview"></div>
+      <div class="avatar-hint">点击选择图片<br>作为你的头像</div>
+    </div>
+    <input type="file" id="myAvatarFile" accept="image/*" style="display:none;">
+  </div>
+</div>
+
+<div class="field-group">
+  <div class="field">
+    <span class="field-label">名字</span>
+    <input type="text" id="nameInput" placeholder="给 TA 起个名字" maxlength="12">
+  </div>
+</div>
+      <div class="field-group">
+        <div class="field entry-row" id="beautifyEntryRow">
+          <span class="field-label" style="width:auto;">聊天美化</span>
+          <span class="entry-value">气泡 · 字体 · 背景</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+        <div class="field entry-row" id="replyEntryRow">
+          <span class="field-label" style="width:auto;">聊天回复设置</span>
+          <span class="entry-value" id="replySummary">1 ~ 3 秒 · 最多 3 条</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+        <div class="field entry-row" id="cardsEntryRow">
+          <span class="field-label" style="width:auto;">字卡库</span>
+          <span class="entry-value" id="cardsSummary">0 条</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+        <div class="field entry-row" id="taStickerEntryRow">
+          <span class="field-label" style="width:auto;">TA 的表情包库</span>
+          <span class="entry-value" id="taStickerSummary">0 张</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+        <div class="field entry-row" id="backupEntryRow">
+          <span class="field-label" style="width:auto;">聊天记录备份</span>
+          <span class="entry-value">导出 / 导入</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" id="saveBtn">保存</button>
+        <button class="btn-danger" id="clearChatBtn">清空聊天记录</button>
+        <button class="btn-ghost" id="resetBtn">恢复默认人物</button>
+      </div>
+
+      <div class="tip">设置与聊天记录会自动保存在本机，刷新后仍会保留。</div>
+    </div>
+  </section>
+
+  <!-- ============ TA 表情包库 ============ -->
+  <section class="page" id="taStickerPage">
+    <header class="page-header">
+      <button class="icon-btn" id="taStickerBack" aria-label="返回">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <div class="page-title">TA 的表情包库</div>
+    </header>
+
+    <div class="page-body">
+      <div class="cards-toolbar">
+        <button class="toolbar-btn" id="taStickerAddBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14"/><path d="M5 12h14"/>
+          </svg>
+          上传图片
+        </button>
+        <button class="toolbar-btn" id="taStickerUrlBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/>
+            <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>
+          </svg>
+          链接导入
+        </button>
+      </div>
+
+      <div id="taStickerGrid" style="padding:0 14px 20px;"></div>
+      <input type="file" id="taStickerUploadFile" accept="image/*" style="display:none;">
+    </div>
+  </section>
+
+  <!-- ============ 聊天美化页 ============ -->
+  <section class="page" id="beautifyPage">
+    <header class="page-header">
+      <button class="icon-btn" id="beautifyBack" aria-label="返回">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <div class="page-title">聊天美化</div>
+    </header>
+
+    <div class="page-body">
+
+      <div class="beautify-section-title">气泡样式</div>
+      <div class="field-group" style="margin-bottom:10px;">
+        <div class="style-grid" id="bubbleStyles">
+          <button class="style-chip" data-style="rounded">圆角</button>
+          <button class="style-chip" data-style="soft">微圆</button>
+          <button class="style-chip" data-style="square">方形</button>
+          <button class="style-chip" data-style="tail">带尖角</button>
+          <button class="style-chip" data-style="plain">无背景</button>
+        </div>
+        <div class="preview-zone">
+          <div class="preview-bubble in style-rounded" id="prevIn">TA 的消息气泡</div>
+          <div class="preview-bubble out style-rounded" id="prevOut">我的消息气泡</div>
+        </div>
+      </div>
+
+      <div class="beautify-section-title">气泡颜色</div>
+      <div class="field-group">
+        <div class="color-row">
+          <span class="color-row-label">我的气泡</span>
+          <div class="color-input-wrap">
+            <input type="color" id="colorSelf" value="#f1d6d6">
+            <button class="color-reset" data-reset="self">默认</button>
+          </div>
+        </div>
+        <div class="color-row">
+          <span class="color-row-label">TA 的气泡</span>
+          <div class="color-input-wrap">
+            <input type="color" id="colorOther" value="#dbe5f1">
+            <button class="color-reset" data-reset="other">默认</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="beautify-section-title">自定义 CSS</div>
+      <div class="field-group">
+        <div class="css-area">
+          <textarea id="customCssInput" placeholder="粘贴自定义 CSS，例如：&#10;.msg.out .bubble { box-shadow: 0 2px 8px rgba(0,0,0,.1); }"></textarea>
+          <div class="css-actions">
+            <button class="css-apply" id="cssApplyBtn">应用 CSS</button>
+            <button id="cssClearBtn">清除</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="beautify-section-title">字体</div>
+      <div class="field-group">
+        <div class="font-grid" id="fontFamilyGrid">
+          <button class="font-chip" data-font="default" style="font-family:-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;">系统默认</button>
+          <button class="font-chip" data-font="serif" style="font-family:Georgia, 'Songti SC', 'SimSun', serif;">衬线宋体</button>
+          <button class="font-chip" data-font="kai" style="font-family:'Kaiti SC', 'KaiTi', 'STKaiti', serif;">楷体</button>
+          <button class="font-chip" data-font="yuan" style="font-family:'Yuanti SC', 'YouYuan', 'PingFang SC', sans-serif;">圆体</button>
+          <button class="font-chip" data-font="hand" style="font-family:'Xingkai SC', 'STXingkai', 'Kaiti SC', cursive;">手写体</button>
+          <button class="font-chip" data-font="mono" style="font-family:'SF Mono', Consolas, 'Courier New', monospace;">等宽体</button>
+        </div>
+      </div>
+
+      <div class="beautify-section-title">字号</div>
+      <div class="field-group">
+        <div class="font-grid" id="fontSizeGrid">
+          <button class="font-chip" data-size="13px">小</button>
+          <button class="font-chip" data-size="15px">标准</button>
+          <button class="font-chip" data-size="17px">大</button>
+          <button class="font-chip" data-size="19px">特大</button>
+        </div>
+      </div>
+
+      <div class="beautify-section-title">聊天背景</div>
+      <div class="field-group">
+        <div class="bg-grid" id="bgGrid">
+          <div class="bg-swatch default-bg" data-bg="#f2f5f6" data-default="1" style="background:#f2f5f6"></div>
+          <div class="bg-swatch" data-bg="#e8f2f5" style="background:#e8f2f5"></div>
+          <div class="bg-swatch" data-bg="#fbeeea" style="background:#fbeeea"></div>
+          <div class="bg-swatch" data-bg="#f7f6f2" style="background:#f7f6f2"></div>
+          <div class="bg-swatch" data-bg="#e4f2ea" style="background:#e4f2ea"></div>
+          <div class="bg-swatch" data-bg="#e6e0f0" style="background:#e6e0f0"></div>
+        </div>
+        <div class="bg-upload-row">
+          <button id="bgUploadBtn">上传图片</button>
+          <button id="bgClearBtn">清除背景</button>
+        </div>
+        <input type="file" id="bgFile" accept="image/*" style="display:none;">
+      </div>
+
+      <div class="beautify-section-title">消息提示音</div>
+      <div class="field-group">
+        <div class="color-row">
+          <span class="color-row-label">TA 回复时响一声</span>
+          <label class="switch">
+            <input type="checkbox" id="soundToggle">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" id="beautifyResetBtn">恢复默认美化</button>
+      </div>
+
+      <div class="tip">所有美化设置会即时生效，并保存在本机。</div>
+    </div>
+  </section>
+
+  <!-- ============ 聊天回复设置页 ============ -->
+  <section class="page" id="replyPage">
+    <header class="page-header">
+      <button class="icon-btn" id="replyBack" aria-label="返回">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <div class="page-title">聊天回复设置</div>
+    </header>
+
+    <div class="page-body">
+      <div class="field-group">
+        <div class="field">
+          <span class="field-label">回复最快</span>
+          <input type="number" id="replyMinInput" min="0" max="60" step="0.5" value="1">
+          <span style="font-size:13px;color:var(--light-text);flex:0 0 auto;">秒</span>
+        </div>
+        <div class="field">
+          <span class="field-label">回复最慢</span>
+          <input type="number" id="replyMaxInput" min="0" max="120" step="0.5" value="3">
+          <span style="font-size:13px;color:var(--light-text);flex:0 0 auto;">秒</span>
+        </div>
+        <div class="field">
+          <span class="field-label">回复条数</span>
+          <input type="number" id="replyCountInput" min="1" max="5" step="1" value="3">
+          <span style="font-size:13px;color:var(--light-text);flex:0 0 auto;">条内</span>
+        </div>
+      </div>
+
+      <div class="beautify-section-title">概率</div>
+      <div class="field-group">
+        <div class="stepper-row">
+          <span class="stepper-label">表情包概率</span>
+          <div class="stepper-ctrl">
+            <button class="stepper-btn" data-step="sticker" data-dir="-1">−</button>
+            <span class="stepper-value" id="stepperStickerVal">20</span>
+            <button class="stepper-btn" data-step="sticker" data-dir="1">+</button>
+            <span class="stepper-unit">%</span>
+          </div>
+        </div>
+        <div class="stepper-row">
+          <span class="stepper-label">emoji 概率</span>
+          <div class="stepper-ctrl">
+            <button class="stepper-btn" data-step="emoji" data-dir="-1">−</button>
+            <span class="stepper-value" id="stepperEmojiVal">10</span>
+            <button class="stepper-btn" data-step="emoji" data-dir="1">+</button>
+            <span class="stepper-unit">%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">TA 每条回复都会按概率决定发文字、emoji 还是表情包。</div>
+
+      <div class="actions">
+        <button class="btn-primary" id="replySaveBtn">保存</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 字卡库页 ============ -->
+  <section class="page" id="cardsPage">
+    <header class="page-header">
+      <button class="icon-btn" id="cardsBack" aria-label="返回">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <div class="page-title">字卡库</div>
+    </header>
+
+    <div class="page-body">
+      <div class="cards-search">
+        <input type="text" id="cardsSearchInput" placeholder="搜索字卡…" autocomplete="off">
+      </div>
+      <div class="cards-toolbar">
+        <button class="toolbar-btn" id="btnDedup">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"/><path d="M8 6V4h8v2"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+          </svg>
+          去重复
+        </button>
+        <button class="toolbar-btn" id="btnImportBatch">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12"/>
+            <path d="m8 11 4 4 4-4"/>
+            <path d="M3 21h18"/>
+          </svg>
+          批量导入
+        </button>
+        <button class="toolbar-btn" id="btnNewGroup">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 5v14"/><path d="M5 12h14"/>
+          </svg>
+          新建分组
+        </button>
+        <button class="toolbar-btn" id="btnClearAll" style="color:var(--highlight);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 6h18"/><path d="M8 6V4h8v2"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+          </svg>
+          清空全部
+        </button>
+      </div>
+
+      <div id="cardsList"></div>
+    </div>
+  </section>
+
+  <!-- ============ 批量导入页 ============ -->
+  <section class="page" id="importPage">
+    <header class="page-header">
+      <button class="icon-btn" id="importBack" aria-label="返回">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <div class="page-title">批量导入</div>
+    </header>
+
+    <div class="page-body">
+      <div class="import-area">
+        <textarea id="importTextarea" placeholder="按格式粘贴你的字卡：&#10;&#10;【日常寒暄】&#10;在忙吗&#10;吃了吗&#10;今天怎么样&#10;&#10;【口头禅】&#10;问题不大&#10;离谱&#10;那我走&#10;&#10;【】里是分组名，其他每行是一张字卡。"></textarea>
+
+        <div class="import-hint">
+          规则：<br>
+          · <code>【分组名】</code> 单独一行，表示切换或新建分组<br>
+          · 其他每一行，就是该分组下的一张字卡<br>
+          · 遇到已有分组名会自动合并进去<br>
+          · 开头没有分组的内容会放进「未分组」
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" id="importConfirmBtn">导入</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 聊天记录备份页 ============ -->
+  <section class="page" id="backupPage">
+    <header class="page-header">
+      <button class="icon-btn" id="backupBack" aria-label="返回">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 5l-7 7 7 7"/>
+        </svg>
+      </button>
+      <div class="page-title">聊天记录备份</div>
+    </header>
+
+    <div class="page-body">
+      <div class="field-group" style="padding:16px;">
+        <div style="font-size:13px;color:var(--light-text);line-height:1.8;">
+          当前聊天记录：<strong id="backupMsgCount" style="color:var(--primary);">0</strong> 条<br>
+          导出后请妥善保存文件。若数据丢失，用导入功能恢复即可。
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" id="exportBtn">导出聊天记录</button>
+        <button class="btn-ghost" id="importBtn">导入聊天记录</button>
+      </div>
+
+      <input type="file" id="importFile" accept=".json,application/json" style="display:none;">
+
+      <div class="tip">导出的文件包含聊天记录、人物设置、字卡库、表情库和美化设置。</div>
+    </div>
+  </section>
+
+</div>
+
+<div class="dialog-bg" id="dialogBg">
+  <div class="dialog">
+    <div class="dialog-title" id="dialogTitle">提示</div>
+    <div class="dialog-body" id="dialogBody"></div>
+    <div class="dialog-btns" id="dialogBtns"></div>
+  </div>
+</div>
+
+<style id="customCssStyle"></style>
+
+<script>
+(function(){
+  "use strict";
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  /* ============ 元素引用 ============ */
+  var headerAvatar = $('headerAvatar');
+  var headerName   = $('headerName');
+  var headerStatus = $('headerStatus');
+  var messagesEl   = $('messages');
+  var typingBar    = $('typingBar');
+  var composer     = $('composer');
+  var msgInput     = $('msgInput');
+  var sendBtn      = $('sendBtn');
+
+  var openStickerPanel   = $('openStickerPanel');
+  var closeStickerPanel  = $('closeStickerPanel');
+  var stickerPanel       = $('stickerPanel');
+  var userStickerGrid    = $('userStickerGrid');
+  var stickerAddBtn      = $('stickerAddBtn');
+  var stickerUrlBtn      = $('stickerUrlBtn');
+  var stickerUploadFile  = $('stickerUploadFile');
+
+  var settingsPage = $('settingsPage');
+  var openSettings = $('openSettings');
+  var settingsBack = $('settingsBack');
+ var avatarPicker = $('avatarPicker');
+var avatarPreview= $('avatarPreview');
+var avatarFile   = $('avatarFile');
+
+var myAvatarPicker = $('myAvatarPicker');
+var myAvatarPreview= $('myAvatarPreview');
+var myAvatarFile   = $('myAvatarFile');
+  var nameInput    = $('nameInput');
+  var saveBtn      = $('saveBtn');
+  var resetBtn     = $('resetBtn');
+  var clearChatBtn = $('clearChatBtn');
+
+  var beautifyEntryRow = $('beautifyEntryRow');
+  var beautifyPage     = $('beautifyPage');
+  var beautifyBack     = $('beautifyBack');
+  var bubbleStyles     = $('bubbleStyles');
+  var prevIn           = $('prevIn');
+  var prevOut          = $('prevOut');
+  var colorSelf        = $('colorSelf');
+  var colorOther       = $('colorOther');
+  var customCssInput   = $('customCssInput');
+  var cssApplyBtn      = $('cssApplyBtn');
+  var cssClearBtn      = $('cssClearBtn');
+  var fontFamilyGrid   = $('fontFamilyGrid');
+  var fontSizeGrid     = $('fontSizeGrid');
+  var bgGrid           = $('bgGrid');
+  var bgUploadBtn      = $('bgUploadBtn');
+  var bgClearBtn       = $('bgClearBtn');
+  var bgFile           = $('bgFile');
+  var beautifyResetBtn = $('beautifyResetBtn');
+  var soundToggle      = $('soundToggle');
+
+  var replyEntryRow = $('replyEntryRow');
+  var replySummary  = $('replySummary');
+  var replyPage     = $('replyPage');
+  var replyBack     = $('replyBack');
+  var replyMinInput = $('replyMinInput');
+  var replyMaxInput = $('replyMaxInput');
+  var replyCountInput = $('replyCountInput');
+  var replySaveBtn  = $('replySaveBtn');
+  var stepperStickerVal = $('stepperStickerVal');
+  var stepperEmojiVal   = $('stepperEmojiVal');
+
+  var cardsEntryRow = $('cardsEntryRow');
+  var cardsSummary  = $('cardsSummary');
+  var cardsPage     = $('cardsPage');
+  var cardsBack     = $('cardsBack');
+  var cardsList     = $('cardsList');
+  var cardsSearchInput = $('cardsSearchInput');
+  var btnDedup      = $('btnDedup');
+  var btnImportBatch= $('btnImportBatch');
+  var btnNewGroup   = $('btnNewGroup');
+  var btnClearAll   = $('btnClearAll');
+
+  var taStickerEntryRow = $('taStickerEntryRow');
+  var taStickerSummary  = $('taStickerSummary');
+  var taStickerPage     = $('taStickerPage');
+  var taStickerBack     = $('taStickerBack');
+  var taStickerGrid     = $('taStickerGrid');
+  var taStickerAddBtn   = $('taStickerAddBtn');
+  var taStickerUrlBtn   = $('taStickerUrlBtn');
+  var taStickerUploadFile = $('taStickerUploadFile');
+
+  var importPage    = $('importPage');
+  var importBack    = $('importBack');
+  var importTextarea= $('importTextarea');
+  var importConfirmBtn = $('importConfirmBtn');
+
+  var backupEntryRow= $('backupEntryRow');
+  var backupPage    = $('backupPage');
+  var backupBack    = $('backupBack');
+  var backupMsgCount= $('backupMsgCount');
+  var exportBtn     = $('exportBtn');
+  var importBtn     = $('importBtn');
+  var importFile    = $('importFile');
+
+  var dialogBg    = $('dialogBg');
+  var dialogTitle = $('dialogTitle');
+  var dialogBody  = $('dialogBody');
+  var dialogBtns  = $('dialogBtns');
+
+  var customCssStyle = $('customCssStyle');
+
+  /* ============ 存储键 ============ */
+  var PERSON_KEY = 'chat_person_v1';
+  var MSG_KEY    = 'chat_messages_v1';
+  var CARDS_KEY  = 'chat_cards_v1';
+  var TA_STICKER_KEY = 'chat_ta_stickers_v1';
+  var USER_STICKER_KEY = 'chat_user_stickers_v1';
+
+  var DEFAULT_AVATAR_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' +
+                              '<circle cx="12" cy="8" r="3.6"/>' +
+                              '<path d="M5 20a7 7 0 0 1 14 0"/>' +
+                            '</svg>';
+
+  var GROUP_COLORS = [
+    '#1f5f6c', '#5a7fa3', '#b67a7a', '#7a9a7a',
+    '#8a7aa3', '#b08a5a', '#4a9a8a', '#a37a8a'
+  ];
+
+  var EMOJI_GROUP_COLOR = '#b08a5a';
+
+  var DEFAULT_EMOJIS = ['😀','😂','🥰','😊','😍','🤔','😴','😭','😡','👍','❤️','🎉','✨','🌟','💔','🔥','🙏','👌','😅','🙂'];
+
+  var FONT_MAP = {
+    'default': '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
+    'serif':   'Georgia, "Songti SC", "SimSun", serif',
+    'kai':     '"Kaiti SC", "KaiTi", "STKaiti", serif',
+    'yuan':    '"Yuanti SC", "YouYuan", "PingFang SC", sans-serif',
+    'hand':    '"Xingkai SC", "STXingkai", "Kaiti SC", cursive',
+    'mono':    '"SF Mono", Consolas, "Courier New", monospace'
+  };
+
+  var DEFAULT_SELF_COLOR = '#f1d6d6';
+  var DEFAULT_OTHER_COLOR = '#dbe5f1';
+
+  /* ============ 状态 ============ */
+  var person = {
+  name: 'TA',
+  avatar: '',
+  myAvatar: '',
+    replyMin: 1,
+    replyMax: 3,
+    replyCount: 3,
+    stickerChance: 20,
+    emojiChance: 10,
+    bubbleStyle: 'rounded',
+    colorSelf: DEFAULT_SELF_COLOR,
+    colorOther: DEFAULT_OTHER_COLOR,
+    fontFamily: 'default',
+    fontSize: '15px',
+    bgColor: '#f2f5f6',
+    bgImage: '',
+    customCss: '',
+    soundEnabled: true
+  };
+
+  var messages = [];
+  var groups = [];
+  var taStickers = [];   /* TA 的表情包 URL 数组 */
+  var userStickers = []; /* 我的表情包 URL 数组 */
+  var cardsSearchKeyword = '';
+  var replyTimer = null;
+
+  /* ============ 存储 ============ */
+
+  function loadPerson(){
+    try{
+      var raw = localStorage.getItem(PERSON_KEY);
+      if(raw){
+        var data = JSON.parse(raw);
+        if(data && typeof data === 'object'){
+          person.name = data.name || 'TA';
+person.avatar = data.avatar || '';
+person.myAvatar = data.myAvatar || '';
+          person.replyMin = (typeof data.replyMin === 'number') ? data.replyMin : 1;
+          person.replyMax = (typeof data.replyMax === 'number') ? data.replyMax : 3;
+          person.replyCount = (typeof data.replyCount === 'number') ? data.replyCount : 3;
+          person.stickerChance = (typeof data.stickerChance === 'number') ? data.stickerChance : 20;
+          person.emojiChance = (typeof data.emojiChance === 'number') ? data.emojiChance : 10;
+          person.bubbleStyle = data.bubbleStyle || 'rounded';
+          person.colorSelf = data.colorSelf || DEFAULT_SELF_COLOR;
+          person.colorOther = data.colorOther || DEFAULT_OTHER_COLOR;
+          person.fontFamily = data.fontFamily || 'default';
+          person.fontSize = data.fontSize || '15px';
+          person.bgColor = data.bgColor || '#f2f5f6';
+          person.bgImage = data.bgImage || '';
+          person.customCss = data.customCss || '';
+          person.soundEnabled = (typeof data.soundEnabled === 'boolean') ? data.soundEnabled : true;
+        }
+      }
+    }catch(e){}
+  }
+
+  function savePerson(){
+    try{ localStorage.setItem(PERSON_KEY, JSON.stringify(person)); }catch(e){}
+  }
+
+  function loadMessages(){
+    try{
+      var raw = localStorage.getItem(MSG_KEY);
+      if(raw){
+        var data = JSON.parse(raw);
+        if(Array.isArray(data)){
+          messages = data.filter(function(m){ return m && typeof m.text === 'string' || (m && m.type); });
+        }
+      }
+    }catch(e){}
+  }
+
+  function saveMessages(){
+    try{ localStorage.setItem(MSG_KEY, JSON.stringify(messages)); }catch(e){}
+  }
+
+  function loadGroups(){
+    try{
+      var raw = localStorage.getItem(CARDS_KEY);
+      if(raw){
+        var data = JSON.parse(raw);
+        if(Array.isArray(data)){
+          groups = data.map(function(g){
+            if(!g || typeof g.name !== 'string') return null;
+            var type = g.type === 'emoji' ? 'emoji' : 'text';
+            var items;
+            if(type === 'emoji'){
+              items = Array.isArray(g.items) ? g.items.map(function(it){
+                if(typeof it === 'string') return { value: it, enabled: true };
+                if(it && typeof it.value === 'string') return { value: it.value, enabled: it.enabled !== false };
+                return null;
+              }).filter(Boolean) : [];
+            } else {
+              items = Array.isArray(g.items) ? g.items.filter(function(s){
+                return typeof s === 'string' && s.trim() !== '';
+              }) : [];
+            }
+            return {
+              id: g.id || uid('g'),
+              name: g.name,
+              color: g.color || GROUP_COLORS[0],
+              type: type,
+              items: items
+            };
+          }).filter(Boolean);
+
+          /* 确保系统 emoji 分组存在 */
+          if(!groups.some(function(g){ return g.type === 'emoji'; })){
+            groups.unshift(makeEmojiGroup());
+          }
+        }
+      }
+    }catch(e){}
+  }
+
+  function saveGroups(){
+    try{ localStorage.setItem(CARDS_KEY, JSON.stringify(groups)); }catch(e){}
+  }
+
+  function makeEmojiGroup(){
+    return {
+      id: 'sys_emoji',
+      name: 'emoji',
+      color: EMOJI_GROUP_COLOR,
+      type: 'emoji',
+      isSystem: true,
+      items: DEFAULT_EMOJIS.map(function(e){
+        return { value: e, enabled: true };
+      })
+    };
+  }
+
+  function loadTaStickers(){
+    try{
+      var raw = localStorage.getItem(TA_STICKER_KEY);
+      if(raw){
+        var data = JSON.parse(raw);
+        if(Array.isArray(data)){
+          taStickers = data.filter(function(s){ return typeof s === 'string' && s.trim(); });
+        }
+      }
+    }catch(e){}
+  }
+  function saveTaStickers(){
+    try{ localStorage.setItem(TA_STICKER_KEY, JSON.stringify(taStickers)); }catch(e){}
+  }
+
+  function loadUserStickers(){
+    try{
+      var raw = localStorage.getItem(USER_STICKER_KEY);
+      if(raw){
+        var data = JSON.parse(raw);
+        if(Array.isArray(data)){
+          userStickers = data.filter(function(s){ return typeof s === 'string' && s.trim(); });
+        }
+      }
+    }catch(e){}
+  }
+  function saveUserStickers(){
+    try{ localStorage.setItem(USER_STICKER_KEY, JSON.stringify(userStickers)); }catch(e){}
+  }
+
+  /* ============ 工具 ============ */
+
+  function uid(p){
+    return (p || 'id') + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+  }
+
+  function esc(v){
+    return String(v).replace(/[&<>"']/g, function(ch){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch];
+    });
+  }
+
+  function nextColor(){
+    return GROUP_COLORS[groups.length % GROUP_COLORS.length];
+  }
+
+  /* ============ 提示音 ============ */
+
+  var audioCtx = null;
+  function playDing(){
+    if(!person.soundEnabled) return;
+    try{
+      if(!audioCtx){
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if(!AC) return;
+        audioCtx = new AC();
+      }
+      if(audioCtx.state === 'suspended') audioCtx.resume();
+      var now = audioCtx.currentTime;
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, now);
+      osc.frequency.exponentialRampToValueAtTime(1320, now + 0.05);
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.exponentialRampToValueAtTime(0.18, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(now);
+      osc.stop(now + 0.2);
+    }catch(e){}
+  }
+
+  /* ============ 弹窗 ============ */
+
+  function showDialog(title, body, buttons){
+    dialogTitle.textContent = title;
+    dialogBody.textContent = body;
+    dialogBtns.innerHTML = '';
+    buttons.forEach(function(b){
+      var btn = document.createElement('button');
+      btn.className = 'dialog-btn' + (b.primary ? ' primary' : '') + (b.danger ? ' danger' : '');
+      btn.textContent = b.text;
+      btn.addEventListener('click', function(){
+        dialogBg.classList.remove('open');
+        if(b.onClick) b.onClick();
+      });
+      dialogBtns.appendChild(btn);
+    });
+    dialogBg.classList.add('open');
+  }
+
+  /* ============ 输入中 ============ */
+
+  function showTyping(){
+    typingBar.classList.add('show');
+    headerStatus.textContent = '对方正在输入…';
+  }
+  function hideTyping(){
+    typingBar.classList.remove('show');
+    headerStatus.textContent = '在线';
+  }
+
+  /* ============ 美化 ============ */
+
+  function applyBeautify(){
+    var root = document.documentElement;
+    root.style.setProperty('--msg-self-bg', person.colorSelf);
+    root.style.setProperty('--msg-other-bg', person.colorOther);
+    root.style.setProperty('--chat-font-family', FONT_MAP[person.fontFamily] || FONT_MAP['default']);
+    root.style.setProperty('--chat-font-size', person.fontSize);
+
+    if(person.bgImage){
+      messagesEl.style.background = '';
+      messagesEl.style.backgroundImage = 'url(' + person.bgImage + ')';
+      messagesEl.style.backgroundSize = 'cover';
+      messagesEl.style.backgroundPosition = 'center';
+    } else {
+      messagesEl.style.backgroundImage = 'none';
+      messagesEl.style.background = person.bgColor || '#f2f5f6';
+    }
+
+    customCssStyle.textContent = person.customCss || '';
+  }
+
+  /* ============ 渲染：聊天 ============ */
+
+  function renderHeader(){
+    if(person.avatar){
+      headerAvatar.innerHTML = '';
+      headerAvatar.style.backgroundImage = 'url(' + person.avatar + ')';
+    } else {
+      headerAvatar.innerHTML = DEFAULT_AVATAR_SVG;
+      headerAvatar.style.backgroundImage = 'none';
+    }
+    headerName.textContent = person.name || 'TA';
+  }
+
+  function msgAvatarHTML(){
+  if(person.avatar){
+    return '<div class="msg-avatar" style="background-image:url(' + person.avatar + ')"></div>';
+  }
+  return '<div class="msg-avatar">' + DEFAULT_AVATAR_SVG + '</div>';
+}
+
+function myAvatarHTML(){
+  if(person.myAvatar){
+    return '<div class="msg-avatar" style="background-image:url(' + person.myAvatar + ')"></div>';
+  }
+  return '<div class="msg-avatar">' + DEFAULT_AVATAR_SVG + '</div>';
+}
+  function scrollBottom(){
+    requestAnimationFrame(function(){
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    });
+  }
+
+  function renderMessages(){
+    if(!messages.length){
+      messagesEl.innerHTML = '<div class="empty-tip">开始和 ' + esc(person.name || 'TA') + ' 聊天吧</div>';
+      return;
+    }
+    var style = person.bubbleStyle || 'rounded';
+    messagesEl.innerHTML = messages.map(function(m){
+      var inner;
+      if(m.type === 'sticker'){
+        inner = '<div class="bubble bubble-sticker"><img src="' + esc(m.text) + '" alt="表情"></div>';
+      } else if(m.type === 'emoji'){
+        inner = '<div class="bubble bubble-emoji">' + esc(m.text) + '</div>';
+      } else {
+        inner = '<div class="bubble style-' + style + '">' + esc(m.text) + '</div>';
+      }
+      return '<div class="msg ' + (m.me ? 'out' : 'in') + '">' +
+         (m.me ? myAvatarHTML() : msgAvatarHTML()) +
+         '<div class="bubble-wrap">' + inner + '</div>' +
+       '</div>';
+    }).join('');
+    scrollBottom();
+  }
+
+  /* ============ 渲染：字卡库 ============ */
+
+  function totalCards(){
+    var n = 0;
+    groups.forEach(function(g){ n += g.items.length; });
+    return n;
+  }
+
+  function totalTextCards(){
+    var n = 0;
+    groups.forEach(function(g){
+      if(g.type === 'text') n += g.items.length;
+    });
+    return n;
+  }
+
+  function renderCardsList(){
+    if(!groups.length){
+      cardsList.innerHTML = '<div class="empty-cards">还没有分组。<br>点上方「新建分组」或「批量导入」开始吧。</div>';
+      cardsSummary.textContent = '0 条';
+      return;
+    }
+
+    var keyword = cardsSearchKeyword.trim().toLowerCase();
+
+    var viewGroups = groups.map(function(g, gi){
+      if(!keyword) return { g: g, gi: gi, items: g.items, keep: true };
+
+      if(g.type === 'emoji'){
+        var matchedEmoji = g.items.filter(function(it){
+          return it.value.toLowerCase().indexOf(keyword) > -1;
+        });
+        return { g: g, gi: gi, items: matchedEmoji, keep: matchedEmoji.length > 0 };
+      }
+
+      var matched = g.items.filter(function(txt){
+        return txt.toLowerCase().indexOf(keyword) > -1;
+      });
+      var nameMatch = g.name.toLowerCase().indexOf(keyword) > -1;
+      return { g: g, gi: gi, items: matched, keep: matched.length > 0 || nameMatch };
+    }).filter(function(v){ return v.keep; });
+
+    if(!viewGroups.length){
+      cardsList.innerHTML = '<div class="empty-cards">没有找到匹配的字卡。</div>';
+      cardsSummary.textContent = '0 条';
+      return;
+    }
+
+    cardsList.innerHTML = viewGroups.map(function(v){
+      var g = v.g;
+      var gi = v.gi;
+      var items = v.items;
+      var count = items.length;
+      var bodyHTML;
+
+      if(g.type === 'emoji'){
+        var itemsHTML = count
+          ? items.map(function(it){
+              var realIndex = g.items.indexOf(it);
+              return '<div class="emoji-item ' + (it.enabled ? 'on' : 'off') + '" data-emoji-toggle="' + gi + '" data-emoji-idx="' + realIndex + '">' +
+                       '<span class="emoji-char">' + esc(it.value) + '</span>' +
+                       '<span class="emoji-toggle">' + (it.enabled ? '参与抽取' : '已关闭') + '</span>' +
+                       '<span class="emoji-switch"></span>' +
+                       '<button class="emoji-del" data-emoji-del="' + gi + '" data-emoji-idx="' + realIndex + '" aria-label="删除">' +
+                         '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                           '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>' +
+                         '</svg>' +
+                       '</button>' +
+                     '</div>';
+            }).join('')
+          : '<div style="padding:12px 16px;font-size:13px;color:var(--light-text);">这个分组还没有 emoji</div>';
+
+        bodyHTML = itemsHTML +
+          '<div class="group-actions-row">' +
+            '<button type="button" data-emoji-all="' + gi + '" data-all="on">全部开启</button>' +
+            '<button type="button" data-emoji-all="' + gi + '" data-all="off">全部关闭</button>' +
+          '</div>' +
+          '<form class="group-add" data-add-emoji="' + gi + '" autocomplete="off">' +
+            '<input type="text" placeholder="添加 emoji，如 😀" maxlength="8">' +
+            '<button type="submit" aria-label="添加">' +
+              '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                '<path d="M12 5v14"/><path d="M5 12h14"/>' +
+              '</svg>' +
+            '</button>' +
+          '</form>';
+
+        return '<div class="group-card" data-group-card="' + gi + '">' +
+                 '<div class="group-head" data-toggle="' + gi + '">' +
+                   '<span class="group-color" style="background:' + g.color + '"></span>' +
+                   '<span class="group-name">' + esc(g.name) + '</span>' +
+                   '<span class="group-count">' + count + '</span>' +
+                   '<span class="group-arrow">' +
+                     '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' +
+                       '<path d="M9 5l7 7-7 7"/>' +
+                     '</svg>' +
+                   '</span>' +
+                 '</div>' +
+                 '<div class="group-body">' + bodyHTML + '</div>' +
+               '</div>';
+      }
+
+      /* 普通文字分组 */
+      var listHTML = count
+        ? items.map(function(txt){
+            var realIndex = g.items.indexOf(txt);
+            return '<div class="card-item">' +
+                     '<span class="card-text">' + esc(txt) + '</span>' +
+                     '<button class="card-del" data-g="' + gi + '" data-i="' + realIndex + '" aria-label="删除">' +
+                       '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                         '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>' +
+                       '</svg>' +
+                     '</button>' +
+                   '</div>';
+          }).join('')
+        : '<div style="padding:12px 16px;font-size:13px;color:var(--light-text);">这个分组还没有字卡</div>';
+
+      bodyHTML = listHTML +
+        '<form class="group-add" data-add-item="' + gi + '" autocomplete="off">' +
+          '<input type="text" placeholder="添加一张字卡" maxlength="120">' +
+          '<button type="submit" aria-label="添加">' +
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+              '<path d="M12 5v14"/><path d="M5 12h14"/>' +
+            '</svg>' +
+          '</button>' +
+        '</form>' +
+        '<div class="group-foot">' +
+          '<button type="button" class="foot-color" data-change-color="' + gi + '">换颜色</button>' +
+          '<button type="button" class="foot-del" data-del-group="' + gi + '">删除分组</button>' +
+        '</div>';
+
+      return '<div class="group-card" data-group-card="' + gi + '">' +
+               '<div class="group-head" data-toggle="' + gi + '">' +
+                 '<span class="group-color" style="background:' + g.color + '"></span>' +
+                 '<span class="group-name">' + esc(g.name) + '</span>' +
+                 '<span class="group-count">' + count + '</span>' +
+                 '<span class="group-arrow">' +
+                   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' +
+                     '<path d="M9 5l7 7-7 7"/>' +
+                   '</svg>' +
+                 '</span>' +
+               '</div>' +
+               '<div class="group-body">' + bodyHTML + '</div>' +
+             '</div>';
+    }).join('');
+
+    cardsSummary.textContent = totalCards() + ' 条';
+  }
+
+  /* 搜索事件 */
+  if(cardsSearchInput){
+    cardsSearchInput.addEventListener('input', function(){
+      cardsSearchKeyword = cardsSearchInput.value || '';
+      renderCardsList();
+    });
+  }
+
+  /* ============ 字卡库事件 ============ */
+
+  cardsList.addEventListener('click', function(e){
+    var head = e.target.closest('[data-toggle]');
+    if(head){
+      var card = head.closest('.group-card');
+      if(card) card.classList.toggle('open');
+      return;
+    }
+
+    /* emoji 开关 */
+    var emojiToggle = e.target.closest('[data-emoji-toggle]');
+    if(emojiToggle && !e.target.closest('[data-emoji-del]')){
+      var ei = parseInt(emojiToggle.dataset.emojiToggle, 10);
+      var eidx = parseInt(emojiToggle.dataset.emojiIdx, 10);
+      var eg = groups[ei];
+      if(!eg || eg.type !== 'emoji') return;
+      if(!eg.items[eidx]) return;
+      eg.items[eidx].enabled = !eg.items[eidx].enabled;
+      saveGroups();
+      renderCardsList();
+      var ec = cardsList.querySelector('[data-group-card="' + ei + '"]');
+      if(ec) ec.classList.add('open');
+      return;
+    }
+
+    /* emoji 删除 */
+    var emojiDel = e.target.closest('[data-emoji-del]');
+    if(emojiDel){
+      var ei2 = parseInt(emojiDel.dataset.emojiDel, 10);
+      var eidx2 = parseInt(emojiDel.dataset.emojiIdx, 10);
+      var eg2 = groups[ei2];
+      if(!eg2 || eg2.type !== 'emoji') return;
+      eg2.items.splice(eidx2, 1);
+      saveGroups();
+      renderCardsList();
+      var ec2 = cardsList.querySelector('[data-group-card="' + ei2 + '"]');
+      if(ec2) ec2.classList.add('open');
+      return;
+    }
+
+    /* emoji 全开 / 全关 */
+    var emojiAll = e.target.closest('[data-emoji-all]');
+    if(emojiAll){
+      var ai = parseInt(emojiAll.dataset.emojiAll, 10);
+      var ag = groups[ai];
+      if(!ag || ag.type !== 'emoji') return;
+      var v = emojiAll.dataset.all === 'on';
+      ag.items.forEach(function(it){ it.enabled = v; });
+      saveGroups();
+      renderCardsList();
+      var ac = cardsList.querySelector('[data-group-card="' + ai + '"]');
+      if(ac) ac.classList.add('open');
+      return;
+    }
+
+    /* 普通字卡删除 */
+    var del = e.target.closest('.card-del');
+    if(del){
+      var gi = parseInt(del.dataset.g, 10);
+      var ii = parseInt(del.dataset.i, 10);
+      if(isNaN(gi) || isNaN(ii)) return;
+      var g = groups[gi];
+      if(!g || g.type !== 'text') return;
+      g.items.splice(ii, 1);
+      saveGroups();
+      renderCardsList();
+      var cardEl = cardsList.querySelector('[data-group-card="' + gi + '"]');
+      if(cardEl) cardEl.classList.add('open');
+      return;
+    }
+
+    /* 换颜色 */
+    var colorBtn = e.target.closest('[data-change-color]');
+    if(colorBtn){
+      var ci = parseInt(colorBtn.dataset.changeColor, 10);
+      if(isNaN(ci)) return;
+      var g2 = groups[ci];
+      if(!g2) return;
+      var cur = GROUP_COLORS.indexOf(g2.color);
+      g2.color = GROUP_COLORS[(cur + 1) % GROUP_COLORS.length];
+      saveGroups();
+      renderCardsList();
+      var cardEl2 = cardsList.querySelector('[data-group-card="' + ci + '"]');
+      if(cardEl2) cardEl2.classList.add('open');
+      return;
+    }
+
+    /* 删除分组 */
+    var delG = e.target.closest('[data-del-group]');
+    if(delG){
+      var di = parseInt(delG.dataset.delGroup, 10);
+      if(isNaN(di)) return;
+      var g3 = groups[di];
+      if(!g3) return;
+      if(g3.type === 'emoji'){
+        showDialog('提示', 'emoji 是系统分组，不能删除。', [{ text:'知道了', primary:true }]);
+        return;
+      }
+      showDialog('删除分组', '确定删除「' + g3.name + '」分组及其下的 ' + g3.items.length + ' 张字卡吗？', [
+        { text:'取消' },
+        { text:'删除', danger:true, onClick:function(){
+          groups.splice(di, 1);
+          saveGroups();
+          renderCardsList();
+        }}
+      ]);
+    }
+  });
+
+  /* 添加字卡 / emoji */
+  cardsList.addEventListener('submit', function(e){
+    /* 普通字卡 */
+    var form = e.target.closest('[data-add-item]');
+    if(form){
+      e.preventDefault();
+      var gi = parseInt(form.dataset.addItem, 10);
+      if(isNaN(gi)) return;
+      var g = groups[gi];
+      if(!g || g.type !== 'text') return;
+      var input = form.querySelector('input');
+      var text = input.value.trim();
+      if(!text) return;
+      g.items.push(text);
+      saveGroups();
+      renderCardsList();
+      var cardEl = cardsList.querySelector('[data-group-card="' + gi + '"]');
+      if(cardEl){
+        cardEl.classList.add('open');
+        var newInput = cardEl.querySelector('.group-add input');
+        if(newInput) newInput.focus();
+      }
+      return;
+    }
+
+    /* emoji */
+    var form2 = e.target.closest('[data-add-emoji]');
+    if(form2){
+      e.preventDefault();
+      var ei = parseInt(form2.dataset.addEmoji, 10);
+      if(isNaN(ei)) return;
+      var eg = groups[ei];
+      if(!eg || eg.type !== 'emoji') return;
+      var input2 = form2.querySelector('input');
+      var text2 = input2.value.trim();
+      if(!text2) return;
+      eg.items.push({ value: text2, enabled: true });
+      saveGroups();
+      renderCardsList();
+      var cardEl2 = cardsList.querySelector('[data-group-card="' + ei + '"]');
+      if(cardEl2){
+        cardEl2.classList.add('open');
+        var newInput2 = cardEl2.querySelector('.group-add input');
+        if(newInput2) newInput2.focus();
+      }
+    }
+  });
+
+  btnNewGroup.addEventListener('click', function(){
+    var name = window.prompt('输入分组名称：', '');
+    if(name === null) return;
+    name = name.trim();
+    if(!name) return;
+    groups.push({
+      id: uid('g'),
+      name: name,
+      color: nextColor(),
+      type: 'text',
+      items: []
+    });
+    saveGroups();
+    renderCardsList();
+    var newCard = cardsList.querySelector('[data-group-card="' + (groups.length - 1) + '"]');
+    if(newCard) newCard.classList.add('open');
+  });
+
+  btnDedup.addEventListener('click', function(){
+    var totalRemoved = 0;
+    groups.forEach(function(g){
+      if(g.type !== 'text') return;
+      var seen = {};
+      var unique = [];
+      g.items.forEach(function(item){
+        var key = item.trim();
+        if(!key) return;
+        if(seen[key]){ totalRemoved++; return; }
+        seen[key] = true;
+        unique.push(item);
+      });
+      g.items = unique;
+    });
+    saveGroups();
+    renderCardsList();
+    showDialog('去重完成', totalRemoved > 0 ? ('共移除 ' + totalRemoved + ' 条重复字卡。') : '没有发现重复字卡。', [
+      { text:'知道了', primary:true }
+    ]);
+  });
+
+  btnClearAll.addEventListener('click', function(){
+    showDialog('清空全部字卡', '确定清空所有分组和字卡吗？此操作不可恢复。', [
+      { text:'取消' },
+      { text:'清空', danger:true, onClick:function(){
+        groups = [makeEmojiGroup()];
+        saveGroups();
+        renderCardsList();
+      }}
+    ]);
+  });
+
+  /* ============ 批量导入 ============ */
+
+  btnImportBatch.addEventListener('click', function(){
+    importTextarea.value = '';
+    importPage.classList.add('open');
+  });
+
+  importBack.addEventListener('click', function(){
+    importPage.classList.remove('open');
+  });
+
+  importConfirmBtn.addEventListener('click', function(){
+    var raw = importTextarea.value;
+    if(!raw.trim()){
+      showDialog('导入失败', '请先粘贴内容。', [{ text:'知道了', primary:true }]);
+      return;
+    }
+
+    var lines = raw.split(/\r?\n/);
+    var currentGroup = null;
+    var added = 0;
+    var newGroups = 0;
+
+    function getOrCreateGroup(name){
+      for(var i = 0; i < groups.length; i++){
+        if(groups[i].name === name && groups[i].type === 'text') return groups[i];
+      }
+      var g = {
+        id: uid('g'),
+        name: name,
+        color: nextColor(),
+        type: 'text',
+        items: []
+      };
+      groups.push(g);
+      newGroups++;
+      return g;
+    }
+
+    for(var i = 0; i < lines.length; i++){
+      var line = lines[i].trim();
+      if(!line) continue;
+      var m = line.match(/^【(.+?)】$/);
+      if(m){
+        currentGroup = getOrCreateGroup(m[1].trim());
+        continue;
+      }
+      if(!currentGroup){
+        currentGroup = getOrCreateGroup('未分组');
+      }
+      currentGroup.items.push(line);
+      added++;
+    }
+
+    saveGroups();
+    renderCardsList();
+    importPage.classList.remove('open');
+
+    showDialog('导入完成',
+      '新增 ' + added + ' 张字卡，新增 ' + newGroups + ' 个分组。',
+      [{ text:'好的', primary:true }]
+    );
+  });
+
+  /* ============ TA 表情包库 ============ */
+
+  function renderTaStickers(){
+    if(!taStickers.length){
+      taStickerGrid.innerHTML = '<div class="sticker-empty">还没有表情包。<br>点上方「上传图片」或「链接导入」添加。</div>';
+      taStickerSummary.textContent = '0 张';
+      return;
+    }
+    taStickerGrid.innerHTML = '<div class="sticker-grid">' + taStickers.map(function(url, i){
+      return '<div class="sticker-cell">' +
+               '<img src="' + esc(url) + '" alt="表情">' +
+               '<button class="sticker-cell-del" data-ta-del="' + i + '" aria-label="删除">' +
+                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+                   '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>' +
+                 '</svg>' +
+               '</button>' +
+             '</div>';
+    }).join('') + '</div>';
+    taStickerSummary.textContent = taStickers.length + ' 张';
+  }
+
+  taStickerEntryRow.addEventListener('click', function(){
+    renderTaStickers();
+    taStickerPage.classList.add('open');
+  });
+  taStickerBack.addEventListener('click', function(){
+    taStickerPage.classList.remove('open');
+  });
+
+  taStickerGrid.addEventListener('click', function(e){
+    var del = e.target.closest('[data-ta-del]');
+    if(!del) return;
+    var i = parseInt(del.dataset.taDel, 10);
+    if(isNaN(i)) return;
+    taStickers.splice(i, 1);
+    saveTaStickers();
+    renderTaStickers();
+    renderSettingsPreview();
+  });
+
+  taStickerAddBtn.addEventListener('click', function(){ taStickerUploadFile.click(); });
+  taStickerUploadFile.addEventListener('change', function(){
+    var file = taStickerUploadFile.files && taStickerUploadFile.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      taStickers.push(ev.target.result);
+      saveTaStickers();
+      renderTaStickers();
+      renderSettingsPreview();
+    };
+    reader.readAsDataURL(file);
+    taStickerUploadFile.value = '';
+  });
+
+  taStickerUrlBtn.addEventListener('click', function(){
+    var url = window.prompt('粘贴图片 URL：', '');
+    if(url === null) return;
+    url = url.trim();
+    if(!url) return;
+    taStickers.push(url);
+    saveTaStickers();
+    renderTaStickers();
+    renderSettingsPreview();
+  });
+
+  /* ============ 我的表情（聊天面板） ============ */
+
+  function renderUserStickers(){
+    var html = userStickers.map(function(url, i){
+      return '<div class="sticker-cell" data-user-sticker="' + i + '">' +
+               '<img src="' + esc(url) + '" alt="表情">' +
+               '<button class="sticker-cell-del" data-user-del="' + i + '" aria-label="删除">' +
+                 '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+                   '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>' +
+                 '</svg>' +
+               '</button>' +
+             '</div>';
+    }).join('');
+
+    html += '<div class="sticker-cell-add" id="stickerCellAdd">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                '<path d="M12 5v14"/><path d="M5 12h14"/>' +
+              '</svg>' +
+            '</div>';
+
+    userStickerGrid.innerHTML = html;
+  }
+
+  openStickerPanel.addEventListener('click', function(){
+    renderUserStickers();
+    stickerPanel.classList.add('open');
+  });
+  closeStickerPanel.addEventListener('click', function(){
+    stickerPanel.classList.remove('open');
+  });
+
+  userStickerGrid.addEventListener('click', function(e){
+    var del = e.target.closest('[data-user-del]');
+    if(del){
+      e.stopPropagation();
+      var i = parseInt(del.dataset.userDel, 10);
+      if(isNaN(i)) return;
+      userStickers.splice(i, 1);
+      saveUserStickers();
+      renderUserStickers();
+      return;
+    }
+
+    if(e.target.closest('#stickerCellAdd')){
+      stickerUploadFile.click();
+      return;
+    }
+
+    var cell = e.target.closest('[data-user-sticker]');
+    if(cell){
+      var idx = parseInt(cell.dataset.userSticker, 10);
+      if(isNaN(idx)) return;
+      var url = userStickers[idx];
+      if(!url) return;
+      messages.push({ me:true, type:'sticker', text:url });
+      saveMessages();
+      renderMessages();
+      stickerPanel.classList.remove('open');
+      scheduleReply();
+    }
+  });
+
+  stickerAddBtn.addEventListener('click', function(){ stickerUploadFile.click(); });
+  stickerUploadFile.addEventListener('change', function(){
+    var file = stickerUploadFile.files && stickerUploadFile.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      userStickers.push(ev.target.result);
+      saveUserStickers();
+      renderUserStickers();
+    };
+    reader.readAsDataURL(file);
+    stickerUploadFile.value = '';
+  });
+
+  stickerUrlBtn.addEventListener('click', function(){
+    var url = window.prompt('粘贴图片 URL：', '');
+    if(url === null) return;
+    url = url.trim();
+    if(!url) return;
+    userStickers.push(url);
+    saveUserStickers();
+    renderUserStickers();
+  });
+
+  /* ============ 人物设置 ============ */
+
+  function renderSettingsPreview(){
+  if(person.avatar){
+    avatarPreview.innerHTML = '';
+    avatarPreview.style.backgroundImage = 'url(' + person.avatar + ')';
+  } else {
+    avatarPreview.innerHTML = DEFAULT_AVATAR_SVG;
+    avatarPreview.style.backgroundImage = 'none';
+  }
+
+  if(person.myAvatar){
+    myAvatarPreview.innerHTML = '';
+    myAvatarPreview.style.backgroundImage = 'url(' + person.myAvatar + ')';
+  } else {
+    myAvatarPreview.innerHTML = DEFAULT_AVATAR_SVG;
+    myAvatarPreview.style.backgroundImage = 'none';
+  }
+    nameInput.value = person.name || '';
+    replySummary.textContent = person.replyMin + ' ~ ' + person.replyMax + ' 秒 · 最多 ' + person.replyCount + ' 条';
+    cardsSummary.textContent = totalCards() + ' 条';
+    taStickerSummary.textContent = taStickers.length + ' 张';
+  }
+
+  openSettings.addEventListener('click', function(){
+    renderSettingsPreview();
+    settingsPage.classList.add('open');
+  });
+
+  settingsBack.addEventListener('click', function(){
+    settingsPage.classList.remove('open');
+  });
+
+avatarPicker.addEventListener('click', function(){ avatarFile.click(); });
+avatarFile.addEventListener('change', function(){
+  var file = avatarFile.files && avatarFile.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    person.avatar = ev.target.result;
+    savePerson();
+    renderSettingsPreview();
+    renderHeader();
+    renderMessages();
+  };
+  reader.readAsDataURL(file);
+  avatarFile.value = '';
+});
+
+myAvatarPicker.addEventListener('click', function(){ myAvatarFile.click(); });
+myAvatarFile.addEventListener('change', function(){
+  var file = myAvatarFile.files && myAvatarFile.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    person.myAvatar = ev.target.result;
+    savePerson();
+    renderSettingsPreview();
+    renderMessages();
+  };
+  reader.readAsDataURL(file);
+  myAvatarFile.value = '';
+});
+
+  saveBtn.addEventListener('click', function(){
+    person.name = nameInput.value.trim() || 'TA';
+    savePerson();
+    renderHeader();
+    renderMessages();
+    renderSettingsPreview();
+    settingsPage.classList.remove('open');
+  });
+
+  resetBtn.addEventListener('click', function(){
+    showDialog('恢复默认人物', '确定要把 TA 恢复成默认吗？聊天记录和字卡不会被清空。', [
+      { text:'取消' },
+      { text:'恢复', danger:true, onClick:function(){
+        person.name = 'TA';
+person.avatar = '';
+person.myAvatar = '';
+person.replyMin = 1;
+        person.replyMax = 3;
+        person.replyCount = 3;
+        person.stickerChance = 20;
+        person.emojiChance = 10;
+        savePerson();
+        renderHeader();
+        renderMessages();
+        renderSettingsPreview();
+      }}
+    ]);
+  });
+
+  clearChatBtn.addEventListener('click', function(){
+    showDialog('清空聊天记录', '确定要清空所有聊天记录吗？此操作不可恢复。', [
+      { text:'取消' },
+      { text:'清空', danger:true, onClick:function(){
+        messages = [];
+        saveMessages();
+        renderMessages();
+      }}
+    ]);
+  });
+
+  /* ============ 聊天美化 ============ */
+
+  function renderBeautify(){
+    Array.prototype.forEach.call(bubbleStyles.querySelectorAll('.style-chip'), function(btn){
+      btn.classList.toggle('active', btn.dataset.style === person.bubbleStyle);
+    });
+    prevIn.className = 'preview-bubble in style-' + person.bubbleStyle;
+    prevOut.className = 'preview-bubble out style-' + person.bubbleStyle;
+    prevIn.style.background = person.bubbleStyle === 'plain' ? 'transparent' : person.colorOther;
+    prevOut.style.background = person.bubbleStyle === 'plain' ? 'transparent' : person.colorSelf;
+
+    colorSelf.value = person.colorSelf;
+    colorOther.value = person.colorOther;
+
+    Array.prototype.forEach.call(fontFamilyGrid.querySelectorAll('.font-chip'), function(btn){
+      btn.classList.toggle('active', btn.dataset.font === person.fontFamily);
+    });
+    Array.prototype.forEach.call(fontSizeGrid.querySelectorAll('.font-chip'), function(btn){
+      btn.classList.toggle('active', btn.dataset.size === person.fontSize);
+    });
+
+    Array.prototype.forEach.call(bgGrid.querySelectorAll('.bg-swatch'), function(sw){
+      var bg = sw.dataset.bg;
+      sw.classList.toggle('active', !person.bgImage && bg === person.bgColor);
+    });
+
+    customCssInput.value = person.customCss || '';
+    if(soundToggle) soundToggle.checked = !!person.soundEnabled;
+  }
+
+  beautifyEntryRow.addEventListener('click', function(){
+    renderBeautify();
+    beautifyPage.classList.add('open');
+  });
+  beautifyBack.addEventListener('click', function(){
+    beautifyPage.classList.remove('open');
+  });
+
+  bubbleStyles.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-style]');
+    if(!btn) return;
+    person.bubbleStyle = btn.dataset.style;
+    savePerson();
+    renderBeautify();
+    renderMessages();
+  });
+
+  colorSelf.addEventListener('input', function(){
+    person.colorSelf = colorSelf.value;
+    savePerson();
+    renderBeautify();
+    renderMessages();
+  });
+  colorOther.addEventListener('input', function(){
+    person.colorOther = colorOther.value;
+    savePerson();
+    renderBeautify();
+    renderMessages();
+  });
+  document.querySelectorAll('.color-reset').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      if(btn.dataset.reset === 'self') person.colorSelf = DEFAULT_SELF_COLOR;
+      else person.colorOther = DEFAULT_OTHER_COLOR;
+      savePerson();
+      renderBeautify();
+      renderMessages();
+    });
+  });
+
+  cssApplyBtn.addEventListener('click', function(){
+    person.customCss = customCssInput.value;
+    savePerson();
+    applyBeautify();
+  });
+  cssClearBtn.addEventListener('click', function(){
+    person.customCss = '';
+    customCssInput.value = '';
+    savePerson();
+    applyBeautify();
+  });
+
+  fontFamilyGrid.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-font]');
+    if(!btn) return;
+    person.fontFamily = btn.dataset.font;
+    savePerson();
+    renderBeautify();
+    applyBeautify();
+  });
+  fontSizeGrid.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-size]');
+    if(!btn) return;
+    person.fontSize = btn.dataset.size;
+    savePerson();
+    renderBeautify();
+    applyBeautify();
+  });
+
+  bgGrid.addEventListener('click', function(e){
+    var sw = e.target.closest('.bg-swatch');
+    if(!sw) return;
+    person.bgColor = sw.dataset.bg;
+    person.bgImage = '';
+    savePerson();
+    renderBeautify();
+    applyBeautify();
+  });
+
+  bgUploadBtn.addEventListener('click', function(){ bgFile.click(); });
+  bgFile.addEventListener('change', function(){
+    var file = bgFile.files && bgFile.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      person.bgImage = ev.target.result;
+      savePerson();
+      renderBeautify();
+      applyBeautify();
+    };
+    reader.readAsDataURL(file);
+    bgFile.value = '';
+  });
+
+  bgClearBtn.addEventListener('click', function(){
+    person.bgImage = '';
+    person.bgColor = '#f2f5f6';
+    savePerson();
+    renderBeautify();
+    applyBeautify();
+  });
+
+  if(soundToggle){
+    soundToggle.addEventListener('change', function(){
+      person.soundEnabled = !!soundToggle.checked;
+      savePerson();
+      if(person.soundEnabled) playDing();
+    });
+  }
+
+  beautifyResetBtn.addEventListener('click', function(){
+    showDialog('恢复默认美化', '确定恢复默认气泡、字体、背景等设置吗？', [
+      { text:'取消' },
+      { text:'恢复', danger:true, onClick:function(){
+        person.bubbleStyle = 'rounded';
+        person.colorSelf = DEFAULT_SELF_COLOR;
+        person.colorOther = DEFAULT_OTHER_COLOR;
+        person.fontFamily = 'default';
+        person.fontSize = '15px';
+        person.bgColor = '#f2f5f6';
+        person.bgImage = '';
+        person.customCss = '';
+        person.soundEnabled = true;
+        savePerson();
+        renderBeautify();
+        renderMessages();
+        applyBeautify();
+      }}
+    ]);
+  });
+
+  /* ============ 聊天回复设置 ============ */
+
+  function renderReplySettings(){
+    replyMinInput.value = person.replyMin;
+    replyMaxInput.value = person.replyMax;
+    replyCountInput.value = person.replyCount;
+    stepperStickerVal.textContent = person.stickerChance;
+    stepperEmojiVal.textContent = person.emojiChance;
+  }
+
+  replyEntryRow.addEventListener('click', function(){
+    renderReplySettings();
+    replyPage.classList.add('open');
+  });
+  replyBack.addEventListener('click', function(){
+    replyPage.classList.remove('open');
+  });
+
+  /* 加减器 */
+  document.querySelectorAll('.stepper-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var which = btn.dataset.step;
+      var dir = parseInt(btn.dataset.dir, 10);
+      var key = which === 'sticker' ? 'stickerChance' : 'emojiChance';
+      var val = person[key] + dir * 5;
+      if(val < 0) val = 0;
+      if(val > 100) val = 100;
+      person[key] = val;
+      savePerson();
+      renderReplySettings();
+    });
+  });
+
+  replySaveBtn.addEventListener('click', function(){
+    var min = parseFloat(replyMinInput.value) || 0;
+    var max = parseFloat(replyMaxInput.value) || 0;
+    if(min < 0) min = 0;
+    if(max < min) max = min;
+    person.replyMin = min;
+    person.replyMax = max;
+    person.replyCount = Math.min(5, Math.max(1, parseInt(replyCountInput.value, 10) || 3));
+    savePerson();
+    renderSettingsPreview();
+    replyPage.classList.remove('open');
+  });
+
+  /* ============ 字卡库入口 ============ */
+
+  cardsEntryRow.addEventListener('click', function(){
+    cardsSearchKeyword = '';
+    if(cardsSearchInput) cardsSearchInput.value = '';
+    renderCardsList();
+    cardsPage.classList.add('open');
+  });
+  cardsBack.addEventListener('click', function(){
+    cardsPage.classList.remove('open');
+  });
+
+  /* ============ 备份 ============ */
+
+  backupEntryRow.addEventListener('click', function(){
+    backupMsgCount.textContent = messages.length;
+    backupPage.classList.add('open');
+  });
+  backupBack.addEventListener('click', function(){
+    backupPage.classList.remove('open');
+  });
+
+  exportBtn.addEventListener('click', function(){
+    var data = {
+      version: 'chat_v5',
+      exportTime: Date.now(),
+      person: person,
+      messages: messages,
+      groups: groups,
+      taStickers: taStickers,
+      userStickers: userStickers
+    };
+    var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    var d = new Date();
+    var pad = function(n){ return String(n).padStart(2,'0'); };
+    a.href = url;
+    a.download = 'chat-backup-' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '-' + pad(d.getHours()) + pad(d.getMinutes()) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  importBtn.addEventListener('click', function(){ importFile.click(); });
+  importFile.addEventListener('change', function(){
+    var file = importFile.files && importFile.files[0];
+    if(!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var data = JSON.parse(ev.target.result);
+        if(!data || !Array.isArray(data.messages)) throw new Error('格式不正确');
+        showDialog('导入聊天记录', '导入会覆盖当前的聊天记录和设置，确定继续吗？', [
+          { text:'取消' },
+          { text:'导入', danger:true, onClick:function(){
+            if(data.person){
+              person.name = data.person.name || 'TA';
+person.avatar = data.person.avatar || '';
+person.myAvatar = data.person.myAvatar || '';
+              person.replyMin = (typeof data.person.replyMin === 'number') ? data.person.replyMin : 1;
+              person.replyMax = (typeof data.person.replyMax === 'number') ? data.person.replyMax : 3;
+              person.replyCount = (typeof data.person.replyCount === 'number') ? data.person.replyCount : 3;
+              person.stickerChance = (typeof data.person.stickerChance === 'number') ? data.person.stickerChance : 20;
+              person.emojiChance = (typeof data.person.emojiChance === 'number') ? data.person.emojiChance : 10;
+              person.bubbleStyle = data.person.bubbleStyle || 'rounded';
+              person.colorSelf = data.person.colorSelf || DEFAULT_SELF_COLOR;
+              person.colorOther = data.person.colorOther || DEFAULT_OTHER_COLOR;
+              person.fontFamily = data.person.fontFamily || 'default';
+              person.fontSize = data.person.fontSize || '15px';
+              person.bgColor = data.person.bgColor || '#f2f5f6';
+              person.bgImage = data.person.bgImage || '';
+              person.customCss = data.person.customCss || '';
+              person.soundEnabled = (typeof data.person.soundEnabled === 'boolean') ? data.person.soundEnabled : true;
+              savePerson();
+              renderHeader();
+            }
+            if(Array.isArray(data.groups)){
+              groups = data.groups.map(function(g){
+                var type = g.type === 'emoji' ? 'emoji' : 'text';
+                var items;
+                if(type === 'emoji'){
+                  items = Array.isArray(g.items) ? g.items.map(function(it){
+                    if(typeof it === 'string') return { value: it, enabled: true };
+                    if(it && typeof it.value === 'string') return { value: it.value, enabled: it.enabled !== false };
+                    return null;
+                  }).filter(Boolean) : [];
+                } else {
+                  items = Array.isArray(g.items) ? g.items.filter(function(s){
+                    return typeof s === 'string' && s.trim() !== '';
+                  }) : [];
+                }
+                return {
+                  id: g.id || uid('g'),
+                  name: g.name || '未命名',
+                  color: g.color || GROUP_COLORS[0],
+                  type: type,
+                  isSystem: g.isSystem || false,
+                  items: items
+                };
+              });
+              if(!groups.some(function(g){ return g.type === 'emoji'; })){
+                groups.unshift(makeEmojiGroup());
+              }
+              saveGroups();
+            }
+            if(Array.isArray(data.taStickers)){
+              taStickers = data.taStickers.filter(function(s){ return typeof s === 'string' && s.trim(); });
+              saveTaStickers();
+            }
+            if(Array.isArray(data.userStickers)){
+              userStickers = data.userStickers.filter(function(s){ return typeof s === 'string' && s.trim(); });
+              saveUserStickers();
+            }
+            messages = data.messages.filter(function(m){
+              return m && (typeof m.text === 'string');
+            });
+            saveMessages();
+            renderMessages();
+            renderSettingsPreview();
+            renderCardsList();
+            renderTaStickers();
+            renderUserStickers();
+            renderBeautify();
+            applyBeautify();
+            backupPage.classList.remove('open');
+          }}
+        ]);
+      }catch(err){
+        showDialog('导入失败', '文件格式不正确，请确认是本应用导出的备份文件。', [{ text:'知道了', primary:true }]);
+      }
+    };
+    reader.readAsText(file);
+    importFile.value = '';
+  });
+
+  /* ============ AI 抽卡 ============ */
+
+  function pickFromArray(arr){
+    if(!arr.length) return null;
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function pickFromGroups(){
+    var pool = [];
+    groups.forEach(function(g){
+      if(g.type !== 'text') return;
+      g.items.forEach(function(t){
+        if(t && t.trim()) pool.push(t.trim());
+      });
+    });
+    return pool;
+  }
+
+  function pickFromEmojiGroup(){
+    var pool = [];
+    groups.forEach(function(g){
+      if(g.type !== 'emoji') return;
+      g.items.forEach(function(it){
+        if(it.enabled && it.value) pool.push(it.value);
+      });
+    });
+    return pool;
+  }
+
+  /* 生成一条回复：按概率决定类型 */
+  function makeOneReply(){
+    var r = Math.random() * 100;
+    var emojiC = person.emojiChance;
+    var stickerC = person.stickerChance;
+
+    if(r < emojiC){
+      var emojiPool = pickFromEmojiGroup();
+      var e = pickFromArray(emojiPool);
+      if(e) return { me:false, type:'emoji', text:e };
+    }
+    if(r < emojiC + stickerC){
+      var s = pickFromArray(taStickers);
+      if(s) return { me:false, type:'sticker', text:s };
+    }
+    var textPool = pickFromGroups();
+    var t = pickFromArray(textPool);
+    if(t) return { me:false, type:'text', text:t };
+    /* 兜底：如果文字池空，看表情池 */
+    if(taStickers.length){
+      return { me:false, type:'sticker', text: pickFromArray(taStickers) };
+    }
+    if(pickFromEmojiGroup().length){
+      return { me:false, type:'emoji', text: pickFromArray(pickFromEmojiGroup()) };
+    }
+    return null;
+  }
+
+  function scheduleReply(){
+    if(replyTimer) clearTimeout(replyTimer);
+
+    var minS = person.replyMin;
+    var maxS = person.replyMax;
+    if(maxS < minS) maxS = minS;
+    var delay = (minS + Math.random() * (maxS - minS)) * 1000;
+
+    replyTimer = setTimeout(function(){
+      var maxCount = person.replyCount;
+      var count = 1 + Math.floor(Math.random() * maxCount);
+      if(count > maxCount) count = maxCount;
+
+      var picked = [];
+      for(var i = 0; i < count; i++){
+        var r = makeOneReply();
+        if(r) picked.push(r);
+      }
+      if(!picked.length) return;
+
+      showTyping();
+
+      var gap = 0;
+      picked.forEach(function(m, i){
+        gap += 600 + Math.random() * 600;
+        setTimeout(function(){
+          messages.push(m);
+          saveMessages();
+          renderMessages();
+          playDing();
+          if(i === picked.length - 1) hideTyping();
+        }, gap);
+      });
+    }, delay);
+  }
+
+  /* ============ 发送 ============ */
+
+  msgInput.addEventListener('input', function(){
+    sendBtn.disabled = msgInput.value.trim().length === 0;
+  });
+
+  composer.addEventListener('submit', function(e){
+    e.preventDefault();
+    var text = msgInput.value.trim();
+    if(!text) return;
+    messages.push({ me:true, type:'text', text:text });
+    saveMessages();
+    msgInput.value = '';
+    sendBtn.disabled = true;
+    renderMessages();
+    scheduleReply();
+  });
+
+  /* ============ 初始化 ============ */
+
+  loadPerson();
+  loadMessages();
+  loadGroups();
+  loadTaStickers();
+  loadUserStickers();
+  renderHeader();
+  renderMessages();
+  renderCardsList();
+  renderSettingsPreview();
+  renderBeautify();
+  renderTaStickers();
+  renderUserStickers();
+  applyBeautify();
+
+})();
+</script>
+</body>
+</html>
