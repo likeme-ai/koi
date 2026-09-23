@@ -4057,18 +4057,33 @@ function renderLockNotifications(){
   function onAppReady(){ proactive.lastOpenTime = Date.now(); saveProactive(); checkProactiveOnOpen(); }
 
   /* App 图标点击 */
-  Array.prototype.forEach.call(document.querySelectorAll('.app-item'), function(item){
-    item.addEventListener('click', function(){
-      var app = item.dataset.app;
-      if(app === 'chat'){ renderHeader(); renderMessages(); applyBeautify(); refreshChatMusicBanner(); $('chatPage').classList.add('open'); chatOpenNow = true; unreadCount = 0; renderHome(); }
-      else if(app === 'cards'){ libSearchKeyword = ''; if($('libSearchInput')) $('libSearchInput').value = ''; renderLib(); $('cardsPage').classList.add('open'); }
-      else if(app === 'stickers'){ openSettingsPage(); }
-      else if(app === 'affection'){ renderAffectionPage(); $('affectionPage').classList.add('open'); }
-      else if(app === 'anniversary'){ renderAnniversaryPage(); $('anniversaryPage').classList.add('open'); }
-      else if(app === 'wallet'){ renderWalletPage(); $('walletPage').classList.add('open'); }
-      else if(app === 'settings'){ openSettingsPage(); }
-    });
+Array.prototype.forEach.call(document.querySelectorAll('.app-item'), function(item){
+  item.addEventListener('click', function(){
+    var app = item.dataset.app;
+    if(app === 'chat'){ 
+      // 1. 先让聊天页面滑出来，保证动画丝滑
+      $('chatPage').classList.add('open'); 
+      chatOpenNow = true; 
+      unreadCount = 0; 
+      renderHome();
+      
+      // 2. 延迟50毫秒，等页面滑入动画跑起来后，再加载聊天记录
+      setTimeout(function(){
+        renderHeader(); 
+        renderMessages(); 
+        applyBeautify(); 
+        refreshChatMusicBanner(); 
+      }, 50);
+    }
+    else if(app === 'music'){ musicTimerStart = Date.now(); renderMusicPage(); $('musicPage').classList.add('open'); }
+    else if(app === 'cards'){ libSearchKeyword = ''; if($('libSearchInput')) $('libSearchInput').value = ''; renderLib(); $('cardsPage').classList.add('open'); }
+    else if(app === 'stickers'){ openSettingsPage(); }
+    else if(app === 'affection'){ renderAffectionPage(); $('affectionPage').classList.add('open'); }
+    else if(app === 'anniversary'){ renderAnniversaryPage(); $('anniversaryPage').classList.add('open'); }
+    else if(app === 'wallet'){ renderWalletPage(); $('walletPage').classList.add('open'); }
+    else if(app === 'settings'){ openSettingsPage(); }
   });
+});
   if($('chatBack')) $('chatBack').onclick = function(){
   $('chatPage').classList.remove('open');
   chatOpenNow = false;
@@ -4739,21 +4754,6 @@ musicAudio.addEventListener('ended', refreshChatMusicBanner);
     musicAudio.addEventListener('ended', playNextSong);
   }
   initMusicEvents();
-
-  /* 修改 App 点击事件，加入 music */
-  Array.prototype.forEach.call(document.querySelectorAll('.app-item'), function(item){
-    item.addEventListener('click', function(){
-      var app = item.dataset.app;
-      if(app === 'chat'){ renderHeader(); renderMessages(); applyBeautify(); refreshChatMusicBanner(); $('chatPage').classList.add('open'); chatOpenNow = true; unreadCount = 0; renderHome(); }
-      else if(app === 'music'){ musicTimerStart = Date.now(); renderMusicPage(); $('musicPage').classList.add('open'); }
-      else if(app === 'cards'){ libSearchKeyword = ''; if($('libSearchInput')) $('libSearchInput').value = ''; renderLib(); $('cardsPage').classList.add('open'); }
-      else if(app === 'stickers'){ openSettingsPage(); }
-      else if(app === 'affection'){ renderAffectionPage(); $('affectionPage').classList.add('open'); }
-      else if(app === 'anniversary'){ renderAnniversaryPage(); $('anniversaryPage').classList.add('open'); }
-      else if(app === 'wallet'){ renderWalletPage(); $('walletPage').classList.add('open'); }
-      else if(app === 'settings'){ openSettingsPage(); }
-    });
-  });
 
 })();
 </script>
