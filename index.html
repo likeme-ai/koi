@@ -2989,28 +2989,44 @@ if($('dictSearchInput')){
     return pickFromArray(pool);
   }
   function pickKeywordGroup(){
-    var lastUser = null;
-    for(var i=messages.length-1;i>=0;i--){ if(messages[i].me){ lastUser = messages[i].text || ''; break; } }
-    if(!lastUser) return null;
-    var best = null, bestLen = 0;
-    cards.text.forEach(function(b){
-      if(!b.keyword) return;
-      if(b.enabled === false) return;
-      var kws = b.keyword.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+  var lastUser = null;
+  for(var i=messages.length-1;i>=0;i--){ if(messages[i].me){ lastUser = messages[i].text || ''; break; } }
+  if(!lastUser) return null;
+  var bestPool = null, bestLen = 0;
+  cards.text.forEach(function(b){
+    if(b.enabled === false) return;
+    // 先看小分组（优先级更高，命中更精准）
+    b.groups.forEach(function(sg){
+      if(!sg.keyword) return;
+      var kws = sg.keyword.split(/[,，]/).map(function(s){ return s.trim(); }).filter(Boolean);
       var ml = 0;
       kws.forEach(function(kw){ if(kw && lastUser.indexOf(kw) > -1 && kw.length > ml) ml = kw.length; });
-      if(ml > 0 && ml > bestLen){ bestLen = ml; best = b; }
+      if(ml > 0 && ml > bestLen){
+        bestLen = ml;
+        bestPool = sg.items.filter(function(it){ return it && String(it).trim(); }).map(function(it){ return String(it).trim(); });
+      }
     });
-    if(!best) return null;
-    var pool = [];
-    best.groups.forEach(function(sg){ sg.items.forEach(function(it){ if(it && String(it).trim()) pool.push(String(it).trim()); }); });
-    if(!pool.length) return null;
-    if(person.cardCooldown > 0 && recentCards.length){
-      var filtered2 = pool.filter(function(t){ return recentCards.indexOf(t) === -1; });
-      if(filtered2.length > 0) pool = filtered2;
+    // 再看大分组（只在没有更精准的小分组命中时用）
+    if(b.keyword){
+      var kws2 = b.keyword.split(/[,，]/).map(function(s){ return s.trim(); }).filter(Boolean);
+      var ml2 = 0;
+      kws2.forEach(function(kw){ if(kw && lastUser.indexOf(kw) > -1 && kw.length > ml2) ml2 = kw.length; });
+      if(ml2 > 0 && ml2 > bestLen){
+        bestLen = ml2;
+        var pool2 = [];
+        b.groups.forEach(function(sg){ sg.items.forEach(function(it){ if(it && String(it).trim()) pool2.push(String(it).trim()); }); });
+        bestPool = pool2;
+      }
     }
-    return pool[Math.floor(Math.random() * pool.length)];
+  });
+  if(!bestPool || !bestPool.length) return null;
+  var pool = bestPool;
+  if(person.cardCooldown > 0 && recentCards.length){
+    var filtered = pool.filter(function(t){ return recentCards.indexOf(t) === -1; });
+    if(filtered.length > 0) pool = filtered;
   }
+  return pool[Math.floor(Math.random() * pool.length)];
+}
   function getConcatPool(){
   var pool = [];
   if(cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
