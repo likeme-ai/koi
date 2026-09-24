@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>sheng·g</title>
 <style>
   :root{
@@ -115,6 +118,27 @@
   .chat-avatar{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:#e8ecef;display:grid;place-items:center;color:#b8c0c7;overflow:hidden;background-size:cover;background-position:center}
   .chat-avatar svg{width:22px;height:22px}
   .chat-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.chat-avatar.pat-shake{animation:patShake .7s cubic-bezier(.36,.07,.19,.97) both}
+@keyframes patShake{
+  0%,100%{transform:translateX(0) rotate(0)}
+  12%{transform:translateX(-5px) rotate(-8deg)}
+  25%{transform:translateX(5px) rotate(8deg)}
+  38%{transform:translateX(-4px) rotate(-6deg)}
+  50%{transform:translateX(4px) rotate(6deg)}
+  62%{transform:translateX(-3px) rotate(-4deg)}
+  75%{transform:translateX(3px) rotate(4deg)}
+  88%{transform:translateX(-1px) rotate(-1deg)}
+}
+.chat-settings-menu-bg{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:300;display:none;align-items:flex-end;justify-content:center}
+.chat-settings-menu-bg.open{display:flex;animation:fadeIn .15s ease}
+.color-swatches{display:flex;flex-wrap:wrap;gap:8px;padding:2px 16px 12px;background:var(--panel)}
+.color-swatch{width:26px;height:26px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .14s ease,border-color .14s ease}
+.color-swatch:active{transform:scale(.9)}
+.color-swatch.active{border-color:var(--primary);box-shadow:0 0 0 2px rgba(31,95,108,.15)}
+.sound-grid{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 14px;background:var(--panel)}
+.sound-chip{padding:8px 14px;border:1px solid var(--accent);border-radius:18px;background:#fff;color:var(--text);font-size:13.5px;font-family:inherit;cursor:pointer;transition:all .15s ease}
+.sound-chip.active{background:var(--primary);border-color:var(--primary);color:#fff}
+.sound-chip:active{transform:scale(.95)}
   .chat-info{flex:1;min-width:0}
   .chat-name{font-size:16px;font-weight:600;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .chat-status{margin-top:3px;font-size:11.5px;color:var(--light-text)}
@@ -702,15 +726,13 @@
       <span id="signInStatus" style="font-size:12px; color:var(--primary); font-weight:600;">+1好感度 & 零花钱</span>
     </div>
     <div class="app-grid">
-      <button class="app-item" data-app="chat"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg><span class="app-badge" id="chatBadge" style="display:none;">0</span></div><span class="app-label">聊天</span></button>
-      <button class="app-item" data-app="music"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><span class="app-label">一起听</span></button>
-      <button class="app-item" data-app="cards"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h4"/></svg></div><span class="app-label">字卡</span></button>
-      <button class="app-item" data-app="stickers"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.5" cy="10" r="1.3"/><circle cx="15.5" cy="10" r="1.3"/><path d="M8 15.5c1 1 2.4 1.5 4 1.5s3-.5 4-1.5"/></svg></div><span class="app-label">表情</span></button>
-      <button class="app-item" data-app="affection"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"/></svg></div><span class="app-label">好感度</span></button>
-      <button class="app-item" data-app="anniversary"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg></div><span class="app-label">纪念日</span></button>
-      <button class="app-item" data-app="wallet"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/><path d="M3 7h16"/><path d="M16 12h5"/><circle cx="16" cy="12" r="0.8" fill="currentColor"/></svg></div><span class="app-label">钱包</span></button>
-      <button class="app-item" data-app="settings"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div><span class="app-label">设置</span></button>
-    </div>
+  <button class="app-item" data-app="chat"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg><span class="app-badge" id="chatBadge" style="display:none;">0</span></div><span class="app-label">聊天</span></button>
+  <button class="app-item" data-app="music"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><span class="app-label">一起听</span></button>
+  <button class="app-item" data-app="cards"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h4"/></svg></div><span class="app-label">字卡</span></button>
+  <button class="app-item" data-app="mailbox"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div><span class="app-label">信箱</span></button>
+  <button class="app-item" data-app="wallet"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/><path d="M3 7h16"/><path d="M16 12h5"/><circle cx="16" cy="12" r="0.8" fill="currentColor"/></svg></div><span class="app-label">钱包</span></button>
+  <button class="app-item" data-app="settings"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div><span class="app-label">设置</span></button>
+</div>
   </div>
 
   <div class="chat-page" id="chatPage">
@@ -745,6 +767,19 @@
     <button class="more-menu-btn" id="moreMenuCancel">取消</button>
   </div>
 </div>
+<div class="chat-settings-menu-bg" id="chatSettingsMenuBg">
+  <div class="more-menu">
+    <button class="more-menu-btn" id="csmBeautify">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2H22l-6 4.5 2.3 7.3L12 16.5 5.7 21l2.3-7.3-6-4.5h7.6z"/></svg>
+      <span>聊天美化</span>
+    </button>
+    <button class="more-menu-btn" id="csmPerson">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-7 8-7s8 3 8 7"/></svg>
+      <span>人物设置</span>
+    </button>
+    <button class="more-menu-btn" id="csmCancel">取消</button>
+  </div>
+</div>
 <div class="msg-actions-bg" id="msgActionsBg">
     <div class="msg-actions">
       <div class="msg-actions-title" id="msgActionsTitle"></div>
@@ -775,40 +810,37 @@
 <section class="page" id="settingsPage">
   <header class="page-header"><button class="icon-btn" id="settingsBack" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="page-title">人物设置</div></header>
   <div class="page-body">
-    <div class="field-group">
-  <div class="field" style="padding:16px;gap:20px;justify-content:center;">
-    <div class="avatar-picker" id="avatarPicker" style="flex-direction:column;text-align:center;gap:8px;flex:1;">
-      <div class="avatar-preview" id="avatarPreview"></div>
-      <div class="avatar-hint" style="font-size:12px;">点击设置<br>TA 的头像</div>
-      <input type="file" id="avatarFile" accept="image/*" style="display:none;">
+  <div class="field-group">
+    <div class="field" style="padding:16px;gap:20px;justify-content:center;">
+      <div class="avatar-picker" id="avatarPicker" style="flex-direction:column;text-align:center;gap:8px;flex:1;">
+        <div class="avatar-preview" id="avatarPreview"></div>
+        <div class="avatar-hint" style="font-size:12px;">点击设置<br>TA 的头像</div>
+        <input type="file" id="avatarFile" accept="image/*" style="display:none;">
+      </div>
+      <div class="avatar-picker" id="myAvatarPicker" style="flex-direction:column;text-align:center;gap:8px;flex:1;">
+        <div class="avatar-preview" id="myAvatarPreview"></div>
+        <div class="avatar-hint" style="font-size:12px;">点击设置<br>我的头像</div>
+        <input type="file" id="myAvatarFile" accept="image/*" style="display:none;">
+      </div>
     </div>
-    <div class="avatar-picker" id="myAvatarPicker" style="flex-direction:column;text-align:center;gap:8px;flex:1;">
-      <div class="avatar-preview" id="myAvatarPreview"></div>
-      <div class="avatar-hint" style="font-size:12px;">点击设置<br>我的头像</div>
-      <input type="file" id="myAvatarFile" accept="image/*" style="display:none;">
-    </div>
+    <div class="field"><span class="field-label" style="width:74px;">TA 名字</span><input type="text" id="nameInput" placeholder="给 TA 起个名字" maxlength="12"></div>
+    <div class="field"><span class="field-label" style="width:74px;">我的名字</span><input type="text" id="myNameInput" placeholder="给自己起个名字" maxlength="12"></div>
   </div>
-</div>
-<div class="field-group">
-  <div class="field"><span class="field-label" style="width:74px;">TA 名字</span><input type="text" id="nameInput" placeholder="给 TA 起个名字" maxlength="12"></div>
-  <div class="field"><span class="field-label" style="width:74px;">我的名字</span><input type="text" id="myNameInput" placeholder="给自己起个名字" maxlength="12"></div>
-</div>
-    <div class="field-group">
-      <div class="field entry-row" id="beautifyEntryRow"><span class="field-label" style="width:auto;">聊天美化</span><span class="entry-value">气泡 · 字体 · 背景</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
-      <div class="field entry-row" id="homeBeautifyEntryRow"><span class="field-label" style="width:auto;">主屏美化</span><span class="entry-value">壁纸 · 锁屏 · 风格</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
-      <div class="field entry-row" id="replyEntryRow"><span class="field-label" style="width:auto;">聊天回复设置</span><span class="entry-value" id="replySummary">1 ~ 3 秒 · 最多 3 条</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
-      <div class="field entry-row" id="cardsEntryRow"><span class="field-label" style="width:auto;">字卡库</span><span class="entry-value" id="cardsSummary">0 条</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
-      <div class="field entry-row" id="taStickerEntryRow"><span class="field-label" style="width:auto;">TA 的表情包库</span><span class="entry-value" id="taStickerSummary">0 张</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
-      <div class="field entry-row" id="lockEntryRow"><span class="field-label" style="width:auto;">锁屏密码</span><span class="entry-value" id="lockSummary">未设置</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
-      <div class="field entry-row" id="backupEntryRow"><span class="field-label" style="width:auto;">聊天记录备份</span><span class="entry-value">导出 / 导入</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
-    </div>
-    <div class="actions">
-      <button class="btn-primary" id="saveBtn">保存</button>
-      <button class="btn-danger" id="clearChatBtn">清空聊天记录</button>
-      <button class="btn-ghost" id="resetBtn">恢复默认人物</button>
-    </div>
-    <div class="tip">设置与聊天记录会自动保存在本机，刷新后仍会保留。</div>
+
+  <div class="field-group">
+    <div class="field entry-row" id="homeBeautifyEntryRow"><span class="field-label" style="width:auto;">主屏美化</span><span class="entry-value">壁纸 · 锁屏 · 风格</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
+    <div class="field entry-row" id="replyEntryRow"><span class="field-label" style="width:auto;">聊天回复设置</span><span class="entry-value" id="replySummary">基础 · 互动 · 拼字 · 信件</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
+    <div class="field entry-row" id="lockEntryRow"><span class="field-label" style="width:auto;">锁屏密码</span><span class="entry-value" id="lockSummary">未设置</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
+    <div class="field entry-row" id="backupEntryRow"><span class="field-label" style="width:auto;">聊天记录备份</span><span class="entry-value">导出 / 导入</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#c3c7ce" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></div>
   </div>
+
+  <div class="actions">
+    <button class="btn-primary" id="saveBtn">保存</button>
+    <button class="btn-danger" id="clearChatBtn">清空聊天记录</button>
+    <button class="btn-ghost" id="resetBtn">恢复默认人物</button>
+  </div>
+  <div class="tip">设置与聊天记录会自动保存在本机，刷新后仍会保留。</div>
+</div>
 </section>
 
 <section class="page" id="homeBeautifyPage">
@@ -875,14 +907,17 @@
     </div>
     <div class="beautify-section-title">气泡颜色</div>
     <div class="field-group">
-      <div class="color-row"><span class="color-row-label">我的气泡</span><div class="color-input-wrap"><input type="color" id="colorSelf" value="#f1d6d6"><button class="color-reset" data-reset="self">默认</button></div></div>
-      <div class="color-row"><span class="color-row-label">TA 的气泡</span><div class="color-input-wrap"><input type="color" id="colorOther" value="#dbe5f1"><button class="color-reset" data-reset="other">默认</button></div></div>
-    </div>
+  <div class="color-row"><span class="color-row-label">我的气泡</span><div class="color-input-wrap"><input type="color" id="colorSelf" value="#f1d6d6"><button class="color-reset" data-reset="self">默认</button></div></div>
+  <div class="color-swatches" id="selfSwatches"></div>
+  <div class="color-row"><span class="color-row-label">TA 的气泡</span><div class="color-input-wrap"><input type="color" id="colorOther" value="#dbe5f1"><button class="color-reset" data-reset="other">默认</button></div></div>
+  <div class="color-swatches" id="otherSwatches"></div>
+</div>
     <div class="beautify-section-title">自定义 CSS</div>
     <div class="field-group">
       <div class="css-area">
         <textarea id="customCssInput" placeholder="粘贴自定义 CSS..."></textarea>
-        <div class="css-actions"><button class="css-apply" id="cssApplyBtn">应用 CSS</button><button id="cssClearBtn">清除</button></div>
+        <div class="css-actions"><button class="css-apply" id="cssApplyBtn">应用 CSS</button><button id="cssImportFileBtn">导入文件</button><button id="cssClearBtn">清除</button></div>
+<input type="file" id="cssImportFile" accept=".css,text/css" style="display:none;">
       </div>
     </div>
     <div class="beautify-section-title">字体</div>
@@ -922,14 +957,20 @@
     <div class="field-group">
       <div class="color-row"><span class="color-row-label">TA 回复时响一声</span><label class="switch"><input type="checkbox" id="soundToggle"><span class="switch-slider"></span></label></div>
       <div class="color-row" style="flex-direction:column;align-items:stretch;gap:10px;">
-        <span class="color-row-label" style="flex:none;">提示音样式</span>
-        <div class="style-grid" id="soundStyleGrid" style="padding:0;gap:8px;">
-          <button class="style-chip" data-sound="ding">叮</button>
-          <button class="style-chip" data-sound="dong">咚</button>
-          <button class="style-chip" data-sound="ling">铃</button>
-          <button class="style-chip" data-sound="bee">哔</button>
-        </div>
-      </div>
+  <span class="color-row-label" style="flex:none;">提示音样式</span>
+  <div class="sound-grid" id="soundStyleGrid" style="padding:0;">
+    <button class="sound-chip" data-sound="ding">叮</button>
+    <button class="sound-chip" data-sound="dong">咚</button>
+    <button class="sound-chip" data-sound="ling">铃</button>
+    <button class="sound-chip" data-sound="bee">哔</button>
+    <button class="sound-chip" data-sound="chime">风铃</button>
+    <button class="sound-chip" data-sound="drop">水滴</button>
+    <button class="sound-chip" data-sound="bubble">气泡</button>
+    <button class="sound-chip" data-sound="bell">铃铛</button>
+    <button class="sound-chip" data-sound="twinkle">闪音</button>
+    <button class="sound-chip" data-sound="crystal">水晶</button>
+  </div>
+</div>
     </div>
     <div class="actions"><button class="btn-primary" id="beautifyResetBtn">恢复默认美化</button></div>
     <div class="tip">所有美化设置会即时生效，并保存在本机。</div>
@@ -952,7 +993,8 @@
     </div>
     <div class="beautify-section-title">互动</div>
     <div class="field-group">
-      <div class="stepper-row"><span class="stepper-label">已读不回概率</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="readNoReply" data-dir="-1">−</button><span class="stepper-value" id="stepperReadNoReplyVal">15</span><button class="stepper-btn" data-step="readNoReply" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+      <div class="stepper-row"><span class="stepper-label">引用回复概率<span class="sub">触发后，TA 会引用你的上一句话回复</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="quote" data-dir="-1">−</button><span class="stepper-value" id="stepperQuoteVal">15</span><button class="stepper-btn" data-step="quote" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+<div class="stepper-row"><span class="stepper-label">已读不回概率</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="readNoReply" data-dir="-1">−</button><span class="stepper-value" id="stepperReadNoReplyVal">15</span><button class="stepper-btn" data-step="readNoReply" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
 <div class="stepper-row"><span class="stepper-label">接受听歌邀请</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="invite" data-dir="-1">−</button><span class="stepper-value" id="stepperInviteVal">80</span><button class="stepper-btn" data-step="invite" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
 <div class="stepper-row"><span class="stepper-label">TA 主动邀请听歌</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="taInvite" data-dir="-1">−</button><span class="stepper-value" id="stepperTaInviteVal">10</span><button class="stepper-btn" data-step="taInvite" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
     </div>
@@ -964,8 +1006,18 @@
     <div class="field-group">
       <div class="stepper-row"><span class="stepper-label">拼字卡概率</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="concat" data-dir="-1">−</button><span class="stepper-value" id="stepperConcatVal">15</span><button class="stepper-btn" data-step="concat" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
       <div class="stepper-row"><span class="stepper-label">拼几张</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="concatCount" data-dir="-1">−</button><span class="stepper-value" id="stepperConcatCountVal">3</span><button class="stepper-btn" data-step="concatCount" data-dir="1">+</button><span class="stepper-unit">张</span></div></div>
+<div class="stepper-row"><span class="stepper-label">强制语法概率<span class="sub">越高越像正经情话（我+想+你），越低越胡言乱语（宝贝+吃醋+啦）</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="strictGrammar" data-dir="-1">−</button><span class="stepper-value" id="stepperStrictGrammarVal">80</span><button class="stepper-btn" data-step="strictGrammar" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
       <div class="color-row"><span class="color-row-label">融合全部字卡</span><label class="switch"><input type="checkbox" id="concatUseAllToggle"><span class="switch-slider"></span></label></div>
-    </div>
+</div>
+
+<div class="beautify-section-title">信件</div>
+<div class="field-group">
+  <div class="stepper-row"><span class="stepper-label">TA 寄信概率<span class="sub">TA 主动给你写信的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="letter" data-dir="-1">−</button><span class="stepper-value" id="stepperLetterVal">10</span><button class="stepper-btn" data-step="letter" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">信件包含字卡张数<span class="sub">信件正文由几张字卡拼成</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="letterCount" data-dir="-1">−</button><span class="stepper-value" id="stepperLetterCountVal">3</span><button class="stepper-btn" data-step="letterCount" data-dir="1">+</button><span class="stepper-unit">张</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 回信最快<span class="sub">写完信后，最快多少小时收到回信</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="letterMin" data-dir="-1">−</button><span class="stepper-value" id="stepperLetterMinVal">2</span><button class="stepper-btn" data-step="letterMin" data-dir="1">+</button><span class="stepper-unit">小时</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 回信最慢<span class="sub">写完信后，最慢多少小时收到回信</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="letterMax" data-dir="-1">−</button><span class="stepper-value" id="stepperLetterMaxVal">24</span><button class="stepper-btn" data-step="letterMax" data-dir="1">+</button><span class="stepper-unit">小时</span></div></div>
+  <div class="color-row"><span class="color-row-label">信件包含词典字卡<span class="sub">开启后，信件内容可以抽取词典的词</span></span><label class="switch"><input type="checkbox" id="letterUseDictToggle"><span class="switch-slider"></span></label></div>
+</div>
     <div class="beautify-section-title">防复读</div>
     <div class="field-group">
       <div class="stepper-row"><span class="stepper-label">冷却长度</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="cooldown" data-dir="-1">−</button><span class="stepper-value" id="stepperCooldownVal">5</span><button class="stepper-btn" data-step="cooldown" data-dir="1">+</button><span class="stepper-unit">条</span></div></div>
@@ -1036,16 +1088,44 @@
       <div id="taPatList" style="padding:4px 14px 20px;"></div>
     </div>
     <div id="viewDict" style="display:none;">
-      <div class="emoji-add-row">
-        <input type="text" id="dictInput" placeholder="输入字/词，逗号分隔可批量。例：我,你,想,抱抱" maxlength="200">
-        <button id="dictAddBtn">添加</button>
-      </div>
-      <div class="lib-toolbar" style="padding:4px 14px;">
-        <button class="toolbar-btn" id="dictClearBtn">清空词典</button>
-      </div>
-      <div id="dictList" style="padding:4px 14px 20px;"></div>
-    </div>
+  <div class="lib-tabs" id="dictTabs">
+    <button class="lib-tab active" data-dicttab="all">全部</button>
+    <button class="lib-tab" data-dicttab="subject">主语</button>
+    <button class="lib-tab" data-dicttab="verb">动作</button>
+    <button class="lib-tab" data-dicttab="object">宾语</button>
+    <button class="lib-tab" data-dicttab="modifier">修饰</button>
+    <button class="lib-tab" data-dicttab="tone">语气</button>
+  </div>
+  <div class="content-search" style="padding:10px 14px 0;"><input type="text" id="dictSearchInput" placeholder="搜索词典里的词…" autocomplete="off"></div>
+  <div class="emoji-add-row">
+    <input type="text" id="dictInput" placeholder="输入字/词，逗号分隔可批量。例：我,你,想,抱抱" maxlength="200">
+    <button id="dictAddBtn">添加</button>
+  </div>
+  <div class="lib-toolbar" style="padding:4px 14px;">
+    <button class="toolbar-btn" id="dictClearBtn">清空当前分类</button>
+  </div>
+  <div id="dictList" style="padding:4px 14px 20px;"></div>
+</div>
     <div id="viewSystem" style="display:none;"></div>
+  </div>
+</section>
+
+<section class="page" id="mailboxPage">
+  <header class="page-header"><button class="icon-btn" id="mailboxBack" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="page-title">信箱</div></header>
+  <div class="page-body">
+    <div class="lib-tabs" id="mailTabs">
+      <button class="lib-tab active" data-mailtab="inbox">收到的信</button>
+      <button class="lib-tab" data-mailtab="outbox">寄出的信</button>
+      <button class="lib-tab" data-mailtab="write">写封信</button>
+      <button class="lib-tab" data-mailtab="settings">信件数据</button>
+    </div>
+    <div id="mailInbox" style="padding:10px 14px 20px;"></div>
+    <div id="mailOutbox" style="display:none;padding:10px 14px 20px;"></div>
+    <div id="mailWrite" style="display:none;padding:14px;">
+      <textarea id="mailWriteContent" placeholder="写一封信给 TA..." style="width:100%;min-height:200px;padding:14px;border:1px solid var(--accent);border-radius:12px;background:#fff;font-size:14px;line-height:1.7;font-family:inherit;color:var(--text);outline:none;resize:vertical;"></textarea>
+      <div class="actions" style="padding:14px 0 0;"><button class="btn-primary" id="mailSendBtn">寄出</button></div>
+    </div>
+    <div id="mailSettings" style="display:none;padding:14px;"><div class="tip" style="text-align:left;padding:0;">TA 寄信概率、回信时间等设置，请去「设置 → 聊天回复设置 → 信件」里修改。</div></div>
   </div>
 </section>
 
@@ -1366,9 +1446,11 @@ var DEFAULT_READ_BACK_REPLIES = [
     voiceChance: 15,
     redpacketChance: 5,
     readNoReplyChance: 15,
-inviteChance: 80,
+    inviteChance: 80,
 taInviteChance: 10,
-    concatChance: 15, concatCount: 3, concatUseAll: false,
+quoteChance: 15,
+    concatChance: 15, concatCount: 3, concatUseAll: false, strictGrammar: 80,
+letterChance: 10, letterCount: 3, letterMin: 2, letterMax: 24, letterUseDict: false,
     cardCooldown: 5,
     bubbleStyle: 'rounded',
     colorSelf: DEFAULT_SELF_COLOR, colorOther: DEFAULT_OTHER_COLOR,
@@ -1386,13 +1468,16 @@ lockTimeColor: '#ffffff', lockTimeSize: '64px',
   var proactive = { lastOpenTime: 0, lastPeriod: '', lastProactiveTime: 0, lastChatTime: 0 };
   var signInData = { lastSignDate: '' };
   var messages = [];
+var letters = [];
   var cards = null;
   var taStickers = [];
   var userStickers = [];
   var myPats = [];
   var taPats = [];
   var libTab = 'text';
-  var libSearchKeyword = '';
+var dictTab = 'all';
+var libSearchKeyword = '';
+var dictSearchKeyword = '';
   var activeBigGroup = '';
   var replyTimer = null;
   var pendingNoReplyTimer = null;
@@ -1407,6 +1492,7 @@ lockTimeColor: '#ffffff', lockTimeSize: '64px',
   var rpActionId = null;
 var actionMsgIdx = -1;
 var musicPlaylist = [];
+var mailTab = 'inbox';          
 function loadMusicPlaylist(){
   try{
     var raw = localStorage.getItem(MUSIC_KEY);
@@ -1445,11 +1531,18 @@ var musicTimerStart = 0;
     }catch(e){}
   }
   function loadMessages(){
-    try{
-      var raw = localStorage.getItem(MSG_KEY);
-      if(raw){ var d = JSON.parse(raw); if(Array.isArray(d)) messages = d.filter(function(m){ return m && (typeof m.text === 'string' || m.type); }); }
-    }catch(e){}
-  }
+  try{
+    var raw = localStorage.getItem(MSG_KEY);
+    if(raw){ var d = JSON.parse(raw); if(Array.isArray(d)) messages = d.filter(function(m){ return m && (typeof m.text === 'string' || m.type); }); }
+  }catch(e){}
+}
+function loadLetters(){
+  try{
+    var raw = localStorage.getItem('chat_letters_v1');
+    if(raw){ var d = JSON.parse(raw); if(Array.isArray(d)) letters = d.filter(function(l){ return l && typeof l.text === 'string'; }); }
+  }catch(e){}
+}
+function saveLetters(){ safeSetItem('chat_letters_v1', JSON.stringify(letters)); }
   function loadCards(){
     try{
       var raw = localStorage.getItem(CARDS_KEY);
@@ -1524,9 +1617,15 @@ var musicTimerStart = 0;
       text: [],
       emoji: DEFAULT_EMOJIS.map(function(e){ return { value: e, enabled: true }; }),
       sticker: [],
-      emoticon: [],
-      dict: [],
-      system: {
+emoticon: [],
+dict: {
+  subject: ['我','你','宝宝','亲爱的','我们','他','她'],
+  verb: ['想','爱','抱抱','亲亲','等','陪','看','哄','疼','保护'],
+  object: ['你','我','抱抱','小脸','脑袋','手手','心','命','小嘴','眼睛'],
+  modifier: ['好','超级','偷偷','一直','特别','非常','有点','真的','最','快','慢慢','轻轻'],
+  tone: ['呀','啦','嘛','哦','呢','啊','吧','好不好','对不对','可以吗','行不行']
+},
+system: {
         love: DEFAULT_LOVES.slice(),
         redpacket: DEFAULT_RP_REPLIES.slice(),
         readback: DEFAULT_READ_BACK_REPLIES.slice(),
@@ -1545,7 +1644,20 @@ rejectedByMe: DEFAULT_REJECTED_BY_ME_REPLIES.slice(),
     if(!Array.isArray(d.emoji)) d.emoji = DEFAULT_EMOJIS.map(function(e){ return { value: e, enabled: true }; });
     if(!Array.isArray(d.sticker)) d.sticker = [];
     if(!Array.isArray(d.emoticon)) d.emoticon = [];
-    if(!Array.isArray(d.dict)) d.dict = [];
+    if(!d.dict || typeof d.dict !== 'object' || Array.isArray(d.dict)){
+  var oldDict = Array.isArray(d.dict) ? d.dict : [];
+  d.dict = { subject: oldDict.slice(), verb: [], object: [], modifier: [], tone: [] };
+}
+['subject','verb','object','modifier','tone'].forEach(function(k){ if(!Array.isArray(d.dict[k])) d.dict[k] = []; });
+// 如果新词典是空的，自动塞入一套默认词
+var isDictEmpty = d.dict.subject.length === 0 && d.dict.verb.length === 0 && d.dict.object.length === 0 && d.dict.modifier.length === 0 && d.dict.tone.length === 0;
+if(isDictEmpty){
+  d.dict.subject = ['我','你','宝宝','亲爱的','我们','他','她'];
+  d.dict.verb = ['想','爱','抱抱','亲亲','等','陪','看','哄','疼','保护'];
+  d.dict.object = ['你','我','抱抱','小脸','脑袋','手手','心','命','小嘴','眼睛'];
+  d.dict.modifier = ['好','超级','偷偷','一直','特别','非常','有点','真的','最','快','慢慢','轻轻'];
+  d.dict.tone = ['呀','啦','嘛','哦','呢','啊','吧','好不好','对不对','可以吗','行不行'];
+}
     if(!d.system) d.system = { love: DEFAULT_LOVES.slice(), redpacket: DEFAULT_RP_REPLIES.slice(), readback: DEFAULT_READ_BACK_REPLIES.slice(), rejectListen: DEFAULT_REJECT_LISTEN_REPLIES.slice(), rejectedByMe: DEFAULT_REJECTED_BY_ME_REPLIES.slice(), proactive: [] };
     if(!Array.isArray(d.system.love)) d.system.love = DEFAULT_LOVES.slice();
     if(!Array.isArray(d.system.redpacket) || d.system.redpacket.length === 0) d.system.redpacket = DEFAULT_RP_REPLIES.slice();
@@ -1569,6 +1681,7 @@ if(!Array.isArray(d.system.rejectedByMe) || d.system.rejectedByMe.length === 0) 
         if(!sg.id) sg.id = uid('sg');
         if(!sg.name) sg.name = '默认';
         if(!Array.isArray(sg.items)) sg.items = [];
+if(typeof sg.keyword !== 'string') sg.keyword = '';
         sg.items = sg.items.filter(function(s){ return typeof s === 'string' && s.trim(); });
       });
     });
@@ -1633,55 +1746,44 @@ if(!Array.isArray(d.system.rejectedByMe) || d.system.rejectedByMe.length === 0) 
 
   /* 提示音 */
   var audioCtx = null;
-  function playDing(){
-    if(!person.soundEnabled) return;
-    try{ if(navigator.vibrate) navigator.vibrate(30); }catch(e){}
-    try{
-      if(!audioCtx){ var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return; audioCtx = new AC(); }
-      var doPlay = function(){
-        var now = audioCtx.currentTime;
-        var osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-        var st = person.soundType || 'ding';
-        var dur = 0.2;
-        if(st === 'dong'){
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(800, now);
-          osc.frequency.exponentialRampToValueAtTime(300, now + 0.05);
-          gain.gain.setValueAtTime(0.8, now);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.15);
-          dur = 0.15;
-        } else if(st === 'ling'){
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(2200, now);
-          osc.frequency.exponentialRampToValueAtTime(1800, now + 0.25);
-          gain.gain.setValueAtTime(0.8, now);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
-          dur = 0.35;
-        } else if(st === 'bee'){
-          osc.type = 'square';
-          osc.frequency.setValueAtTime(1200, now);
-          gain.gain.setValueAtTime(0.8, now);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
-          dur = 0.08;
-        } else {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(1400, now);
-          osc.frequency.exponentialRampToValueAtTime(2600, now + 0.04);
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.exponentialRampToValueAtTime(0.8, now + 0.01);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
-          dur = 0.2;
-        }
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.start(now); osc.stop(now + dur);
-      };
-      if(audioCtx.state === 'suspended') {
-        audioCtx.resume().then(doPlay).catch(function(e){});
-      } else {
-        doPlay();
+function playDing(){
+  if(!person.soundEnabled) return;
+  try{ if(navigator.vibrate) navigator.vibrate(30); }catch(e){}
+  try{
+    if(!audioCtx){ var AC = window.AudioContext || window.webkitAudioContext; if(!AC) return; audioCtx = new AC(); }
+    var doPlay = function(){
+      var now = audioCtx.currentTime;
+      var st = person.soundType || 'ding';
+      function beep(freq, start, dur, type, vol, freqEnd){
+        var osc = audioCtx.createOscillator();
+        var g = audioCtx.createGain();
+        osc.type = type || 'sine';
+        osc.frequency.setValueAtTime(freq, now + start);
+        if(freqEnd) osc.frequency.exponentialRampToValueAtTime(freqEnd, now + start + dur);
+        g.gain.setValueAtTime(0.0001, now + start);
+        g.gain.exponentialRampToValueAtTime(vol || 0.7, now + start + 0.008);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + start + dur);
+        osc.connect(g); g.connect(audioCtx.destination);
+        osc.start(now + start); osc.stop(now + start + dur + 0.05);
       }
-    }catch(e){}
-  }
+      if(st === 'dong'){ beep(700, 0, 0.18, 'triangle', 0.75, 220); }
+      else if(st === 'ling'){ beep(2100, 0, 0.5, 'sine', 0.55, 1700); beep(2800, 0, 0.4, 'sine', 0.25, 2400); }
+      else if(st === 'bee'){ beep(1200, 0, 0.08, 'square', 0.55); }
+      else if(st === 'chime'){ beep(1318, 0, 1.2, 'sine', 0.5, 1280); beep(1760, 0.04, 1.1, 'sine', 0.4, 1700); beep(2637, 0.08, 1.0, 'sine', 0.3, 2500); }
+      else if(st === 'drop'){ beep(900, 0, 0.35, 'sine', 0.7, 1800); }
+      else if(st === 'bubble'){ beep(500, 0, 0.22, 'sine', 0.7, 1100); }
+      else if(st === 'bell'){ beep(1568, 0, 1.0, 'sine', 0.55, 1500); beep(2093, 0, 0.9, 'sine', 0.4, 2000); beep(3136, 0, 0.6, 'sine', 0.2, 3000); }
+      else if(st === 'twinkle'){ beep(1400, 0, 0.18, 'sine', 0.6); beep(1900, 0.09, 0.22, 'sine', 0.55); beep(2500, 0.18, 0.35, 'sine', 0.5); }
+      else if(st === 'crystal'){ beep(2600, 0, 0.9, 'sine', 0.5, 2200); beep(3400, 0, 0.7, 'sine', 0.25, 2900); }
+      else { beep(1400, 0, 0.25, 'sine', 0.65, 2400); }
+    };
+    if(audioCtx.state === 'suspended') {
+      audioCtx.resume().then(doPlay).catch(function(e){});
+    } else {
+      doPlay();
+    }
+  }catch(e){}
+}
 
   /* 弹窗 */
   function showDialog(title, body, buttons){
@@ -1973,7 +2075,16 @@ if(m.type === 'redpacket'){
                '</div>' +
              '</div>';
     }
-    if(m.type === 'sticker') return '<div class="bubble bubble-sticker">' + quoteHTML + '<img src="' + esc(m.text) + '" alt="表情"></div>';
+    if(m.type === 'letter'){
+  return '<div class="bubble bubble-letter" style="background:transparent!important;padding:0;">' + quoteHTML + 
+    '<div class="letter-card-wrap"><div class="letter-card" data-letter-id="' + (m.letterId || '') + '">' +
+      '<div class="letter-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>' + 
+      (m.me ? '你寄出的信' : '来自 ' + esc(person.name || 'TA') + ' 的信') + '</div>' +
+      '<div class="letter-body">' + esc(m.text || '') + '</div>' +
+      '<div class="letter-status">' + (m.done ? '已送达' : '待送达') + '</div>' +
+    '</div></div></div>';
+}
+if(m.type === 'sticker') return '<div class="bubble bubble-sticker">' + quoteHTML + '<img src="' + esc(m.text) + '" alt="表情"></div>';
     if(m.type === 'emoji') return '<div class="bubble bubble-emoji">' + quoteHTML + esc(m.text) + '</div>';
     return '<div class="bubble style-' + style + '">' + quoteHTML + esc(m.text) + '</div>';
   }
@@ -2079,7 +2190,7 @@ var musicTag = m.music ? '<span class="music-tag">🎵</span>' : '';
   /* ========== 字卡库渲染 ========== */
   function renderLib(){
     try{
-      var tabs = document.querySelectorAll('.lib-tab');
+      var tabs = document.querySelectorAll('.lib-tab[data-tab]');
       Array.prototype.forEach.call(tabs, function(t){ t.classList.toggle('active', t.dataset.tab === libTab); });
 
       $('viewText').style.display = (libTab === 'text') ? '' : 'none';
@@ -2135,63 +2246,68 @@ var musicTag = m.music ? '<span class="music-tag">🎵</span>' : '';
       var kw = (libSearchKeyword || '').trim().toLowerCase();
 
       var html = '';
-      html += '<div class="content-title">' +
-                '<span class="title-name">' + esc(big.name) + '</span>' +
-                '<span class="title-actions">' +
-                  '<button data-rename-big="' + big.id + '">重命名</button>' +
-                  '<button data-del-big="' + big.id + '">删除</button>' +
-                '</span>' +
-              '</div>';
-      html += '<div class="biggroup-keyword">' +
-                '<span class="biggroup-keyword-label">关键词</span>' +
-                '<input type="text" data-big-keyword="' + big.id + '" value="' + esc(big.keyword || '') + '" placeholder="多个用逗号分隔，留空不参与" maxlength="80">' +
-              '</div>';
+html += '<div class="content-title">' +
+          '<span class="title-name">' + esc(big.name) + '</span>' +
+          '<span class="title-actions">' +
+            '<button data-rename-big="' + big.id + '">重命名</button>' +
+            '<button data-del-big="' + big.id + '">删除</button>' +
+          '</span>' +
+        '</div>';
 
-      if(!big.groups.length){
-        html += '<div class="lib-empty">还没有小分组，去下面新建一个吧。</div>';
-      } else {
-        big.groups.forEach(function(sg){
-          var items = sg.items.filter(function(it){
-            if(!kw) return true;
-            return String(it).toLowerCase().indexOf(kw) > -1;
-          });
-          if(kw && items.length === 0 && sg.name.toLowerCase().indexOf(kw) === -1) return;
-          var isOpen = kw ? true : false;
-          html += '<div class="subgroup-card' + (isOpen ? ' open' : '') + '" data-sub="' + sg.id + '" data-big="' + big.id + '">' +
-                    '<div class="subgroup-head" data-toggle="' + sg.id + '">' +
-                      '<span class="subgroup-name" data-rename-sub="' + sg.id + '" data-big-id="' + big.id + '">' + esc(sg.name) + '</span>' +
-                      '<span class="subgroup-count">' + items.length + '</span>' +
-                      '<span class="subgroup-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>' +
-                    '</div>' +
-                    '<div class="subgroup-body">' +
-                      items.map(function(txt){
-                        var idx = sg.items.indexOf(txt);
-                        return '<div class="card-item">' +
-                                 '<span class="card-text" data-edit-card="' + big.id + '" data-edit-sub="' + sg.id + '" data-edit-idx="' + idx + '">' + esc(txt) + '</span>' +
-                                 '<button class="card-del" data-big-del="' + big.id + '" data-sub-del="' + sg.id + '" data-idx="' + idx + '">' +
-                                   '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>' +
-                                 '</button>' +
-                               '</div>';
-                      }).join('') +
-                      '<form class="subgroup-add" data-add-item="' + sg.id + '" data-big-id="' + big.id + '" autocomplete="off">' +
-                        '<input type="text" placeholder="添加一张字卡" maxlength="120">' +
-                        '<button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>' +
-                      '</form>' +
-                      '<div class="subgroup-foot"><button type="button" class="foot-del" data-del-sub="' + sg.id + '" data-big-id="' + big.id + '">删除小分组</button></div>' +
-                    '</div>' +
-                  '</div>';
-        });
-      }
+// 新建小分组表单，提到大分类标题下面
+html += '<div class="subgroup-card" style="margin:6px 12px;">' +
+          '<div class="subgroup-head" style="cursor:default;"><span class="subgroup-name">+ 新建小分组</span></div>' +
+          '<form class="subgroup-add" data-add-subgroup="' + big.id + '" style="border-top:1px dashed var(--line);" autocomplete="off">' +
+            '<input type="text" placeholder="小分组名称" maxlength="20">' +
+            '<button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>' +
+          '</form>' +
+        '</div>';
 
-      html += '<div class="subgroup-card">' +
-                '<div class="subgroup-head" style="cursor:default;"><span class="subgroup-name">+ 新建小分组</span></div>' +
-                '<form class="subgroup-add" data-add-subgroup="' + big.id + '" style="border-top:1px dashed var(--line);" autocomplete="off">' +
-                  '<input type="text" placeholder="小分组名称" maxlength="20">' +
+if(!big.groups.length){
+  html += '<div class="lib-empty">还没有小分组，去上面新建一个吧。</div>';
+} else {
+  big.groups.forEach(function(sg){
+    var items = sg.items.filter(function(it){
+      if(!kw) return true;
+      return String(it).toLowerCase().indexOf(kw) > -1;
+    });
+    if(kw && items.length === 0 && sg.name.toLowerCase().indexOf(kw) === -1) return;
+    var isOpen = kw ? true : false;
+    html += '<div class="subgroup-card' + (isOpen ? ' open' : '') + '" data-sub="' + sg.id + '" data-big="' + big.id + '">' +
+              '<div class="subgroup-head" data-toggle="' + sg.id + '">' +
+                '<span class="subgroup-name" data-rename-sub="' + sg.id + '" data-big-id="' + big.id + '">' + esc(sg.name) + '</span>' +
+                '<span class="subgroup-count">' + items.length + '</span>' +
+                '<span class="subgroup-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>' +
+              '</div>' +
+              '<div class="subgroup-body">' +
+                // 关键词输入框放这里
+                '<div style="display:flex;align-items:center;gap:8px;padding:10px 14px 4px;border-bottom:1px dashed var(--line);">' +
+                  '<span style="flex:0 0 auto;font-size:12px;color:var(--light-text);">关键词</span>' +
+                  '<input type="text" data-sub-keyword="' + sg.id + '" data-big-id="' + big.id + '" value="' + esc(sg.keyword || '') + '" placeholder="多个用逗号分隔，留空不参与" maxlength="80" style="flex:1;min-width:0;height:32px;padding:0 10px;border:1px solid var(--accent);border-radius:8px;background:#fff;font-size:12.5px;font-family:inherit;color:var(--text);outline:none;">' +
+                '</div>' +
+                // 添加字卡表单放这里
+                '<form class="subgroup-add" data-add-item="' + sg.id + '" data-big-id="' + big.id + '" autocomplete="off" style="border-top:none;">' +
+                  '<input type="text" placeholder="添加一张字卡" maxlength="120">' +
                   '<button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>' +
                 '</form>' +
-              '</div>';
+                // 字卡列表放这里
+                items.map(function(txt){
+                  var idx = sg.items.indexOf(txt);
+                  return '<div class="card-item">' +
+                           '<span class="card-text" data-edit-card="' + big.id + '" data-edit-sub="' + sg.id + '" data-edit-idx="' + idx + '">' + esc(txt) + '</span>' +
+                           '<button class="card-del" data-big-del="' + big.id + '" data-sub-del="' + sg.id + '" data-idx="' + idx + '">' +
+                             '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>' +
+                           '</button>' +
+                         '</div>';
+                }).join('') +
+                // 删除小分组放底部
+                '<div class="subgroup-foot"><button type="button" class="foot-del" data-del-sub="' + sg.id + '" data-big-id="' + big.id + '">删除小分组</button></div>' +
+              '</div>' +
+            '</div>';
+  });
+}
 
-      content.innerHTML = html;
+content.innerHTML = html;
     }catch(e){ console.error('renderBigGroups', e); }
   }
 
@@ -2218,16 +2334,28 @@ var musicTag = m.music ? '<span class="music-tag">🎵</span>' : '';
     }).join('');
   }
   function renderDict(){
-    var box = $('dictList');
-    if(!box) return;
-    if(!cards.dict || !cards.dict.length){
-      box.innerHTML = '<div class="lib-empty">词典为空。<br>上面输入框添加字/词，例：我,你,想,抱抱。<br>拼字卡会从这里抽。</div>';
-      return;
-    }
-    box.innerHTML = '<div class="dict-grid">' + cards.dict.map(function(w, i){
-      return '<span class="dict-item">' + esc(w) + '<button class="dict-item-del" data-dict-del="' + i + '">×</button></span>';
+  var box = $('dictList');
+  if(!box) return;
+  var labelMap = { all:'全部', subject:'主语', verb:'动作', object:'宾语', modifier:'修饰', tone:'语气' };
+  var keys = (dictTab === 'all') ? ['subject','verb','object','modifier','tone'] : [dictTab];
+  var kw = (dictSearchKeyword || '').trim().toLowerCase();
+  var html = '';
+  
+  keys.forEach(function(k){
+    var arr = cards.dict[k] || [];
+    var items = arr.filter(function(w){ if(!kw) return true; return String(w).toLowerCase().indexOf(kw) > -1; });
+    if(!items.length && !kw) return;
+    
+    var label = labelMap[k] || k;
+    html += '<div style="padding:10px 0 4px;font-size:13px;font-weight:600;color:var(--primary);">' + label + ' (' + items.length + ')</div>';
+    html += '<div class="dict-grid">' + items.map(function(w, i){ 
+      return '<span class="dict-item">' + esc(w) + '<button class="dict-item-del" data-dict-del="' + k + '" data-idx="' + arr.indexOf(w) + '">×</button></span>'; 
     }).join('') + '</div>';
-  }
+  });
+  
+  if(!html) box.innerHTML = '<div class="lib-empty">词典为空。<br>上面输入框添加字/词吧。</div>';
+  else box.innerHTML = html;
+}
   function renderSystemView(){
     var v = $('viewSystem');
     if(!v) return;
@@ -2411,7 +2539,17 @@ html += '<div class="subgroup-card">' +
     }
 
     var tab = e.target.closest('.lib-tab');
-    if(tab){ libTab = tab.dataset.tab; renderLib(); return; }
+if(tab){ 
+  if(tab.dataset.dicttab){
+    dictTab = tab.dataset.dicttab; 
+    Array.prototype.forEach.call(document.querySelectorAll('.lib-tab[data-dicttab]'), function(t){ t.classList.toggle('active', t.dataset.dicttab === dictTab); }); 
+    renderDict(); 
+  } else if(tab.dataset.tab){
+  libTab = tab.dataset.tab; 
+  renderLib(); 
+}
+  return; 
+}
 
     var toggle = e.target.closest('[data-toggle]');
     if(toggle){
@@ -2510,12 +2648,13 @@ var rbDel = e.target.closest('[data-readback-del]');
     if(proDel){ var pi = parseInt(proDel.dataset.proDel, 10); var ii = parseInt(proDel.dataset.idx, 10); if(cards.system.proactive[pi]) cards.system.proactive[pi].items.splice(ii, 1); saveCards(); renderSystemView(); return; }
 
     var dictDel = e.target.closest('[data-dict-del]');
-    if(dictDel){
-      var di = parseInt(dictDel.dataset.dictDel, 10);
-      cards.dict.splice(di, 1);
-      saveCards(); renderDict();
-      return;
-    }
+if(dictDel){
+  var dKey = dictDel.dataset.dictDel;
+  var dIdx = parseInt(dictDel.dataset.idx, 10);
+  if(cards.dict[dKey]) cards.dict[dKey].splice(dIdx, 1);
+  saveCards(); renderDict();
+  return;
+}
 
     var d1 = e.target.closest('[data-my-pat-del]');
     if(d1){ var i1 = parseInt(d1.dataset.myPatDel, 10); myPats.splice(i1, 1); saveMyPats(); renderMyPatList(); return; }
@@ -2619,20 +2758,29 @@ if(f.matches('[data-add-readback]')){
 
   /* 关键词输入 */
   document.addEventListener('input', function(e){
-    var inp = e.target.closest('[data-big-keyword]');
-    if(inp){
-      var id = inp.dataset.bigKeyword;
-      var big = cards.text.filter(function(b){ return b.id === id; })[0];
-      if(big){ big.keyword = inp.value; saveCards(); }
-    }
-  });
+  var inp = e.target.closest('[data-sub-keyword]');
+  if(inp){
+    var sgId = inp.dataset.subKeyword;
+    var bid = inp.dataset.bigId;
+    var big = cards.text.filter(function(b){ return b.id === bid; })[0];
+    if(!big) return;
+    var sg = big.groups.filter(function(g){ return g.id === sgId; })[0];
+    if(sg){ sg.keyword = inp.value; saveCards(); }
+  }
+});
 
   if($('libSearchInput')){
-    $('libSearchInput').addEventListener('input', function(){
-      libSearchKeyword = $('libSearchInput').value || '';
-      renderLib();
-    });
-  }
+  $('libSearchInput').addEventListener('input', function(){
+    libSearchKeyword = $('libSearchInput').value || '';
+    renderLib();
+  });
+}
+if($('dictSearchInput')){
+  $('dictSearchInput').addEventListener('input', function(){
+    dictSearchKeyword = $('dictSearchInput').value || '';
+    renderDict();
+  });
+}
 
   if($('emojiAddBtn')) $('emojiAddBtn').onclick = function(){
     var inp = $('emojiAddInput');
@@ -2777,33 +2925,68 @@ if(f.matches('[data-add-readback]')){
     return pool[Math.floor(Math.random() * pool.length)];
   }
   function getConcatPool(){
-    var pool = [];
-    if(cards.dict && cards.dict.length) pool = cards.dict.slice();
-    if(person.concatUseAll){
-      var all = allTextCards();
-      pool = pool.concat(all);
-    }
-    if(!pool.length) pool = allTextCards();
-    return pool;
+  var pool = [];
+  if(cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
+    ['subject','verb','object','modifier','tone'].forEach(function(k){
+      (cards.dict[k] || []).forEach(function(w){ pool.push(w); });
+    });
   }
+  if(person.concatUseAll){
+    var all = allTextCards();
+    pool = pool.concat(all);
+  }
+  if(!pool.length) pool = allTextCards();
+  return pool;
+}
 
   function buildConcatMsg(){
-    var pool = getConcatPool();
-    if(!pool.length) return null;
-    var n = person.concatCount || 3;
-    if(n < 2) n = 2; if(n > 5) n = 5;
+  var n = person.concatCount || 3;
+if(n < 2) n = 2; if(n > 10) n = 10;
+  var parts = [];
+  var strict = Math.random() * 100 < (person.strictGrammar || 80);
+  
+  if(strict && cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
+    var countMap = { 
+      2: [['verb','object'],['subject','verb']], 
+      3: [['subject','verb','object'],['subject','verb','tone']], 
+      4: [['subject','modifier','verb','object']], 
+      5: [['subject','modifier','verb','object','tone']] 
+    };
+    var patterns = countMap[n] || [['subject','verb','object']];
+    var pattern = patterns[Math.floor(Math.random() * patterns.length)];
+    pattern.forEach(function(k){ 
+      var arr = (cards.dict[k]||[]).filter(Boolean); 
+      if(arr.length) parts.push(arr[Math.floor(Math.random()*arr.length)]); 
+    });
+  }
+  
+  // 如果严格拼字不够，或者不严格，就自由补全
+  if(parts.length < n) {
+    var pool = [];
+    if(cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
+      ['subject','verb','object','modifier','tone'].forEach(function(k){ (cards.dict[k]||[]).forEach(function(w){ pool.push(w); }); });
+    }
+    if(person.concatUseAll){ pool = pool.concat(allTextCards()); }
+    if(!pool.length) pool = allTextCards();
+    
     var pool2 = pool.slice();
-    var parts = [];
-    for(var i=0;i<n && pool2.length;i++){
+    parts.forEach(function(p){ 
+      var idx = pool2.indexOf(p); 
+      if(idx > -1) pool2.splice(idx, 1); 
+    });
+    
+    while(parts.length < n && pool2.length){
       var idx = Math.floor(Math.random() * pool2.length);
       parts.push(pool2[idx]);
       pool2.splice(idx, 1);
     }
-    if(!parts.length) return null;
-    var text = parts.join('');
-    markRecent(text);
-    return { me:false, type:'text', text:text, time:Date.now() };
   }
+  
+  if(!parts.length) return null;
+  var text = parts.join('');
+  markRecent(text);
+  return { me:false, type:'text', text:text, time:Date.now() };
+}
 
   function buildVoiceMsg(text){
     var waves = [];
@@ -2811,10 +2994,46 @@ if(f.matches('[data-add-readback]')){
     var dur = Math.max(2, Math.min(30, Math.round(text.length * 0.3) + 2));
     return { me:false, type:'voice', text:text, time:Date.now(), waves:waves, duration:dur };
   }
-  function makeOneReply(){
-    var kw = pickKeywordGroup();
-    if(kw && Math.random() < 0.7){ markRecent(kw); return { me:false, type:'text', text:kw, time:Date.now() }; }
-    var r = Math.random() * 100;
+  function detectEmotion(text){
+  if(!text) return false;
+  var keywords = ['不舒服','生病','难受','感冒','头疼','胃疼','姨妈','哭了','难过','伤心','委屈','不开心','累','疲惫','困','痛','发烧','咳嗽'];
+  for(var i=0;i<keywords.length;i++){ if(text.indexOf(keywords[i]) > -1) return true; }
+  return false;
+}
+
+function makeOneReply(forceCare){
+  var lastUserText = '';
+  for(var i=messages.length-1;i>=0;i--){ if(messages[i].me){ lastUserText = messages[i].text || ''; break; } }
+  var isSad = forceCare || detectEmotion(lastUserText);
+  if(isSad){
+  var carePool = [];
+  cards.text.forEach(function(b){ 
+    if(b.enabled === false) return; 
+    // 检查大分组名字
+    var bigHasCare = (b.name.indexOf('关心') > -1 || b.name.indexOf('安慰') > -1 || b.name.indexOf('心疼') > -1);
+    b.groups.forEach(function(sg){ 
+      // 检查小分组名字
+      var subHasCare = (sg.name.indexOf('关心') > -1 || sg.name.indexOf('安慰') > -1 || sg.name.indexOf('心疼') > -1);
+      // 只要大分组或小分组其中一个是，就抽这个里面的字卡
+      if(bigHasCare || subHasCare) {
+        sg.items.forEach(function(it){ if(it && String(it).trim()) carePool.push(String(it).trim()); }); 
+      }
+    }); 
+  });
+    if(!carePool.length){ 
+      carePool = allTextCards().filter(function(t){ 
+        return t.indexOf('抱') > -1 || t.indexOf('乖') > -1 || t.indexOf('休息') > -1 || t.indexOf('心疼') > -1 || t.indexOf('照顾') > -1; 
+      }); 
+    }
+    if(carePool.length){ 
+      var picked = carePool[Math.floor(Math.random()*carePool.length)]; 
+      markRecent(picked); 
+      return { me:false, type:'text', text:picked, time:Date.now() }; 
+    }
+  }
+  var kw = pickKeywordGroup();
+  if(kw && Math.random() < 0.7){ markRecent(kw); return { me:false, type:'text', text:kw, time:Date.now() }; }
+  var r = Math.random() * 100;
     var cc = person.concatChance || 0;
     var vc = person.voiceChance || 0;
     var ec = person.emojiChance || 0;
@@ -2845,7 +3064,111 @@ if(f.matches('[data-add-readback]')){
     messages.forEach(function(m){ if(m.me && !m.read){ m.read = true; changed = true; } });
     if(changed){ saveMessages(); renderMessages(); }
   }
-  function startReadNoReply(){
+  function generateLetterText(useDictOnly){
+  var pool = [];
+  if(useDictOnly && cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
+    ['subject','verb','object','modifier','tone'].forEach(function(k){ (cards.dict[k]||[]).forEach(function(w){ pool.push(w); }); });
+  } else {
+    pool = allTextCards();
+  }
+  if(!pool.length) return '我想你了。';
+  var n = person.letterCount || 3;
+  if(n < 1) n = 1; if(n > 10) n = 10;
+  var parts = [];
+  var pool2 = pool.slice();
+  for(var i=0;i<n && pool2.length;i++){
+    var idx = Math.floor(Math.random() * pool2.length);
+    parts.push(pool2[idx]);
+    pool2.splice(idx, 1);
+  }
+  return parts.join('');
+}
+
+function sendTaLetter(){
+  var text = generateLetterText(person.letterUseDict);
+  var l = { id: uid('letter'), me:false, text: text, time: Date.now(), read: false, done: true };
+  letters.push(l); saveLetters();
+  var m = { me:false, type:'letter', letterId: l.id, text: text, time: Date.now(), id: uid('m') };
+  messages.push(m); saveMessages();
+  if(chatOpenNow){ appendMessage(m); playDing(); }
+  else { unreadCount++; renderHome(); showNotificationBanner(m); }
+}
+
+function sendMyLetter(text){
+  if(!text.trim()) return;
+  var l = { id: uid('letter'), me:true, text: text, time: Date.now(), read: true, done: false };
+  letters.push(l); saveLetters();
+  var m = { me:true, type:'letter', letterId: l.id, text: text, time: Date.now(), id: uid('m') };
+  messages.push(m); saveMessages();
+  if(chatOpenNow) appendMessage(m);
+  
+  // 计算延迟时间
+  var minH = person.letterMin || 2;
+  var maxH = person.letterMax || 24;
+  if(maxH < minH) maxH = minH;
+  var delayH = minH + Math.random() * (maxH - minH);
+  var delayMs = delayH * 3600 * 1000; // 转成毫秒
+  
+  // 设置延迟回信
+  setTimeout(function(){
+    var target = letters.filter(function(x){ return x.id === l.id; })[0]; 
+    if(!target) return;
+    target.done = true; saveLetters();
+    
+    var replyText = generateLetterText(person.letterUseDict);
+    var rl = { id: uid('letter'), me:false, text: replyText, time: Date.now(), read: false, done: true };
+    letters.push(rl); saveLetters();
+    
+    var rm = { me:false, type:'letter', letterId: rl.id, text: replyText, time: Date.now(), id: uid('m') };
+    messages.push(rm); saveMessages();
+    
+    if(chatOpenNow){ appendMessage(rm); playDing(); }
+    else { unreadCount++; renderHome(); showNotificationBanner(rm); }
+    renderMailbox(); // 刷新信箱页面
+  }, delayMs);
+}
+
+function openLetterModal(letterId){
+  var l = letters.filter(function(x){ return x.id === letterId; })[0]; 
+  if(!l) return;
+  if(!l.read){ l.read = true; saveLetters(); renderMailbox(); }
+  var titleText = l.me ? '你寄出的信' : ('来自 ' + (person.name || 'TA') + ' 的信');
+  var bodyHTML = '<div style="text-align:left;font-size:13px;line-height:1.7;color:var(--text);white-space:pre-wrap;max-height:300px;overflow-y:auto;padding:4px;">' + esc(l.text) + '</div>';
+  var buttons = l.me ? [{ text:'关闭', primary:true }] : [
+    { text:'提笔回信', primary:true, onClick:function(){ mailTab = 'write'; renderMailbox(); $('mailboxPage').classList.add('open'); } }, 
+    { text:'关闭' }
+  ];
+  showDialog(titleText, bodyHTML, buttons);
+}
+
+function renderMailbox(){
+  if(!$('mailboxPage')) return;
+  Array.prototype.forEach.call(document.querySelectorAll('.lib-tab[data-mailtab]'), function(t){ t.classList.toggle('active', t.dataset.mailtab === mailTab); });
+  $('mailInbox').style.display = (mailTab === 'inbox') ? '' : 'none'; 
+  $('mailOutbox').style.display = (mailTab === 'outbox') ? '' : 'none';
+  $('mailWrite').style.display = (mailTab === 'write') ? '' : 'none'; 
+  $('mailSettings').style.display = (mailTab === 'settings') ? '' : 'none';
+  
+  if(mailTab === 'inbox'){
+    var inbox = letters.filter(function(l){ return !l.me; }).slice().reverse();
+    $('mailInbox').innerHTML = inbox.length ? inbox.map(function(l){ 
+      return '<div class="letter-card" data-letter-id="' + l.id + '" style="width:100%;margin-bottom:10px;">' +
+        '<div class="letter-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>' + (l.read ? '来自 ' + esc(person.name || 'TA') : '新来信 · ' + esc(person.name || 'TA')) + '</div>' +
+        '<div class="letter-body">' + esc(l.text) + '</div>' +
+        '<div class="letter-status">' + formatTime(l.time) + '</div></div>'; 
+    }).join('') : '<div class="lib-empty">还没有收到信。</div>';
+  } else if(mailTab === 'outbox'){
+    var outbox = letters.filter(function(l){ return l.me; }).slice().reverse();
+    $('mailOutbox').innerHTML = outbox.length ? outbox.map(function(l){ 
+      return '<div class="letter-card" data-letter-id="' + l.id + '" style="width:100%;margin-bottom:10px;">' +
+        '<div class="letter-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>你寄出的信</div>' +
+        '<div class="letter-body">' + esc(l.text) + '</div>' +
+        '<div class="letter-status">' + (l.done ? '已送达' : '待送达') + ' · ' + formatTime(l.time) + '</div></div>'; 
+    }).join('') : '<div class="lib-empty">还没有寄出过信。</div>';
+  }
+}
+
+function startReadNoReply(){
     setTimeout(function(){
       markMyMessagesRead();
       var sysMsg = { type:'sys', text:'TA 已读，可能在忙没空看', time:Date.now() };
@@ -2871,16 +3194,25 @@ if(f.matches('[data-add-readback]')){
       setTimeout(markMyMessagesRead, 3000);
       setTimeout(function(){
         var maxCount = person.replyCount;
-        var count = 1 + Math.floor(Math.random() * maxCount);
-        if(count > maxCount) count = maxCount;
-        var picked = [];
-        for(var i=0;i<count;i++){ var r = makeOneReply(); if(r) picked.push(r); }
-        if(!picked.length) return;
+var count = 1 + Math.floor(Math.random() * maxCount);
+if(count > maxCount) count = maxCount;
+var picked = [];
+for(var i=0;i<count;i++){ var r = makeOneReply(false); if(r) picked.push(r); }
+if(!picked.length) return;
 
-        picked.forEach(function(m){ m.id = m.id || uid('m'); messages.push(m); });
+var lastUserMsg = null;
+for(var i=messages.length-1;i>=0;i--){ if(messages[i].me){ lastUserMsg = messages[i]; break; } }
+if(lastUserMsg && Math.random() * 100 < (person.quoteChance || 0)){
+  picked[0].quote = { me:true, text: lastUserMsg.text || '', id: lastUserMsg.id || '' };
+}
+
+picked.forEach(function(m){ m.id = m.id || uid('m'); messages.push(m); });
 /* TA 主动邀请概率 */
 if(musicPlaylist.length && Math.random() * 100 < (person.taInviteChance || 10)){
   setTimeout(function(){ taSendListenInvite(); }, 800 + Math.random() * 800);
+}
+if(Math.random() * 100 < (person.letterChance || 10)){
+  setTimeout(function(){ sendTaLetter(); }, 1500 + Math.random() * 2000);
 }
         saveMessages();
         showTyping();
@@ -3208,13 +3540,22 @@ if(musicPlaylist.length && Math.random() * 100 < (person.taInviteChance || 10)){
     else { unreadCount++; renderHome(); showNotificationBanner(sys); }
   }
   var lastAvatarClick = 0;
-  if($('headerAvatar')){
-    $('headerAvatar').addEventListener('click', function(){
-      var now = Date.now();
-      if(now - lastAvatarClick < 300){ lastAvatarClick = 0; doPatTa(); }
-      else { lastAvatarClick = now; }
-    });
-  }
+if($('headerAvatar')){
+  $('headerAvatar').addEventListener('click', function(){
+    var now = Date.now();
+    var av = $('headerAvatar');
+    if(now - lastAvatarClick < 350){
+      lastAvatarClick = 0;
+      av.classList.remove('pat-shake');
+      void av.offsetWidth;
+      av.classList.add('pat-shake');
+      setTimeout(function(){ av.classList.remove('pat-shake'); }, 800);
+      setTimeout(function(){ doPatTa(); }, 180);
+    } else {
+      lastAvatarClick = now;
+    }
+  });
+}
   if($('stickerTabs')){
     $('stickerTabs').addEventListener('click', function(e){
       var tab = e.target.closest('.sticker-tab');
@@ -3231,20 +3572,27 @@ if(musicPlaylist.length && Math.random() * 100 < (person.taInviteChance || 10)){
     myPats.push(v); saveMyPats(); renderMyPatList(); inp.value = '';
   };
   if($('dictAddBtn')) $('dictAddBtn').onclick = function(){
-    var inp = $('dictInput');
-    var v = inp.value.trim(); if(!v) return;
-    var items = v.split(/[,，\s]+/).filter(Boolean);
-    items.forEach(function(it){
-      if(cards.dict.indexOf(it) === -1) cards.dict.push(it);
-    });
-    saveCards(); renderDict(); inp.value = '';
-  };
-  if($('dictClearBtn')) $('dictClearBtn').onclick = function(){
-    showDialog('清空词典', '确定要清空整个词典吗？此操作不可恢复。', [
-      { text:'取消' },
-      { text:'清空', danger:true, onClick:function(){ cards.dict = []; saveCards(); renderDict(); } }
-    ]);
-  };
+  var inp = $('dictInput');
+  var v = inp.value.trim(); if(!v) return;
+  var items = v.split(/[,，\s]+/).filter(Boolean);
+  var key = (dictTab === 'all') ? 'subject' : dictTab;
+  items.forEach(function(it){
+    if(cards.dict[key].indexOf(it) === -1) cards.dict[key].push(it);
+  });
+  saveCards(); renderDict(); inp.value = '';
+};
+if($('dictClearBtn')) $('dictClearBtn').onclick = function(){
+  var key = (dictTab === 'all') ? null : dictTab;
+  var msg = key ? ('确定清空「' + key + '」分类的词吗？') : '确定清空整个词典吗？此操作不可恢复。';
+  showDialog('清空词典', msg, [
+    { text:'取消' },
+    { text:'清空', danger:true, onClick:function(){ 
+      if(key) cards.dict[key] = []; 
+      else cards.dict = { subject:[], verb:[], object:[], modifier:[], tone:[] }; 
+      saveCards(); renderDict(); 
+    } }
+  ]);
+};
 
   if($('taPatAddBtn')) $('taPatAddBtn').onclick = function(){
     var inp = $('taPatInput'); var v = inp.value.trim(); if(!v) return;
@@ -3263,11 +3611,46 @@ if(musicPlaylist.length && Math.random() * 100 < (person.taInviteChance || 10)){
 $('myNameInput').value = person.myName || '我';
     $('replySummary').textContent = person.replyMin + ' ~ ' + person.replyMax + ' 秒 · 最多 ' + person.replyCount + ' 条';
     updateCardsSummary();
-    $('taStickerSummary').textContent = taStickers.length + ' 张';
+    if($('taStickerSummary')) $('taStickerSummary').textContent = taStickers.length + ' 张';
     $('lockSummary').textContent = getLockPwd() ? '已设置' : '未设置';
   }
   function openSettingsPage(){ renderSettingsPreview(); $('settingsPage').classList.add('open'); }
-  if($('openSettingsFromChat')) $('openSettingsFromChat').onclick = openSettingsPage;
+  if($('openSettingsFromChat')) $('openSettingsFromChat').onclick = function(){ $('chatSettingsMenuBg').classList.add('open'); };
+if($('chatSettingsMenuBg')){
+  $('chatSettingsMenuBg').addEventListener('click', function(e){
+    if(e.target === $('chatSettingsMenuBg')) $('chatSettingsMenuBg').classList.remove('open');
+  });
+}
+if($('csmCancel')) $('csmCancel').onclick = function(){ $('chatSettingsMenuBg').classList.remove('open'); };
+if($('csmPerson')){
+  $('csmPerson').onclick = function(){
+    $('chatSettingsMenuBg').classList.remove('open');
+    openSettingsPage();
+  };
+}
+if($('csmBeautify')){
+  $('csmBeautify').onclick = function(){
+    $('chatSettingsMenuBg').classList.remove('open');
+    renderBeautify();
+    $('beautifyPage').classList.add('open');
+  };
+}
+if($('cssImportFileBtn')) $('cssImportFileBtn').onclick = function(){ $('cssImportFile').click(); };
+if($('cssImportFile')){
+  $('cssImportFile').addEventListener('change', function(){
+    var f = $('cssImportFile').files && $('cssImportFile').files[0];
+    if(!f) return;
+    var r = new FileReader();
+    r.onload = function(ev){
+      person.customCss = ev.target.result || '';
+      if($('customCssInput')) $('customCssInput').value = person.customCss;
+      savePerson(); applyBeautify();
+      showDialog('导入成功', 'CSS 已应用到聊天页面。', [{ text:'好的', primary:true }]);
+    };
+    r.readAsText(f);
+    $('cssImportFile').value = '';
+  });
+}
   if($('settingsBack')) $('settingsBack').onclick = function(){ $('settingsPage').classList.remove('open'); };
   if($('avatarPicker')) $('avatarPicker').onclick = function(){ $('avatarFile').click(); };
   if($('avatarFile')) $('avatarFile').addEventListener('change', function(){
@@ -3366,8 +3749,30 @@ if($('lockTimeSizeGrid')){
   });
 }
 
-  /* 聊天美化 */
-  function renderBeautify(){
+  var SELF_COLOR_PRESETS  = ['#f1d6d6','#ffd9e0','#ffe0cc','#fff2b8','#d9f2d9','#c8e6f5','#d6d9f5','#ead6f5','#f5e0d6','#e8e8ea'];
+var OTHER_COLOR_PRESETS = ['#dbe5f1','#e0eaf7','#e6f0f8','#e8f5e9','#fff4e0','#fce4ec','#ede7f6','#e0f2f1','#f5f5f5','#eceff1'];
+function renderColorSwatches(){
+  var s = $('selfSwatches'), o = $('otherSwatches');
+  if(s){
+    s.innerHTML = SELF_COLOR_PRESETS.map(function(c){
+      return '<div class="color-swatch' + (person.colorSelf === c ? ' active' : '') + '" data-swatch-self="' + c + '" style="background:' + c + '"></div>';
+    }).join('');
+  }
+  if(o){
+    o.innerHTML = OTHER_COLOR_PRESETS.map(function(c){
+      return '<div class="color-swatch' + (person.colorOther === c ? ' active' : '') + '" data-swatch-other="' + c + '" style="background:' + c + '"></div>';
+    }).join('');
+  }
+}
+document.addEventListener('click', function(e){
+  var sw = e.target.closest('[data-swatch-self]');
+  if(sw){ person.colorSelf = sw.dataset.swatchSelf; savePerson(); renderBeautify(); renderColorSwatches(); renderMessages(); return; }
+  var sw2 = e.target.closest('[data-swatch-other]');
+  if(sw2){ person.colorOther = sw2.dataset.swatchOther; savePerson(); renderBeautify(); renderColorSwatches(); renderMessages(); return; }
+});
+
+/* 聊天美化 */
+function renderBeautify(){
     var bs = $('bubbleStyles');
     if(bs) Array.prototype.forEach.call(bs.querySelectorAll('.style-chip'), function(b){ b.classList.toggle('active', b.dataset.style === person.bubbleStyle); });
     var pi = $('prevIn'), po = $('prevOut');
@@ -3394,9 +3799,11 @@ if($('capsuleColorInput')){
   }
 }
     var ssg = $('soundStyleGrid');
-    if(ssg) Array.prototype.forEach.call(ssg.querySelectorAll('.style-chip'), function(b){ b.classList.toggle('active', b.dataset.sound === (person.soundType || 'ding')); });
-  }
-  if($('beautifyEntryRow')) $('beautifyEntryRow').onclick = function(){ renderBeautify(); $('beautifyPage').classList.add('open'); };
+  if(ssg) Array.prototype.forEach.call(ssg.querySelectorAll('.sound-chip'), function(b){ b.classList.toggle('active', b.dataset.sound === (person.soundType || 'ding')); });
+  renderColorSwatches();
+}
+  if($('openChatSettings')) $('openChatSettings').onclick = function(){ renderBeautify(); $('beautifyPage').classList.add('open'); };
+if($('beautifyEntryRow')) $('beautifyEntryRow').onclick = function(){ renderBeautify(); $('beautifyPage').classList.add('open'); };
   if($('beautifyBack')) $('beautifyBack').onclick = function(){ $('beautifyPage').classList.remove('open'); };
   if($('bubbleStyles')) $('bubbleStyles').addEventListener('click', function(e){
     var b = e.target.closest('[data-style]'); if(!b) return;
@@ -3483,10 +3890,22 @@ if($('capsuleColorReset')){
     $('stepperCooldownVal').textContent = person.cardCooldown;
     $('stepperRedpacketVal').textContent = person.redpacketChance;
     $('stepperReadNoReplyVal').textContent = person.readNoReplyChance;
+$('stepperQuoteVal').textContent = person.quoteChance;
 $('stepperInviteVal').textContent = person.inviteChance;
 $('stepperTaInviteVal').textContent = person.taInviteChance;
     $('stepperConcatVal').textContent = person.concatChance;
-    $('stepperConcatCountVal').textContent = person.concatCount;
+$('stepperConcatCountVal').textContent = person.concatCount;
+$('stepperStrictGrammarVal').textContent = person.strictGrammar;
+// 修正 NaN 错误
+if(isNaN(person.letterChance)) person.letterChance = 10;
+if(isNaN(person.letterCount)) person.letterCount = 3;
+if(isNaN(person.letterMin)) person.letterMin = 2;
+if(isNaN(person.letterMax)) person.letterMax = 24;
+$('stepperLetterVal').textContent = person.letterChance;
+$('stepperLetterCountVal').textContent = person.letterCount;
+$('stepperLetterMinVal').textContent = person.letterMin;
+$('stepperLetterMaxVal').textContent = person.letterMax;
+$('letterUseDictToggle').checked = !!person.letterUseDict;
     $('concatUseAllToggle').checked = !!person.concatUseAll;
   }
   if($('replyEntryRow')) $('replyEntryRow').onclick = function(){ renderReplySettings(); $('replyPage').classList.add('open'); };
@@ -3498,31 +3917,50 @@ $('stepperTaInviteVal').textContent = person.taInviteChance;
       if(w === 'sticker'){ k = 'stickerChance'; step = 5; }
       else if(w === 'redpacket'){ k = 'redpacketChance'; step = 5; }
       else if(w === 'readNoReply'){ k = 'readNoReplyChance'; step = 5; }
+else if(w === 'quote'){ k = 'quoteChance'; step = 5; }
 else if(w === 'invite'){ k = 'inviteChance'; step = 5; }
 else if(w === 'taInvite'){ k = 'taInviteChance'; step = 5; }
       else if(w === 'emoji'){ k = 'emojiChance'; step = 5; }
       else if(w === 'voice'){ k = 'voiceChance'; step = 5; }
       else if(w === 'concat'){ k = 'concatChance'; step = 5; }
       else if(w === 'concatCount'){ k = 'concatCount'; step = 1; }
+else if(w === 'strictGrammar'){ k = 'strictGrammar'; step = 5; }
+else if(w === 'letter'){ k = 'letterChance'; step = 5; }
+else if(w === 'letterCount'){ k = 'letterCount'; step = 1; }
+else if(w === 'letterMin'){ k = 'letterMin'; step = 1; }
+else if(w === 'letterMax'){ k = 'letterMax'; step = 1; }
       else if(w === 'cooldown'){ k = 'cardCooldown'; step = 1; }
       else return;
-      var v = person[k] + d * step;
+      if(isNaN(person[k])) person[k] = 0;
+var v = person[k] + d * step;
       if(w === 'cooldown'){
         if(v < 0) v = 0; if(v > 20) v = 20;
       } else if(w === 'concatCount'){
-        if(v < 2) v = 2; if(v > 5) v = 5;
-      } else {
+  if(v < 2) v = 2; if(v > 10) v = 10;
+} else if(w === 'letterCount'){
+  if(v < 1) v = 1; if(v > 10) v = 10;
+} else if(w === 'letterMin'){
+  if(v < 0) v = 0; if(v > 72) v = 72;
+} else if(w === 'letterMax'){
+  if(v < 1) v = 1; if(v > 168) v = 168;
+} else {
         if(v < 0) v = 0; if(v > 100) v = 100;
       }
       person[k] = v; savePerson(); renderReplySettings();
     };
   });
   if($('concatUseAllToggle')){
-    $('concatUseAllToggle').addEventListener('change', function(){
-      person.concatUseAll = !!$('concatUseAllToggle').checked;
-      savePerson();
-    });
-  }
+  $('concatUseAllToggle').addEventListener('change', function(){
+    person.concatUseAll = !!$('concatUseAllToggle').checked;
+    savePerson();
+  });
+}
+if($('letterUseDictToggle')){
+  $('letterUseDictToggle').addEventListener('change', function(){
+    person.letterUseDict = !!$('letterUseDictToggle').checked;
+    savePerson();
+  });
+}
 
   if($('replySaveBtn')) $('replySaveBtn').onclick = function(){
     var mn = parseFloat($('replyMinInput').value) || 0;
@@ -3870,7 +4308,7 @@ function renderLockNotifications(){
     g.innerHTML = '<div class="sticker-grid">' + taStickers.map(function(url, i){
       return '<div class="sticker-cell"><img src="' + esc(url) + '" alt="表情"><button class="sticker-cell-del" data-ta-del="' + i + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
     }).join('') + '</div>';
-    $('taStickerSummary').textContent = taStickers.length + ' 张';
+    if($('taStickerSummary')) $('taStickerSummary').textContent = taStickers.length + ' 张';
   }
   if($('taStickerEntryRow')) $('taStickerEntryRow').onclick = function(){ renderTaStickers(); $('taStickerPage').classList.add('open'); };
   if($('taStickerBack')) $('taStickerBack').onclick = function(){ $('taStickerPage').classList.remove('open'); };
@@ -3965,8 +4403,31 @@ function renderLockNotifications(){
     $('anniversaryPage').classList.remove('open');
   };
 
-  /* 备份 */
-  if($('backupEntryRow')) $('backupEntryRow').onclick = function(){ $('backupMsgCount').textContent = messages.length; $('backupPage').classList.add('open'); };
+  /* 信箱 */
+if($('mailboxBack')) $('mailboxBack').onclick = function(){ $('mailboxPage').classList.remove('open'); };
+if($('mailSendBtn')) $('mailSendBtn').onclick = function(){ 
+  var text = $('mailWriteContent').value.trim(); 
+  if(!text) return; 
+  sendMyLetter(text); 
+  $('mailWriteContent').value = ''; 
+  mailTab = 'outbox'; 
+  renderMailbox(); 
+};
+if($('mailTabs')) {
+  $('mailTabs').addEventListener('click', function(e){
+    var tab = e.target.closest('[data-mailtab]');
+    if(!tab) return;
+    mailTab = tab.dataset.mailtab;
+    renderMailbox();
+  });
+}
+document.addEventListener('click', function(e){
+  var letterCard = e.target.closest('.letter-card[data-letter-id]');
+  if(letterCard){ openLetterModal(letterCard.dataset.letterId); return; }
+});
+
+/* 备份 */
+if($('backupEntryRow')) $('backupEntryRow').onclick = function(){ $('backupMsgCount').textContent = messages.length; $('backupPage').classList.add('open'); };
   if($('backupBack')) $('backupBack').onclick = function(){ $('backupPage').classList.remove('open'); };
   if($('exportBtn')) $('exportBtn').onclick = function(){
     var data = { version: 'chat_v12', exportTime: Date.now(), person: person, messages: messages, cards: cards, taStickers: taStickers, userStickers: userStickers, myPats: myPats, taPats: taPats, stats: stats, proactive: proactive, dailyLove: localStorage.getItem(DAILY_LOVE_KEY) || null, lock: localStorage.getItem(LOCK_KEY) || null };
@@ -4001,7 +4462,15 @@ function renderLockNotifications(){
             if(data.lock){ try{ localStorage.setItem(LOCK_KEY, data.lock); }catch(e){} }
             messages = data.messages.filter(function(m){ return m && (typeof m.text === 'string'); });
             saveMessages();
-            renderMessages(); renderSettingsPreview(); renderLib(); renderTaStickers(); renderUserStickers(); renderBeautify(); renderHome(); applyBeautify();
+            renderHeader();
+            renderMessages();
+            renderSettingsPreview();
+            renderLib();
+            renderTaStickers();
+            renderUserStickers();
+            renderBeautify();
+            renderHome();
+            applyBeautify();
             $('backupPage').classList.remove('open');
           }}
         ]);
@@ -4077,6 +4546,7 @@ Array.prototype.forEach.call(document.querySelectorAll('.app-item'), function(it
     }
     else if(app === 'music'){ musicTimerStart = Date.now(); renderMusicPage(); $('musicPage').classList.add('open'); }
     else if(app === 'cards'){ libSearchKeyword = ''; if($('libSearchInput')) $('libSearchInput').value = ''; renderLib(); $('cardsPage').classList.add('open'); }
+else if(app === 'mailbox'){ renderMailbox(); $('mailboxPage').classList.add('open'); }
     else if(app === 'stickers'){ openSettingsPage(); }
     else if(app === 'affection'){ renderAffectionPage(); $('affectionPage').classList.add('open'); }
     else if(app === 'anniversary'){ renderAnniversaryPage(); $('anniversaryPage').classList.add('open'); }
@@ -4240,7 +4710,8 @@ if($('chatMusicBack')){
   loadTaStickers();
   loadUserStickers();
   loadPats();
-  loadWallets();
+loadWallets();
+loadLetters();
 
   renderHeader();
   renderMessages();
@@ -4261,8 +4732,8 @@ renderHome();
 
   setInterval(updateClock, 30000);
 
-  if(getLockPwd()){ showLock(); }
-  else { $('lockScreen').classList.remove('show'); setTimeout(onAppReady, 800); }
+  $('lockScreen').classList.remove('show');
+setTimeout(onAppReady, 800);
 
   /* ============ 一起听 ============ */
   var musicLyricIndex = 0;
