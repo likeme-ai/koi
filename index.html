@@ -639,6 +639,34 @@
   .dialog-btn:active{background:var(--soft)}
   .dialog-btn.primary{color:var(--primary);font-weight:600}
   .dialog-btn.danger{color:var(--highlight);font-weight:600}
+    /* 动态 */
+.moments-cover{position:relative;height:200px;background:linear-gradient(160deg,#dceef5 0%,#eef7fa 45%,#e6f0f4 100%);background-size:cover;background-position:center;cursor:pointer;margin-bottom:52px}
+.moments-cover-img{position:absolute;inset:0;background-size:cover;background-position:center}
+.moments-cover-bottom{position:absolute;right:14px;bottom:-44px;display:flex;align-items:flex-end;gap:10px}
+.moments-cover-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:14px;text-shadow:0 1px 3px rgba(255,255,255,.8)}
+.moments-cover-avatar{width:64px;height:64px;border-radius:10px;border:3px solid #fff;background:#e8ecef;display:grid;place-items:center;color:#b8c0c7;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.moments-cover-avatar svg{width:32px;height:32px}
+.moments-cover-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.moment-card{background:#fff;margin:0 12px 12px;border-radius:14px;padding:14px 16px;box-shadow:0 2px 8px rgba(31,95,108,.05);display:flex;flex-direction:column;gap:8px}
+  .moment-head{display:flex;align-items:center;gap:10px}
+  .moment-avatar{width:38px;height:38px;border-radius:50%;overflow:hidden;background:#e8ecef;display:grid;place-items:center;color:#b8c0c7;flex:0 0 auto}
+  .moment-avatar svg{width:22px;height:22px}
+  .moment-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .moment-meta{flex:1;min-width:0}
+  .moment-name{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .moment-time{font-size:11.5px;color:var(--light-text);margin-top:2px}
+  .moment-text{font-size:14.5px;line-height:1.55;color:var(--text);word-break:break-word;white-space:pre-wrap}
+  .moment-sticker{max-width:160px;border-radius:10px;overflow:hidden}
+  .moment-sticker img{width:100%;display:block}
+  .moment-actions{display:flex;gap:8px;padding-top:6px;border-top:1px dashed var(--line);margin-top:2px}
+  .moment-action-btn{flex:1;height:32px;border:0;background:transparent;color:var(--light-text);font-size:12.5px;font-family:inherit;cursor:pointer;border-radius:8px;transition:background .15s ease}
+  .moment-action-btn:active{background:var(--soft)}
+  .moment-likes{font-size:12.5px;color:var(--primary);background:var(--soft);border-radius:8px;padding:6px 10px;line-height:1.4}
+  .moment-comments{background:var(--soft);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:6px}
+  .moment-comment{font-size:13px;color:var(--text);line-height:1.5;word-break:break-word}
+  .moment-comment-name{color:var(--primary);font-weight:600}
+  .moment-empty{text-align:center;padding:60px 24px;color:var(--light-text);font-size:14px;line-height:1.8}
+.avatar{display:grid;place-items:center;overflow:hidden;background-size:cover;background-position:center}
   .avatar{display:grid;place-items:center;overflow:hidden;background-size:cover;background-position:center}
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 </style>
@@ -728,7 +756,8 @@
     <div class="app-grid">
   <button class="app-item" data-app="chat"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg><span class="app-badge" id="chatBadge" style="display:none;">0</span></div><span class="app-label">聊天</span></button>
   <button class="app-item" data-app="music"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><span class="app-label">一起听</span></button>
-  <button class="app-item" data-app="cards"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h4"/></svg></div><span class="app-label">字卡</span></button>
+<button class="app-item" data-app="moments"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M5 18l5-4 4 3 3-2 2 2"/></svg></div><span class="app-label">动态</span></button>
+<button class="app-item" data-app="cards"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h4"/></svg></div><span class="app-label">字卡</span></button>
   <button class="app-item" data-app="mailbox"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div><span class="app-label">信箱</span></button>
   <button class="app-item" data-app="wallet"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/><path d="M3 7h16"/><path d="M16 12h5"/><circle cx="16" cy="12" r="0.8" fill="currentColor"/></svg></div><span class="app-label">钱包</span></button>
   <button class="app-item" data-app="settings"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div><span class="app-label">设置</span></button>
@@ -1018,7 +1047,17 @@
   <div class="stepper-row"><span class="stepper-label">TA 回信最慢<span class="sub">写完信后，最慢多少小时收到回信</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="letterMax" data-dir="-1">−</button><span class="stepper-value" id="stepperLetterMaxVal">24</span><button class="stepper-btn" data-step="letterMax" data-dir="1">+</button><span class="stepper-unit">小时</span></div></div>
   <div class="color-row"><span class="color-row-label">信件包含词典字卡<span class="sub">开启后，信件内容可以抽取词典的词</span></span><label class="switch"><input type="checkbox" id="letterUseDictToggle"><span class="switch-slider"></span></label></div>
 </div>
-    <div class="beautify-section-title">防复读</div>
+    <div class="beautify-section-title">动态</div>
+<div class="field-group">
+  <div class="stepper-row"><span class="stepper-label">你发帖后 TA 跟发<span class="sub">你发一条，TA 也发一条的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentFollow" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentFollowVal">60</span><button class="stepper-btn" data-step="momentFollow" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 回赞你<span class="sub">你点赞 TA 的帖子，TA 回赞你的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentLike" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentLikeVal">50</span><button class="stepper-btn" data-step="momentLike" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 赞你的帖子<span class="sub">你发帖后，TA 来点赞的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentLikeMy" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentLikeMyVal">80</span><button class="stepper-btn" data-step="momentLikeMy" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+<div class="stepper-row"><span class="stepper-label">TA 评论你的帖子<span class="sub">你发帖后，TA 来评论的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentReplyMy" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentReplyMyVal">60</span><button class="stepper-btn" data-step="momentReplyMy" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 回复评论<span class="sub">你评论 TA，TA 回复的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentComment" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentCommentVal">70</span><button class="stepper-btn" data-step="momentComment" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 多久没发帖才自动发<span class="sub">间隔时间，越短 TA 越活跃</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentHours" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentHoursVal">4</span><button class="stepper-btn" data-step="momentHours" data-dir="1">+</button><span class="stepper-unit">小时</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 自动发帖概率<span class="sub">到时间了，TA 真发的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentAuto" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentAutoVal">70</span><button class="stepper-btn" data-step="momentAuto" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+</div>
+<div class="beautify-section-title">防复读</div>
     <div class="field-group">
       <div class="stepper-row"><span class="stepper-label">冷却长度</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="cooldown" data-dir="-1">−</button><span class="stepper-value" id="stepperCooldownVal">5</span><button class="stepper-btn" data-step="cooldown" data-dir="1">+</button><span class="stepper-unit">条</span></div></div>
     </div>
@@ -1272,6 +1311,43 @@
   </div>
 </div>
 
+<section class="page" id="momentsPage">
+  <header class="page-header">
+    <button class="icon-btn" id="momentsBack" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="page-title">动态</div>
+    <button class="icon-btn" id="momentsPostBtn" aria-label="发布"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+  </header>
+  <div class="page-body" id="momentsList" style="padding:0 0 20px;">
+  <div class="moments-cover" id="momentsCover">
+    <div class="moments-cover-img" id="momentsCoverImg"></div>
+    <div class="moments-cover-bottom">
+      <div class="moments-cover-name" id="momentsCoverName">我</div>
+      <div class="moments-cover-avatar" id="momentsCoverAvatar"></div>
+    </div>
+  </div>
+  <div id="momentsPosts"></div>
+  <input type="file" id="momentsCoverFile" accept="image/*" style="display:none;">
+</div>
+</section>
+<section class="page" id="momentPostPage">
+  <header class="page-header">
+    <button class="icon-btn" id="momentPostBack" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="page-title">发布动态</div>
+    <button class="icon-btn" id="momentPostSubmit" aria-label="发布"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg></button>
+  </header>
+  <div class="page-body">
+    <div style="padding:16px;">
+      <textarea id="momentPostText" placeholder="这一刻的想法..." maxlength="300" style="width:100%;min-height:140px;padding:14px;border:1px solid var(--accent);border-radius:12px;background:#fff;font-size:14px;line-height:1.7;font-family:inherit;color:var(--text);outline:none;resize:vertical;box-sizing:border-box;"></textarea>
+      <div id="momentPostStickerBox" style="display:none;margin-top:12px;position:relative;">
+        <img id="momentPostStickerPreview" style="max-width:140px;border-radius:10px;display:block;">
+        <button id="momentPostStickerRemove" style="position:absolute;top:-8px;left:130px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:0;font-size:14px;cursor:pointer;">×</button>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:12px;">
+        <button id="momentPostStickerBtn" style="flex:1;height:40px;border:1px solid var(--accent);border-radius:10px;background:#fff;color:var(--text);font-size:14px;font-family:inherit;cursor:pointer;">添加表情包</button>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="page" id="backupPage">
   <header class="page-header"><button class="icon-btn" id="backupBack" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="page-title">聊天记录备份</div></header>
   <div class="page-body">
@@ -1381,6 +1457,7 @@
   var WALLET_ME_KEY = 'chat_wallet_me_v1';
 var WALLET_TA_KEY = 'chat_wallet_ta_v1';
 var MUSIC_KEY = 'chat_music_v1';
+var MOMENTS_KEY = 'chat_moments_v1';
 
   var DEFAULT_AVATAR_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>';
 
@@ -1452,6 +1529,14 @@ quoteChance: 15,
     concatChance: 15, concatCount: 3, concatUseAll: false, strictGrammar: 80,
 letterChance: 10, letterCount: 3, letterMin: 2, letterMax: 24, letterUseDict: false,
     cardCooldown: 5,
+momentFollowChance: 60,
+momentLikeBackChance: 50,
+momentCommentBackChance: 70,
+momentLikeMyPostChance: 80,
+momentReplyMyPostChance: 60,
+momentAutoPostHours: 4,
+momentAutoPostChance: 70,
+momentsCover: '',
     bubbleStyle: 'rounded',
     colorSelf: DEFAULT_SELF_COLOR, colorOther: DEFAULT_OTHER_COLOR,
     fontFamily: 'default', fontSize: '15px',
@@ -1493,6 +1578,8 @@ var dictSearchKeyword = '';
 var actionMsgIdx = -1;
 var musicPlaylist = [];
 var mailTab = 'inbox';          
+var moments = [];
+var momentPostSticker = null;
 function loadMusicPlaylist(){
   try{
     var raw = localStorage.getItem(MUSIC_KEY);
@@ -3888,6 +3975,13 @@ if($('capsuleColorReset')){
     $('stepperEmojiVal').textContent = person.emojiChance;
     $('stepperVoiceVal').textContent = person.voiceChance;
     $('stepperCooldownVal').textContent = person.cardCooldown;
+    if($('stepperMomentFollowVal')) $('stepperMomentFollowVal').textContent = person.momentFollowChance || 60;
+if($('stepperMomentLikeVal')) $('stepperMomentLikeVal').textContent = person.momentLikeBackChance || 50;
+if($('stepperMomentCommentVal')) $('stepperMomentCommentVal').textContent = person.momentCommentBackChance || 70;
+if($('stepperMomentLikeMyVal')) $('stepperMomentLikeMyVal').textContent = person.momentLikeMyPostChance || 80;
+if($('stepperMomentReplyMyVal')) $('stepperMomentReplyMyVal').textContent = person.momentReplyMyPostChance || 60;
+if($('stepperMomentHoursVal')) $('stepperMomentHoursVal').textContent = person.momentAutoPostHours || 4;
+if($('stepperMomentAutoVal')) $('stepperMomentAutoVal').textContent = person.momentAutoPostChance || 70;
     $('stepperRedpacketVal').textContent = person.redpacketChance;
     $('stepperReadNoReplyVal').textContent = person.readNoReplyChance;
 $('stepperQuoteVal').textContent = person.quoteChance;
@@ -3930,12 +4024,21 @@ else if(w === 'letterCount'){ k = 'letterCount'; step = 1; }
 else if(w === 'letterMin'){ k = 'letterMin'; step = 1; }
 else if(w === 'letterMax'){ k = 'letterMax'; step = 1; }
       else if(w === 'cooldown'){ k = 'cardCooldown'; step = 1; }
-      else return;
+else if(w === 'momentFollow'){ k = 'momentFollowChance'; step = 5; }
+else if(w === 'momentLike'){ k = 'momentLikeBackChance'; step = 5; }
+else if(w === 'momentComment'){ k = 'momentCommentBackChance'; step = 5; }
+else if(w === 'momentLikeMy'){ k = 'momentLikeMyPostChance'; step = 5; }
+else if(w === 'momentReplyMy'){ k = 'momentReplyMyPostChance'; step = 5; }
+else if(w === 'momentHours'){ k = 'momentAutoPostHours'; step = 1; }
+else if(w === 'momentAuto'){ k = 'momentAutoPostChance'; step = 5; }
+else return;
       if(isNaN(person[k])) person[k] = 0;
 var v = person[k] + d * step;
       if(w === 'cooldown'){
-        if(v < 0) v = 0; if(v > 20) v = 20;
-      } else if(w === 'concatCount'){
+  if(v < 0) v = 0; if(v > 20) v = 20;
+} else if(w === 'momentHours'){
+  if(v < 1) v = 1; if(v > 24) v = 24;
+} else if(w === 'concatCount'){
   if(v < 2) v = 2; if(v > 10) v = 10;
 } else if(w === 'letterCount'){
   if(v < 1) v = 1; if(v > 10) v = 10;
@@ -4545,6 +4648,7 @@ Array.prototype.forEach.call(document.querySelectorAll('.app-item'), function(it
       }, 50);
     }
     else if(app === 'music'){ musicTimerStart = Date.now(); renderMusicPage(); $('musicPage').classList.add('open'); }
+else if(app === 'moments'){ renderMoments(); $('momentsPage').classList.add('open'); setTimeout(maybeTaAutoPost, 300); }
     else if(app === 'cards'){ libSearchKeyword = ''; if($('libSearchInput')) $('libSearchInput').value = ''; renderLib(); $('cardsPage').classList.add('open'); }
 else if(app === 'mailbox'){ renderMailbox(); $('mailboxPage').classList.add('open'); }
     else if(app === 'stickers'){ openSettingsPage(); }
@@ -4723,6 +4827,8 @@ loadLetters();
   renderTaPatList();
   renderDict();
 loadMusicPlaylist();
+loadMoments();
+renderHome();
 renderHome();
   var _capEl = $('floatingCapsule');
   if(_capEl){ delete _capEl.dataset.positioned; }
@@ -4734,6 +4840,249 @@ renderHome();
 
   $('lockScreen').classList.remove('show');
 setTimeout(onAppReady, 800);
+
+  /* ============ 动态 ============ */
+function loadMoments(){
+  try{
+    var raw = localStorage.getItem(MOMENTS_KEY);
+    if(raw){ var d = JSON.parse(raw); if(Array.isArray(d)) moments = d.filter(function(m){ return m && (typeof m.text === 'string' || m.sticker); }); }
+  }catch(e){}
+}
+function saveMoments(){ safeSetItem(MOMENTS_KEY, JSON.stringify(moments)); }
+
+function buildMomentHTML(m){
+  var isMe = m.author === 'me';
+  var av, name;
+  if(isMe){
+    av = person.myAvatar ? '<img src="' + person.myAvatar + '" alt="">' : DEFAULT_AVATAR_SVG;
+    name = person.myName || '我';
+  } else {
+    av = person.avatar ? '<img src="' + person.avatar + '" alt="">' : DEFAULT_AVATAR_SVG;
+    name = person.name || 'TA';
+  }
+  var stickerHTML = m.sticker ? '<div class="moment-sticker"><img src="' + esc(m.sticker) + '" alt=""></div>' : '';
+  var likeRow = '';
+  if(m.likes && m.likes.length){
+    var names = m.likes.map(function(who){ return who === 'me' ? '你' : (person.name || 'TA'); }).join('、');
+    likeRow = '<div class="moment-likes">❤️ ' + esc(names) + '</div>';
+  }
+  var commentsHTML = '';
+  if(m.comments && m.comments.length){
+    commentsHTML = '<div class="moment-comments">' + m.comments.map(function(c){
+      var cName = c.who === 'me' ? '你' : (person.name || 'TA');
+      return '<div class="moment-comment"><span class="moment-comment-name">' + esc(cName) + '：</span>' + esc(c.text) + '</div>';
+    }).join('') + '</div>';
+  }
+  var iLiked = (m.likes && m.likes.indexOf('me') > -1);
+  var actions = '<div class="moment-actions">' +
+    '<button class="moment-action-btn" data-moment-like="' + m.id + '">' + (iLiked ? '❤️ 已赞' : '🤍 点赞') + '</button>' +
+    '<button class="moment-action-btn" data-moment-comment="' + m.id + '">💬 评论</button>' +
+    '</div>';
+  return '<div class="moment-card" data-moment-id="' + m.id + '">' +
+    '<div class="moment-head"><div class="moment-avatar">' + av + '</div>' +
+    '<div class="moment-meta"><div class="moment-name">' + esc(name) + '</div><div class="moment-time">' + formatTime(m.time) + '</div></div></div>' +
+    (m.text ? '<div class="moment-text">' + esc(m.text) + '</div>' : '') +
+    stickerHTML + actions + likeRow + commentsHTML +
+    '</div>';
+}
+
+function renderMomentsCover(){
+  var coverImg = $('momentsCoverImg');
+  var avatar = $('momentsCoverAvatar');
+  var nameEl = $('momentsCoverName');
+  if(coverImg){
+    if(person.momentsCover){
+      coverImg.style.backgroundImage = 'url(' + person.momentsCover + ')';
+    } else {
+      coverImg.style.backgroundImage = '';
+    }
+  }
+  if(avatar){
+    if(person.myAvatar){ avatar.innerHTML = '<img src="' + person.myAvatar + '" alt="">'; }
+    else { avatar.innerHTML = DEFAULT_AVATAR_SVG; }
+  }
+  if(nameEl){ nameEl.textContent = person.myName || '我'; }
+}
+function renderMoments(){
+  renderMomentsCover();
+  var box = $('momentsPosts');
+  if(!box) return;
+  if(!moments.length){ box.innerHTML = '<div class="moment-empty">还没有动态<br>点右上角 + 发布第一条吧</div>'; return; }
+  var sorted = moments.slice().sort(function(a,b){ return b.time - a.time; });
+  box.innerHTML = sorted.map(buildMomentHTML).join('');
+}
+
+function pickMomentText(){
+  var pool = allTextCards();
+  if(!pool.length) return '';
+  var n = 2 + Math.floor(Math.random() * 2);
+  var arr = [], copy = pool.slice();
+  for(var i=0;i<n && copy.length;i++){
+    var idx = Math.floor(Math.random() * copy.length);
+    arr.push(copy[idx]);
+    copy.splice(idx, 1);
+  }
+  return arr.join(' ');
+}
+function pickMomentSticker(fromTa){
+  var pool = fromTa ? (cards && Array.isArray(cards.sticker) ? cards.sticker.filter(Boolean) : []) : (taStickers || []);
+  if(!pool.length) return null;
+  if(Math.random() < 0.5) return pool[Math.floor(Math.random() * pool.length)];
+  return null;
+}
+
+function taPostMoment(){
+  var text = pickMomentText();
+  var sticker = pickMomentSticker(true);
+  if(!text && !sticker) return;
+  var m = { id: uid('mo'), author: 'ta', text: text, sticker: sticker || '', time: Date.now(), likes: [], comments: [] };
+  moments.push(m);
+  saveMoments();
+  renderMoments();
+}
+
+function maybeTaAutoPost(){
+  var lastTa = null;
+  for(var i=moments.length-1;i>=0;i--){ if(moments[i].author === 'ta'){ lastTa = moments[i]; break; } }
+  var hours = person.momentAutoPostHours || 4;
+  var now = Date.now();
+  if(!lastTa || (now - lastTa.time) > hours * 3600 * 1000){
+    if(Math.random() * 100 < (person.momentAutoPostChance || 70)){
+      setTimeout(taPostMoment, 800 + Math.random() * 1500);
+    }
+  }
+}
+
+function submitMomentPost(){
+  var txt = ($('momentPostText').value || '').trim();
+  if(!txt && !momentPostSticker) return;
+  var m = { id: uid('mo'), author: 'me', text: txt, sticker: momentPostSticker || '', time: Date.now(), likes: [], comments: [] };
+  moments.push(m);
+  saveMoments();
+  momentPostSticker = null;
+  $('momentPostText').value = '';
+  $('momentPostStickerBox').style.display = 'none';
+  $('momentPostPage').classList.remove('open');
+  renderMoments();
+  if(Math.random() * 100 < (person.momentFollowChance || 60)){
+    setTimeout(taPostMoment, 3000 + Math.random() * 5000);
+  }
+  setTimeout(function(){ taInteractWithMyMoment(m.id); }, 2000 + Math.random() * 4000);
+}
+
+function taInteractWithMyMoment(momentId){
+  var m = moments.filter(function(x){ return x.id === momentId; })[0];
+  if(!m) return;
+  if(!m.likes) m.likes = [];
+  if(Math.random() * 100 < (person.momentLikeMyPostChance || 80)){
+    if(m.likes.indexOf('ta') === -1){ m.likes.push('ta'); saveMoments(); renderMoments(); }
+  }
+  if(Math.random() * 100 < (person.momentReplyMyPostChance || 60)){
+    var pool = allTextCards();
+    var cmt = pool.length ? pool[Math.floor(Math.random() * pool.length)] : '好可爱';
+    setTimeout(function(){
+      var mm = moments.filter(function(x){ return x.id === momentId; })[0];
+      if(!mm) return;
+      if(!mm.comments) mm.comments = [];
+      mm.comments.push({ who:'ta', text: cmt, time: Date.now() });
+      saveMoments(); renderMoments();
+    }, 1500 + Math.random() * 2500);
+  }
+}
+
+function likeMoment(momentId, who){
+  var m = moments.filter(function(x){ return x.id === momentId; })[0];
+  if(!m) return;
+  if(!m.likes) m.likes = [];
+  if(m.likes.indexOf(who) === -1) m.likes.push(who);
+  saveMoments(); renderMoments();
+}
+
+function commentMoment(momentId, who, text){
+  var m = moments.filter(function(x){ return x.id === momentId; })[0];
+  if(!m) return;
+  if(!m.comments) m.comments = [];
+  m.comments.push({ who: who, text: text, time: Date.now() });
+  saveMoments(); renderMoments();
+}
+
+document.addEventListener('click', function(e){
+  var likeBtn = e.target.closest('[data-moment-like]');
+  if(likeBtn){
+    var mid = likeBtn.dataset.momentLike;
+    var m = moments.filter(function(x){ return x.id === mid; })[0];
+    if(!m) return;
+    var iLiked = m.likes && m.likes.indexOf('me') > -1;
+    if(iLiked){ m.likes = m.likes.filter(function(w){ return w !== 'me'; }); saveMoments(); renderMoments(); return; }
+    likeMoment(mid, 'me');
+    if(m.author === 'ta' && Math.random() * 100 < (person.momentLikeBackChance || 50)){
+      setTimeout(function(){
+        var myPosts = moments.filter(function(x){ return x.author === 'me'; });
+        if(!myPosts.length) return;
+        var target = myPosts[myPosts.length - 1];
+        if(!target.likes) target.likes = [];
+        if(target.likes.indexOf('ta') === -1){ target.likes.push('ta'); saveMoments(); renderMoments(); }
+      }, 2000 + Math.random() * 3000);
+    }
+    return;
+  }
+  var commentBtn = e.target.closest('[data-moment-comment]');
+  if(commentBtn){
+    var cid = commentBtn.dataset.momentComment;
+    var mm = moments.filter(function(x){ return x.id === cid; })[0];
+    if(!mm) return;
+    var txt = window.prompt('评论：', '');
+    if(txt === null) return;
+    txt = txt.trim();
+    if(!txt) return;
+    commentMoment(cid, 'me', txt);
+    if(mm.author === 'ta' && Math.random() * 100 < (person.momentCommentBackChance || 70)){
+      var pool = allTextCards();
+      var reply = pool.length ? pool[Math.floor(Math.random() * pool.length)] : '嗯嗯';
+      setTimeout(function(){
+        var target = moments.filter(function(x){ return x.id === cid; })[0];
+        if(!target) return;
+        target.comments.push({ who:'ta', text: reply, time: Date.now() });
+        saveMoments(); renderMoments();
+      }, 2500 + Math.random() * 3500);
+    }
+    return;
+  }
+});
+
+if($('momentsCover')) $('momentsCover').onclick = function(){ $('momentsCoverFile').click(); };
+if($('momentsCoverFile')){
+  $('momentsCoverFile').addEventListener('change', function(){
+    var f = $('momentsCoverFile').files && $('momentsCoverFile').files[0];
+    if(!f) return;
+    compressImage(f, 800, function(dataUrl){
+      person.momentsCover = dataUrl;
+      savePerson();
+      renderMomentsCover();
+    });
+    $('momentsCoverFile').value = '';
+  });
+}
+if($('momentsBack')) $('momentsBack').onclick = function(){ $('momentsPage').classList.remove('open'); };
+if($('momentsPostBtn')) $('momentsPostBtn').onclick = function(){
+  momentPostSticker = null;
+  $('momentPostText').value = '';
+  $('momentPostStickerBox').style.display = 'none';
+  $('momentPostPage').classList.add('open');
+};
+if($('momentPostBack')) $('momentPostBack').onclick = function(){ $('momentPostPage').classList.remove('open'); };
+if($('momentPostSubmit')) $('momentPostSubmit').onclick = submitMomentPost;
+if($('momentPostStickerBtn')) $('momentPostStickerBtn').onclick = function(){
+  var pool = (userStickers && userStickers.length) ? userStickers : (taStickers && taStickers.length ? taStickers : (cards && cards.sticker ? cards.sticker : []));
+  if(!pool.length){ showDialog('还没有表情包', '先去聊天页或字卡库里加几张吧。', [{ text:'知道了', primary:true }]); return; }
+  momentPostSticker = pool[Math.floor(Math.random() * pool.length)];
+  $('momentPostStickerPreview').src = momentPostSticker;
+  $('momentPostStickerBox').style.display = 'block';
+};
+if($('momentPostStickerRemove')) $('momentPostStickerRemove').onclick = function(){
+  momentPostSticker = null;
+  $('momentPostStickerBox').style.display = 'none';
+};
 
   /* ============ 一起听 ============ */
   var musicLyricIndex = 0;
