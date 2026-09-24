@@ -22,55 +22,47 @@
   svg{display:block}
   .app{position:relative;display:flex;flex-direction:column;width:100%;height:100vh;height:100dvh;margin:0 auto;background:var(--panel);overflow:hidden}
 
-  /* ============ 锁屏（重写） ============ */
-.lock-screen{position:fixed;inset:0;z-index:9999;display:none;flex-direction:column;background:#2f3f4c;background-size:cover;background-position:center;color:#fff;transition:transform .35s cubic-bezier(.32,.72,0,1),opacity .35s ease}
+    /* ============ 锁屏（方案 C · 奶油甜系） ============ */
+.lock-screen{position:fixed;inset:0;z-index:9999;display:none;flex-direction:column;background:linear-gradient(160deg,#fdf3f0 0%,#f5e8ef 50%,#e8eff5 100%);background-size:cover;background-position:center;color:#2f3f4c;transition:transform .35s cubic-bezier(.32,.72,0,1),opacity .35s ease}
 .lock-screen.show{display:flex}
 .lock-screen.unlock{transform:translateY(-100%);opacity:0;pointer-events:none}
-.lock-status{display:flex;align-items:center;justify-content:space-between;padding:12px 24px 0;font-size:14px;font-weight:600;color:rgba(255,255,255,.9)}
+.lock-status{display:flex;align-items:center;justify-content:space-between;padding:12px 24px 0;font-size:14px;font-weight:600;color:#5a6f78}
 .lock-status-right{display:flex;align-items:center;gap:6px}
-.lock-status-right svg{width:16px;height:16px;opacity:.9}
+.lock-status-right svg{width:16px;height:16px;opacity:.7}
 .lock-header{padding:30px 24px 0;text-align:center}
-.lock-date{font-size:16px;color:rgba(255,255,255,.85);letter-spacing:.5px}
-.lock-time-large{font-size:72px;font-weight:700;color:#fff;line-height:1.05;margin-top:4px;letter-spacing:-1px}
+.lock-date{font-size:14px;color:#8a9ba3;letter-spacing:.5px}
+.lock-time-large{font-size:72px;font-weight:700;color:#1f5f6c;line-height:1.05;margin-top:4px;letter-spacing:-1px}
 
-/* 通知列表 */
 .lock-notification-list{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;padding:20px 24px;overflow-y:auto}
-.lock-notif-card{width:100%;max-width:400px;background:rgba(255,255,255,.82);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-radius:18px;padding:14px 16px;box-shadow:0 8px 24px rgba(0,0,0,.1);display:flex;gap:12px;align-items:center;color:#1c1c1e}
+.lock-notif-card{width:100%;max-width:400px;background:rgba(255,255,255,.92);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px);border-radius:18px;padding:14px 16px;box-shadow:0 8px 24px rgba(31,95,108,.1);display:flex;gap:12px;align-items:center;color:#2f3f4c}
 .lock-notif-avatar{width:44px;height:44px;border-radius:50%;background:#e8ecef;display:grid;place-items:center;overflow:hidden;flex:0 0 auto;color:#b8c0c7}
 .lock-notif-avatar svg{width:24px;height:24px}
 .lock-notif-avatar img{width:100%;height:100%;object-fit:cover}
 .lock-notif-content{flex:1;min-width:0}
 .lock-notif-title{font-size:14.5px;font-weight:600;display:flex;align-items:center;justify-content:space-between}
-.lock-notif-badge{background:#ff3b30;color:#fff;font-size:11px;font-weight:600;padding:1px 6px;border-radius:10px}
-.lock-notif-msg{font-size:13.5px;color:#8e8e93;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lock-notif-badge{background:#f0b8c0;color:#fff;font-size:11px;font-weight:600;padding:1px 6px;border-radius:10px}
+.lock-notif-msg{font-size:13.5px;color:#8a9ba3;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* 输入区 */
 .lock-middle{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding-bottom:20px}
 .lock-dots{display:flex;gap:20px;padding:4px 0 10px}
-.lock-dots span{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.6);background:transparent;transition:background .15s ease,border-color .15s ease}
-.lock-dots span.filled{background:#fff;border-color:#fff}
+.lock-dots span{width:16px;height:16px;border-radius:50%;background:rgba(31,95,108,.12);border:none;transition:all .18s ease}
+.lock-dots span.filled{background:linear-gradient(135deg,#f0b8c0,#b8d4e0);box-shadow:0 2px 8px rgba(225,178,178,.5);transform:scale(1.05)}
 .lock-dots.shake{animation:lockShake .35s ease}
 @keyframes lockShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
-.lock-hint{min-height:18px;font-size:13px;color:#ffb3b3;letter-spacing:.3px;text-align:center;margin-bottom:8px}
+.lock-hint{min-height:18px;font-size:13px;color:#d09aa3;letter-spacing:.3px;text-align:center;margin-bottom:8px}
+
 .lock-bottom{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 24px 32px}
-.lock-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 24px;width:100%;max-width:320px;background:rgba(255,255,255,.1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:24px;padding:16px 12px;border:1px solid rgba(255,255,255,.15)}
-.lock-key{height:72px;border:0;border-radius:50%;background:rgba(255,255,255,.05);color:#fff;font-size:26px;font-weight:400;font-family:inherit;cursor:pointer;transition:background .12s ease,transform .12s ease;display:grid;place-items:center}
-.lock-key:active{background:rgba(255,255,255,.2);transform:scale(.92)}
+.lock-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 24px;width:100%;max-width:320px;background:rgba(255,255,255,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:24px;padding:16px 12px;border:1px solid rgba(255,255,255,.9);box-shadow:0 8px 32px rgba(31,95,108,.08)}
+.lock-key{height:58px;border:0;border-radius:16px;background:#fff;color:#1f5f6c;font-size:24px;font-weight:500;font-family:inherit;cursor:pointer;transition:background .12s ease,transform .12s ease;display:grid;place-items:center;box-shadow:0 2px 6px rgba(31,95,108,.06)}
+.lock-key:active{background:#e8f0f3;transform:scale(.94)}
 .lock-key.empty{background:transparent;box-shadow:none;pointer-events:none}
-.lock-key.del{background:transparent;box-shadow:none;color:rgba(255,255,255,.8)}
-.lock-key.del:active{background:rgba(255,255,255,.2)}
+.lock-key.del{background:#f7edef;box-shadow:none;color:#d09aa3}
+.lock-key.del:active{background:#f0d8d8}
 .lock-key.del svg{width:24px;height:24px}
-.lock-forgot{border:0;background:transparent;color:rgba(255,255,255,.7);font-size:13px;font-family:inherit;cursor:pointer;padding:8px 16px;border-radius:10px;transition:background .15s ease}
-.lock-forgot:active{background:rgba(255,255,255,.15)}
-.lock-tap-hint{position:absolute;bottom:40px;left:0;right:0;text-align:center;font-size:13px;color:rgba(255,255,255,.6);letter-spacing:1px;animation:pulse 2s infinite;pointer-events:none}
-  .lock-key{height:72px;border:0;border-radius:50%;background:rgba(255,255,255,.05);color:#fff;font-size:26px;font-weight:400;font-family:inherit;cursor:pointer;transition:background .12s ease,transform .12s ease;display:grid;place-items:center}
-  .lock-key:active{background:rgba(255,255,255,.2);transform:scale(.92)}
-  .lock-key.empty{background:transparent;box-shadow:none;pointer-events:none}
-  .lock-key.del{background:transparent;box-shadow:none;color:rgba(255,255,255,.8)}
-  .lock-key.del:active{background:rgba(255,255,255,.2)}
-  .lock-key.del svg{width:24px;height:24px}
-  .lock-forgot{border:0;background:transparent;color:rgba(255,255,255,.7);font-size:13px;font-family:inherit;cursor:pointer;padding:8px 16px;border-radius:10px;transition:background .15s ease}
-  .lock-forgot:active{background:rgba(255,255,255,.15)}
+.lock-forgot{border:0;background:transparent;color:#a0b2ba;font-size:12.5px;font-family:inherit;cursor:pointer;padding:8px 16px;border-radius:10px;transition:background .15s ease}
+.lock-forgot:active{background:rgba(31,95,108,.08)}
+.lock-tap-hint{position:absolute;bottom:40px;left:0;right:0;text-align:center;font-size:13px;color:rgba(31,95,108,.45);letter-spacing:1px;animation:pulse 2s infinite;pointer-events:none}
+
 
   /* 主屏 */
   .home{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;overflow-y:auto;background:var(--home-bg);background-size:cover;background-position:center;padding:16px 18px 24px;transition:transform .3s cubic-bezier(.32,.72,0,1);will-change:transform}
@@ -179,7 +171,9 @@
   .voice-waves{display:inline-flex;align-items:center;gap:2px;height:16px;flex:0 0 auto}
   .voice-waves i{display:inline-block;width:2px;background:var(--text);border-radius:1px;opacity:.65}
   .voice-time{font-size:12px;color:var(--light-text);margin-left:6px;flex:0 0 auto}
-  .voice-content{display:none;padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.45;background:rgba(0,0,0,.05);color:var(--text);word-break:break-word}
+  .voice-content{display:none;padding:8px 12px;border-radius:10px;font-size:13px;line-height:1.45;background:#ffffff;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 4px rgba(0,0,0,.05);color:var(--text);word-break:break-word}
+.msg.in .voice-content{background:var(--msg-other-bg);border-color:rgba(0,0,0,.04)}
+.msg.out .voice-content{background:var(--msg-self-bg);border-color:rgba(0,0,0,.04)}
   .bubble.bubble-voice.open .voice-content{display:block}
   .bubble.bubble-emoji{font-size:20px;line-height:1.4;padding:10px 14px;border-radius:14px}
   .msg.in .bubble.bubble-emoji{background:var(--msg-other-bg);border-bottom-left-radius:5px}
@@ -206,7 +200,8 @@
   .composer-quote.show{display:flex;}
   .composer-quote-content{flex:1;min-width:0;font-size:12.5px;color:var(--light-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .composer-quote-close{border:0;background:transparent;color:var(--light-text);cursor:pointer;padding:2px 6px;font-size:16px;}
-  .bubble-quote{margin-bottom:6px;padding:5px 8px;background:rgba(0,0,0,.06);border-left:2px solid currentColor;border-radius:4px;font-size:12px;color:var(--light-text);line-height:1.4;word-break:break-word;cursor:pointer;opacity:.8;}
+  .bubble-quote{margin-bottom:6px;padding:5px 10px;background:rgba(255,255,255,.85);border-left:2px solid var(--primary);border-radius:6px;font-size:12px;color:var(--text);line-height:1.4;word-break:break-word;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.msg.out .bubble-quote{background:rgba(255,255,255,.9)}
   .composer-wrap{flex:0 0 auto;display:flex;flex-direction:column;background:var(--bar);border-top:1px solid var(--line);}
   
   /* 红包气泡 */
@@ -357,9 +352,9 @@
   .lib-toolbar .toolbar-btn svg{width:16px;height:16px}
   #viewEmoji, #viewSticker, #viewEmoticon, #viewPat, #viewSystem{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
   .drawer-layout{display:flex;flex:1 1 auto;min-height:0;overflow:hidden;background:var(--bg)}
-  .drawer-side{flex:0 0 100px;background:#f8fafb;border-right:1px solid var(--line);overflow-y:auto;display:flex;flex-direction:column}
+  .drawer-side{flex:0 0 132px;background:#f8fafb;border-right:1px solid var(--line);overflow-y:auto;display:flex;flex-direction:column}
   .drawer-side::-webkit-scrollbar{display:none}
-  .drawer-item{display:flex;align-items:center;gap:6px;width:100%;padding:14px 10px;border:0;background:transparent;color:var(--text);font-size:13px;font-family:inherit;text-align:left;cursor:pointer;border-left:3px solid transparent;transition:all .15s ease;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+  .drawer-item{display:flex;align-items:center;gap:6px;width:100%;padding:14px 8px 14px 10px;border:0;background:transparent;color:var(--text);font-size:13px;font-family:inherit;text-align:left;cursor:pointer;border-left:3px solid transparent;transition:all .15s ease;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
   .drawer-item.dragging{opacity:.6;background:var(--secondary)!important;color:var(--primary)!important;border-left-color:var(--highlight)!important;transform:scale(.96);transition:none}
   .drawer-item .dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto;transition:opacity .15s ease}
   .drawer-item.off .dot{opacity:.25}
@@ -369,7 +364,7 @@
   .drawer-item .toggle:active{background:rgba(255,255,255,.2)}
   .drawer-item.active .toggle{color:rgba(255,255,255,.7)}
   .drawer-item .toggle svg{width:12px;height:12px}
-  .drawer-item .name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .drawer-item .name{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12.5px}
   .drawer-item.active{background:var(--primary);color:#fff;border-left-color:var(--primary)}
   .drawer-item.active .dot{background:#fff !important}
   .drawer-item:not(.active):active{background:var(--soft)}
@@ -578,6 +573,15 @@
 .more-menu-btn:last-child{border-bottom:0;color:var(--light-text);font-size:14px}
 .more-menu-btn:active{background:var(--soft)}
 
+  /* 信件卡片 */
+  .letter-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(31,95,108,.06);border:1px solid var(--line);margin-bottom:10px;display:block}
+  .letter-head{display:flex;align-items:center;gap:6px;padding:10px 14px;background:linear-gradient(135deg,#e8f0f3,#f2f7f8);font-size:13px;font-weight:600;color:var(--primary);border-bottom:1px solid var(--line)}
+  .letter-head svg{opacity:.85;flex:0 0 auto}
+  .letter-body{padding:14px 16px;font-size:14px;line-height:1.75;color:var(--text);white-space:pre-wrap;word-break:break-word}
+  .letter-status{padding:8px 14px;background:var(--soft);font-size:11.5px;color:var(--light-text);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);letter-spacing:.3px}
+  .letter-status > span:first-child{font-weight:500}
+  .letter-status > span:last-child{opacity:.75}
+
 /* 邀请卡片（居中） */
 .invite-msg-wrap{display:flex;justify-content:center;width:100%;margin:6px 0}
 .invite-card{width:auto;min-width:180px;display:inline-block;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.06);border:1px solid var(--line);text-align:center}
@@ -669,6 +673,85 @@
 .avatar{display:grid;place-items:center;overflow:hidden;background-size:cover;background-position:center}
   .avatar{display:grid;place-items:center;overflow:hidden;background-size:cover;background-position:center}
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+/* ============ 新版主屏 ============ */
+.home{display:flex;flex-direction:column;gap:14px;padding-top:8px}
+
+/* 今日状态胶囊 */
+.mood-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;background:rgba(255,255,255,.78);border-radius:14px;font-size:12px;color:var(--primary);letter-spacing:.3px;box-shadow:0 2px 8px rgba(31,95,108,.06);align-self:flex-start;margin-top:2px}
+.mood-chip .mood-dot{width:6px;height:6px;border-radius:50%;background:var(--highlight);flex:0 0 auto;animation:pulse 2s infinite}
+
+/* 顶部 拍立得 + 待办 */
+.top-hero-row{display:flex;gap:12px;align-items:stretch}
+.top-photo-box{flex:0 0 110px;height:118px;border-radius:16px;background:rgba(255,255,255,.6);border:1px dashed rgba(31,95,108,.25);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;box-shadow:0 2px 10px rgba(31,95,108,.04)}
+.top-photo-box img{width:100%;height:100%;object-fit:cover;display:block}
+.top-photo-empty{font-size:12px;color:var(--light-text);letter-spacing:.5px}
+.top-todo-card{flex:1;border-radius:16px;background:rgba(255,255,255,.6);border:1px dashed rgba(31,95,108,.2);padding:14px 16px;display:flex;flex-direction:column;justify-content:center;gap:6px;position:relative;box-shadow:0 2px 10px rgba(31,95,108,.04)}
+.top-todo-title{font-size:12px;color:var(--primary);font-weight:600;letter-spacing:.5px}
+.top-todo-content{font-size:13.5px;color:var(--text);line-height:1.4;word-break:break-all}
+.top-todo-content.empty{color:var(--light-text)}
+
+/* 小铅笔 */
+.edit-pencil{position:absolute;top:6px;right:6px;width:22px;height:22px;border:0;border-radius:50%;background:rgba(255,255,255,.85);color:var(--light-text);display:grid;place-items:center;cursor:pointer;padding:0;opacity:.6;transition:opacity .15s;z-index:5}
+.edit-pencil svg{width:12px;height:12px}
+.edit-pencil:active{opacity:1;background:var(--primary);color:#fff}
+
+/* 情侣连线区 */
+.couple-line-wrap{position:relative;display:flex;align-items:center;justify-content:center;gap:6px;padding:4px 4px 22px}
+.couple-person-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;flex:0 0 auto}
+.couple-avatar-sm{width:52px;height:52px;border-radius:50%;background:#e8ecef;display:grid;place-items:center;color:#b8c0c7;overflow:hidden;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.couple-avatar-sm svg{width:24px;height:24px}
+.couple-avatar-sm img{width:100%;height:100%;object-fit:cover;display:block}
+.couple-name-row{display:flex;align-items:center;gap:3px}
+.couple-name{font-size:12px;color:var(--primary);font-weight:600;max-width:64px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.redline-svg{flex:1;height:34px;overflow:visible;min-width:0}
+.couple-line-caption{
+  position:absolute;
+  left:0;right:0;bottom:8px;
+  text-align:center;
+  font-size:13px;
+  color:#b08a8a;
+  letter-spacing:3px;
+  font-weight:500;
+  opacity:.8;
+  pointer-events:none;
+  font-style:italic;
+}
+
+/* 纪念日卡 */
+.anniversary-card{padding:20px 20px 16px;border-radius:18px;background:rgba(255,255,255,.6);border:1px solid rgba(31,95,108,.06);box-shadow:0 4px 16px rgba(31,95,108,.04);display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;background-size:cover;background-position:center}
+.anniversary-top{text-align:center;position:relative;z-index:2}
+.anniversary-label{font-size:13px;color:var(--light-text);letter-spacing:1px;margin-right:4px}
+.anniversary-days{display:flex;align-items:baseline;justify-content:center;gap:6px;color:var(--primary)}
+.anniversary-num{font-size:48px;font-weight:700;line-height:1.1;letter-spacing:-1px}
+.anniversary-unit{font-size:14px}
+.anniversary-dashed-line{border-top:1px dashed rgba(31,95,108,.15);margin:0 10px;position:relative;z-index:2}
+.anniversary-bottom{display:flex;justify-content:center;align-items:center;position:relative;z-index:2}
+.daily-love-text{font-size:13.5px;color:var(--text);text-align:center;line-height:1.5;width:100%;padding:0 12px;box-sizing:border-box}
+
+/* 底部：左软件 2 列 + 右大拍立得 */
+.bottom-row{display:flex;gap:12px;align-items:stretch;margin-top:8px}
+.app-grid-secondary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 8px;flex:0 0 42%;align-content:start}
+.app-grid-secondary .app-item{display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;font-family:inherit;cursor:pointer;padding:0}
+.app-grid-secondary .app-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--primary);box-shadow:0 2px 8px rgba(31,95,108,.06);transition:transform .15s ease;overflow:hidden;background-size:cover;background-position:center;position:relative}
+.app-grid-secondary .app-icon svg{width:24px;height:24px}
+.app-grid-secondary .app-icon img{width:100%;height:100%;object-fit:cover;display:block}
+.app-grid-secondary .app-label{font-size:11px;color:var(--text);text-align:center;max-width:64px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-grid-secondary .app-item:active .app-icon{transform:scale(.92)}
+
+/* 右侧大拍立得 */
+.big-photo-card{flex:1;min-width:0;min-height:200px;border-radius:18px;background:rgba(255,255,255,.6);border:1px dashed rgba(31,95,108,.25);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;box-shadow:0 4px 16px rgba(31,95,108,.06)}
+.big-photo-card img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+.big-photo-empty{font-size:13px;color:var(--light-text);letter-spacing:.5px;pointer-events:none}
+
+/* 底部 Dock */
+.bottom-dock{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);width:auto;background:rgba(255,255,255,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-radius:999px;padding:8px 22px;display:flex;gap:20px;box-shadow:0 8px 24px rgba(0,0,0,.1);border:1px solid rgba(255,255,255,.6);z-index:100}
+.dock-item{display:grid;place-items:center;background:transparent;border:0;font-family:inherit;cursor:pointer;width:44px;height:44px;border-radius:50%;transition:background .15s ease}
+.dock-item:active{background:rgba(31,95,108,.1)}
+.dock-icon{width:24px;height:24px;display:grid;place-items:center;color:var(--primary);position:relative}
+.dock-icon svg{width:24px;height:24px}
+.dock-icon img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
+.dock-label{display:none}
+.bottom-dock.dock-hidden{display:none!important}
 </style>
 </head>
 <body>
@@ -713,56 +796,131 @@
 
 <div class="app">
   <div class="home" id="homeScreen">
-    <div class="status-bar">
-  <div class="status-left">
-    <span id="homeClock">00:00</span>
-    <span class="home-greeting" id="homeGreeting">早安</span>
-    <span class="home-title">sheng·g</span>
+  <div class="status-bar">
+    <div class="status-left">
+      <span id="homeClock">00:00</span>
+      <span class="home-greeting" id="homeGreeting">早安</span>
+      <span class="home-title">sheng·g</span>
+    </div>
+    <div class="status-right">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2"/></svg>
+    </div>
   </div>
-  <div class="status-right">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a9 9 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><circle cx="12" cy="18.5" r="0.8" fill="currentColor"/></svg>
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="18" height="10" rx="2"/><path d="M22 11v2"/></svg>
-  </div>
+
+  <div class="mood-chip" id="moodChip" style="display:none;">
+  <span class="mood-dot"></span>
+  <span class="mood-text" id="moodChipText">今天心情不错</span>
 </div>
 
-    <div class="couple-card">
-  <div class="daily-love" id="dailyLove">
-    <span class="daily-love-icon">❤</span>
+<div class="top-hero-row">
+    <div class="top-photo-box" id="topPhotoBox">
+      <div class="top-photo-empty" id="topPhotoEmpty">点 ✎ 放图</div>
+      <img id="topPhotoImg" src="" alt="" style="display:none;">
+      <button class="edit-pencil" id="topPhotoEdit" aria-label="换图">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </button>
+    </div>
+    <div class="top-todo-card" id="topTodoCard">
+      <div class="top-todo-title">今日待办</div>
+      <div class="top-todo-content empty" id="topTodoContent">还没有待办</div>
+      <button class="edit-pencil" id="topTodoEdit" aria-label="编辑">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="couple-line-wrap">
+    <div class="couple-person-wrap">
+      <div class="couple-avatar-sm" id="homeTaAvatar"></div>
+      <div class="couple-name-row">
+        <span class="couple-name" id="homeTaName">TA</span>
+      </div>
+    </div>
+    <svg class="redline-svg" viewBox="0 0 200 40" preserveAspectRatio="none">
+      <path d="M 0 20 Q 15 28, 30 20 T 60 20 C 70 10, 80 5, 85 20 C 90 35, 95 10, 100 20 C 105 35, 110 10, 115 20 C 120 5, 130 10, 140 20 T 170 20 Q 185 28, 200 20" stroke="#e84a5f" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="couple-person-wrap">
+      <div class="couple-avatar-sm" id="homeMyAvatar"></div>
+    <div class="couple-name-row">
+      <span class="couple-name" id="homeMyName">我</span>
+    </div>
+  </div>
+  <div class="couple-line-caption">隔着次元，心跳同频</div>
+</div>
+
+  <div class="anniversary-card" id="anniversaryCard">
+    <button class="edit-pencil" id="anniversaryEdit" aria-label="编辑">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    </button>
+    <div class="anniversary-top">
+  <div class="anniversary-days">
+    <span class="anniversary-label">在一起</span>
+    <span class="anniversary-num" id="homeDays">0</span>
+    <span class="anniversary-unit">天</span>
+  </div>
+</div>
+    <div class="anniversary-dashed-line"></div>
+    <div class="anniversary-bottom">
+  <div class="daily-love-text">
     <span id="dailyLoveText">今天也想你</span>
   </div>
-  <div class="couple-row">
-    <div class="couple-person">
-      <div class="avatar" id="homeTaAvatar"></div>
-      <div class="name" id="homeTaName">TA</div>
-    </div>
-    <div class="couple-heart">❤</div>
-    <div class="couple-person">
-      <div class="avatar" id="homeMyAvatar"></div>
-      <div class="name" id="homeMyName">我</div>
-    </div>
+</div>
   </div>
-  <div class="couple-days"><span class="num" id="homeDays">0</span><span class="label">天</span></div>
-  <div class="affection-bar">
-    <div class="affection-head"><span>好感度</span><span class="val" id="homeAffectionVal">0%</span></div>
-    <div class="affection-track"><div class="affection-fill" id="homeAffectionFill"></div></div>
+
+  <div class="bottom-row">
+  <div class="app-grid-secondary">
+    <button class="app-item" data-app="chat">
+      <div class="app-icon" data-icon-key="chat">
+        <span class="app-badge" id="chatBadge" style="display:none;">0</span>
+      </div>
+      <span class="app-label">聊天</span>
+    </button>
+    <button class="app-item" data-app="music">
+      <div class="app-icon" data-icon-key="music"></div>
+      <span class="app-label">一起听</span>
+    </button>
+    <button class="app-item" data-app="moments">
+      <div class="app-icon" data-icon-key="moments"></div>
+      <span class="app-label">动态</span>
+    </button>
+    <button class="app-item" data-app="mailbox">
+      <div class="app-icon" data-icon-key="mailbox"></div>
+      <span class="app-label">信箱</span>
+    </button>
+    <button class="app-item" data-app="wallet">
+      <div class="app-icon" data-icon-key="wallet"></div>
+      <span class="app-label">钱包</span>
+    </button>
+  </div>
+  <div class="big-photo-card" id="bigPhotoCard">
+    <img id="bigPhotoImg" src="" alt="" style="display:none;">
+    <div class="big-photo-empty" id="bigPhotoEmpty">点 ✎ 放照片</div>
+    <button class="edit-pencil" id="bigPhotoEdit" aria-label="换图">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    </button>
   </div>
 </div>
 
-    <div class="daily-signin" id="dailySignIn" style="cursor:pointer;">
-      <span class="daily-love-icon">📅</span>
-      <span style="flex:1;">每日签到</span>
-      <span id="signInStatus" style="font-size:12px; color:var(--primary); font-weight:600;">+1好感度 & 零花钱</span>
-    </div>
-    <div class="app-grid">
-  <button class="app-item" data-app="chat"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg><span class="app-badge" id="chatBadge" style="display:none;">0</span></div><span class="app-label">聊天</span></button>
-  <button class="app-item" data-app="music"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><span class="app-label">一起听</span></button>
-<button class="app-item" data-app="moments"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M5 18l5-4 4 3 3-2 2 2"/></svg></div><span class="app-label">动态</span></button>
-<button class="app-item" data-app="cards"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h4"/></svg></div><span class="app-label">字卡</span></button>
-  <button class="app-item" data-app="mailbox"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div><span class="app-label">信箱</span></button>
-  <button class="app-item" data-app="wallet"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/><path d="M3 7h16"/><path d="M16 12h5"/><circle cx="16" cy="12" r="0.8" fill="currentColor"/></svg></div><span class="app-label">钱包</span></button>
-  <button class="app-item" data-app="settings"><div class="app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></div><span class="app-label">设置</span></button>
+  <div style="height: 96px;"></div>
 </div>
-  </div>
+
+<div class="bottom-dock" id="bottomDock">
+  <button class="dock-item" data-app="home">
+    <div class="dock-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"/></svg>
+    </div>
+    <span class="dock-label">主页</span>
+  </button>
+  <button class="dock-item" data-app="cards">
+    <div class="dock-icon" data-icon-key="cards"></div>
+    <span class="dock-label">字卡</span>
+  </button>
+  <button class="dock-item" data-app="settings">
+    <div class="dock-icon" data-icon-key="settings"></div>
+    <span class="dock-label">设置</span>
+  </button>
+</div>
 
   <div class="chat-page" id="chatPage">
 <header class="chat-header">
@@ -915,6 +1073,34 @@
     </div>
   </div>
 </div>
+<div class="beautify-section-title">纪念日卡背景</div>
+<div class="field-group">
+  <div class="bg-grid" id="annivBgGrid">
+    <div class="bg-swatch default-bg" data-abg="default" data-default="1" style="background:rgba(255,255,255,.6)"></div>
+    <div class="bg-swatch" data-abg="#f7e1e1" style="background:#f7e1e1"></div>
+    <div class="bg-swatch" data-abg="#d8f0e6" style="background:#d8f0e6"></div>
+    <div class="bg-swatch" data-abg="#cfe6f5" style="background:#cfe6f5"></div>
+    <div class="bg-swatch" data-abg="#f4f1ea" style="background:#f4f1ea"></div>
+    <div class="bg-swatch" data-abg="#e8e4dc" style="background:#e8e4dc"></div>
+  </div>
+  <div class="bg-upload-row">
+    <button id="annivBgUploadBtn">上传图片</button>
+    <button id="annivBgClearBtn">清除</button>
+  </div>
+  <input type="file" id="annivBgFile" accept="image/*" style="display:none;">
+</div>
+
+<div class="beautify-section-title">顶部拍立得照片</div>
+<div class="field-group">
+  <div class="bg-upload-row" style="padding:0 16px 16px;">
+    <button id="topPhotoUploadBtn">上传/更换照片</button>
+    <button id="topPhotoClearBtn">清除</button>
+  </div>
+  <input type="file" id="topPhotoFile2" accept="image/*" style="display:none;">
+</div>
+
+<div class="beautify-section-title">App 图标自定义</div>
+<div class="field-group" id="appIconSettingsList"></div>
 <div class="actions"><button class="btn-primary" id="homeBeautifyResetBtn">恢复默认主屏壁纸</button><button class="btn-ghost" id="lockBeautifyResetBtn">恢复默认锁屏壁纸</button></div>
     <div class="tip">主屏和锁屏壁纸是分开的。锁屏壁纸只影响解锁界面，主屏壁纸只影响主屏。</div>
   </div>
@@ -1401,6 +1587,119 @@
   }
 
   var $ = function(id){ return document.getElementById(id); };
+  /* ============ IndexedDB 图片存储 ============ */
+var IDB_IMG_DB = null;
+var IDB_IMG_STORE = 'blobs';
+var imgBlobToKey = {};
+var imgKeyToBlob = {};
+var IMG_FIELDS = ['avatar','myAvatar','bgImage','homeBgImage','lockBgImage','momentsCover','topHeroImage','bigHomeImage'];
+
+function idbOpen(){
+  return new Promise(function(resolve, reject){
+    if(IDB_IMG_DB){ resolve(IDB_IMG_DB); return; }
+    try {
+      if(!window.indexedDB){ reject(new Error('no indexeddb')); return; }
+      var req = indexedDB.open('sg_images', 1);
+      req.onupgradeneeded = function(e){
+        var db = e.target.result;
+        if(!db.objectStoreNames.contains(IDB_IMG_STORE)){
+          db.createObjectStore(IDB_IMG_STORE);
+        }
+      };
+      req.onsuccess = function(e){ IDB_IMG_DB = e.target.result; resolve(IDB_IMG_DB); };
+      req.onerror = function(e){ reject(e.target.error); };
+    } catch(e){ reject(e); }
+  });
+}
+function idbPut(key, blob){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve, reject){
+      var tx = db.transaction(IDB_IMG_STORE, 'readwrite');
+      tx.objectStore(IDB_IMG_STORE).put(blob, key);
+      tx.oncomplete = function(){ resolve(); };
+      tx.onerror = function(e){ reject(e.target.error); };
+    });
+  });
+}
+function idbDelete(key){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve, reject){
+      var tx = db.transaction(IDB_IMG_STORE, 'readwrite');
+      tx.objectStore(IDB_IMG_STORE).delete(key);
+      tx.oncomplete = function(){ resolve(); };
+      tx.onerror = function(e){ reject(e.target.error); };
+    });
+  });
+}
+function dataUrlToBlob(dataUrl){
+  var parts = dataUrl.split(',');
+  var mimeMatch = parts[0].match(/:(.*?);/);
+  var mime = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+  var bstr = atob(parts[1]);
+  var n = bstr.length;
+  var arr = new Uint8Array(n);
+  while(n--){ arr[n] = bstr.charCodeAt(n); }
+  return new Blob([arr], {type: mime});
+}
+function saveImgToIdb(key, dataUrl){
+  var blob;
+  if(typeof dataUrl === 'string' && dataUrl.indexOf('data:image') === 0){
+    blob = dataUrlToBlob(dataUrl);
+  } else if(dataUrl instanceof Blob){
+    blob = dataUrl;
+  } else {
+    return Promise.resolve(dataUrl || '');
+  }
+  return idbPut(key, blob).then(function(){
+    if(imgKeyToBlob[key]){
+      var oldUrl = imgKeyToBlob[key];
+      delete imgBlobToKey[oldUrl];
+      try { URL.revokeObjectURL(oldUrl); } catch(e){}
+    }
+    var url = URL.createObjectURL(blob);
+    imgKeyToBlob[key] = url;
+    imgBlobToKey[url] = key;
+    return url;
+  });
+}
+function urlToIdbMarker(url){
+  if(typeof url !== 'string') return url || '';
+  if(url.indexOf('blob:') === 0){
+    var key = imgBlobToKey[url];
+    if(key) return '@idb:' + key;
+  }
+  return url;
+}
+function idbMarkerToKey(val){
+  if(typeof val !== 'string') return '';
+  if(val.indexOf('@idb:') === 0) return val.slice(5);
+  return '';
+}
+function preloadAllImages(){
+  return idbOpen().then(function(db){
+    return new Promise(function(resolve, reject){
+      var tx = db.transaction(IDB_IMG_STORE, 'readonly');
+      var store = tx.objectStore(IDB_IMG_STORE);
+      var req = store.openCursor();
+      req.onsuccess = function(e){
+        var cursor = e.target.result;
+        if(cursor){
+          var key = cursor.key;
+          var blob = cursor.value;
+          if(blob instanceof Blob && !imgKeyToBlob[key]){
+            var url = URL.createObjectURL(blob);
+            imgKeyToBlob[key] = url;
+            imgBlobToKey[url] = key;
+          }
+          cursor.continue();
+        } else { resolve(); }
+      };
+      req.onerror = function(e){ reject(e.target.error); };
+    });
+  }).catch(function(err){
+    console.warn('IndexedDB 不可用，回退到 localStorage', err);
+  });
+}
 
   /* 图片压缩 */
   function compressImage(file, maxSize, callback){
@@ -1496,7 +1795,17 @@ var DEFAULT_READ_BACK_REPLIES = [
     '干嘛一直叫我呀～',
     '来啦来啦，别催嘛'
   ];
-  var DEFAULT_PROACTIVE = [
+  var DEFAULT_MOODS = [
+  '今天心情不错 | 宠溺,情话',
+  '有点累 | 短回复,嗯,困',
+  '在想你 | 撒娇黏人,想念',
+  '今天有点忙 | 短回复,待续',
+  '不太开心 | 冷,低落,沉默',
+  '平平淡淡 | 日常问候'
+];
+var MOOD_KEY = 'chat_mood_v1';
+
+var DEFAULT_PROACTIVE = [
     { name: '回来', color: PROACTIVE_COLORS[0], items: ['你终于回来啦。','宝宝，我等你好久了。','回来啦？想你了。','刚刚一直在想你。'] },
     { name: '早', color: PROACTIVE_COLORS[1], items: ['早安，昨晚睡得好吗。','醒了吗？今天也要开心。','早呀，今天天气不错。'] },
     { name: '午', color: PROACTIVE_COLORS[2], items: ['吃饭了吗？别忘了吃。','午安，休息一下。','中午了，别忙过头。'] },
@@ -1545,9 +1854,17 @@ momentsCover: '',
     soundType: 'ding',
 capsuleColor: 'rgba(28,28,30,.86)',
     homeBg: 'default', homeBgImage: '',
-    lockBg: '#2f3f4c', lockBgImage: '',
-lockTimeColor: '#ffffff', lockTimeSize: '64px',
+    lockBg: 'linear-gradient(160deg,#fdf3f0 0%,#f5e8ef 50%,#e8eff5 100%)', lockBgImage: '',
+lockTimeColor: '#1f5f6c', lockTimeSize: '64px',
     proactiveEnabled: true
+    ,
+    topHeroImage: '',
+bigHomeImage: '',
+todoText: '',
+todoDate: '',
+anniversaryBg: '',
+anniversaryBgImage: '',
+appIcons: {}
   };
   var stats = { affection: 0, lastChatDate: '', startDate: '' };
   var proactive = { lastOpenTime: 0, lastPeriod: '', lastProactiveTime: 0, lastChatTime: 0 };
@@ -1593,11 +1910,35 @@ var musicTimerStart = 0;
 
   /* 读取 */
   function loadPerson(){
-    try{
-      var raw = localStorage.getItem(PERSON_KEY);
-      if(raw){ var d = JSON.parse(raw); if(d && typeof d === 'object'){ for(var k in person){ if(d[k] !== undefined) person[k] = d[k]; } } }
-    }catch(e){}
-  }
+  try{
+    var raw = localStorage.getItem(PERSON_KEY);
+    if(raw){
+      var d = JSON.parse(raw);
+      if(d && typeof d === 'object'){
+        for(var k in person){ if(d[k] !== undefined && IMG_FIELDS.indexOf(k) === -1) person[k] = d[k]; }
+        IMG_FIELDS.forEach(function(f){
+          var v = d[f];
+          if(typeof v !== 'string' || !v){ person[f] = v || ''; return; }
+          var key = idbMarkerToKey(v);
+          if(key){
+            person[f] = imgKeyToBlob[key] || '';
+          } else if(v.indexOf('data:image') === 0){
+            // 旧数据：迁移到 IndexedDB（后台进行）
+            person[f] = v;
+            saveImgToIdb('person_' + f, v).then(function(url){
+              person[f] = url;
+              savePerson();
+              renderHome();
+              if(f === 'bgImage') applyBeautify();
+            });
+          } else {
+            person[f] = v;
+          }
+        });
+      }
+    }
+  }catch(e){}
+}
   function loadStats(){
     try{
       var raw = localStorage.getItem(STATS_KEY);
@@ -1634,9 +1975,14 @@ function saveLetters(){ safeSetItem('chat_letters_v1', JSON.stringify(letters));
     try{
       var raw = localStorage.getItem(CARDS_KEY);
       if(raw){
-        var d = JSON.parse(raw);
-        if(d && d.text && Array.isArray(d.text)){ cards = normalizeCards(d); saveCards(); return; }
-      }
+  var d = JSON.parse(raw);
+  if(d && d.text && Array.isArray(d.text)){
+    if(Array.isArray(d.sticker)) d.sticker = resolveStickerArray(d.sticker);
+    cards = normalizeCards(d);
+    saveCards();
+    return;
+  }
+}
       var oldRaw = localStorage.getItem(CARDS_KEY_OLD);
       if(oldRaw){
         var oldD = JSON.parse(oldRaw);
@@ -1646,12 +1992,39 @@ function saveLetters(){ safeSetItem('chat_letters_v1', JSON.stringify(letters));
       saveCards();
     }catch(e){ cards = makeNewCards(); }
   }
-  function loadTaStickers(){
-    try{ var raw = localStorage.getItem(TA_STICKER_KEY); if(raw){ var d = JSON.parse(raw); if(Array.isArray(d)) taStickers = d.filter(function(s){ return typeof s === 'string' && s.trim(); }); } }catch(e){}
-  }
-  function loadUserStickers(){
-    try{ var raw = localStorage.getItem(USER_STICKER_KEY); if(raw){ var d = JSON.parse(raw); if(Array.isArray(d)) userStickers = d.filter(function(s){ return typeof s === 'string' && s.trim(); }); } }catch(e){}
-  }
+  function resolveStickerArray(raw){
+  if(!Array.isArray(raw)) return [];
+  var out = [];
+  raw.forEach(function(s){
+    if(typeof s !== 'string' || !s.trim()) return;
+    var key = idbMarkerToKey(s);
+    if(key){
+      out.push(imgKeyToBlob[key] || '');
+      return;
+    }
+    if(s.indexOf('data:image') === 0){
+      // 旧数据迁移
+      var newKey = 'sticker_migrated_' + Math.random().toString(36).slice(2,10);
+      out.push(s);
+      saveImgToIdb(newKey, s).then(function(url){
+        var idx = out.indexOf(s);
+        if(idx > -1) out[idx] = url;
+      });
+      return;
+    }
+    out.push(s);
+  });
+  return out;
+}
+function serializeStickerArray(arr){
+  return arr.map(function(s){ return urlToIdbMarker(s); });
+}
+function loadTaStickers(){
+  try{ var raw = localStorage.getItem(TA_STICKER_KEY); if(raw){ var d = JSON.parse(raw); taStickers = resolveStickerArray(d); } }catch(e){}
+}
+function loadUserStickers(){
+  try{ var raw = localStorage.getItem(USER_STICKER_KEY); if(raw){ var d = JSON.parse(raw); userStickers = resolveStickerArray(d); } }catch(e){}
+}
   function loadWallets(){
     try{
       var raw = localStorage.getItem(WALLET_ME_KEY);
@@ -1683,16 +2056,31 @@ function saveLetters(){ safeSetItem('chat_letters_v1', JSON.stringify(letters));
   }
 
   /* 保存 */
-  function savePerson(){ safeSetItem(PERSON_KEY, JSON.stringify(person)); }
+  function savePerson(){
+  try{
+    var toSave = {};
+    for(var k in person){ toSave[k] = person[k]; }
+    IMG_FIELDS.forEach(function(f){ toSave[f] = urlToIdbMarker(toSave[f]); });
+    safeSetItem(PERSON_KEY, JSON.stringify(toSave));
+  }catch(e){}
+}
   function saveStats(){ safeSetItem(STATS_KEY, JSON.stringify(stats)); }
   function saveProactive(){ safeSetItem(PROACTIVE_KEY, JSON.stringify(proactive)); }
   function saveMessages(){
     if(messages.length > 200){ messages = messages.slice(messages.length - 200); }
     safeSetItem(MSG_KEY, JSON.stringify(messages));
   }
-  function saveCards(){ safeSetItem(CARDS_KEY, JSON.stringify(cards)); }
-  function saveTaStickers(){ safeSetItem(TA_STICKER_KEY, JSON.stringify(taStickers)); }
-  function saveUserStickers(){ safeSetItem(USER_STICKER_KEY, JSON.stringify(userStickers)); }
+  function saveCards(){
+  try{
+    var toSave = JSON.parse(JSON.stringify(cards));
+    if(Array.isArray(toSave.sticker)){
+      toSave.sticker = toSave.sticker.map(function(s){ return urlToIdbMarker(s); });
+    }
+    safeSetItem(CARDS_KEY, JSON.stringify(toSave));
+  }catch(e){}
+}
+  function saveTaStickers(){ safeSetItem(TA_STICKER_KEY, JSON.stringify(serializeStickerArray(taStickers))); }
+function saveUserStickers(){ safeSetItem(USER_STICKER_KEY, JSON.stringify(serializeStickerArray(userStickers))); }
   function saveMyPats(){ safeSetItem(PAT_ME_KEY, JSON.stringify(myPats)); }
   function saveTaPats(){ safeSetItem(PAT_TA_KEY, JSON.stringify(taPats)); }
 
@@ -1718,6 +2106,7 @@ system: {
         readback: DEFAULT_READ_BACK_REPLIES.slice(),
 rejectListen: DEFAULT_REJECT_LISTEN_REPLIES.slice(),
 rejectedByMe: DEFAULT_REJECTED_BY_ME_REPLIES.slice(),
+mood: DEFAULT_MOODS.slice(),
         proactive: DEFAULT_PROACTIVE.map(function(g){
           return { id: 'pro_' + g.name, name: g.name, color: g.color, items: g.items.slice() };
         })
@@ -1751,7 +2140,8 @@ if(isDictEmpty){
     if(!Array.isArray(d.system.readback) || d.system.readback.length === 0) d.system.readback = DEFAULT_READ_BACK_REPLIES.slice();
 if(!Array.isArray(d.system.rejectListen) || d.system.rejectListen.length === 0) d.system.rejectListen = DEFAULT_REJECT_LISTEN_REPLIES.slice();
 if(!Array.isArray(d.system.rejectedByMe) || d.system.rejectedByMe.length === 0) d.system.rejectedByMe = DEFAULT_REJECTED_BY_ME_REPLIES.slice();
-    if(!Array.isArray(d.system.proactive)) d.system.proactive = [];
+    if(!Array.isArray(d.system.mood)) d.system.mood = DEFAULT_MOODS.slice();
+if(!Array.isArray(d.system.proactive)) d.system.proactive = [];
 
     d.text.forEach(function(b){
       if(!b.id) b.id = uid('bg');
@@ -1873,9 +2263,10 @@ function playDing(){
 }
 
   /* 弹窗 */
-  function showDialog(title, body, buttons){
-    $('dialogTitle').textContent = title;
-    $('dialogBody').textContent = body;
+  function showDialog(title, body, buttons, isHtml){
+  $('dialogTitle').textContent = title;
+  if(isHtml){ $('dialogBody').innerHTML = body; }
+  else { $('dialogBody').textContent = body; }
     var btns = $('dialogBtns'); btns.innerHTML = '';
     buttons.forEach(function(b){
       var btn = document.createElement('button');
@@ -1930,6 +2321,252 @@ function playDing(){
   function showTyping(){ $('typingBar').classList.add('show'); $('headerStatus').textContent = '对方正在输入…'; }
   function hideTyping(){ $('typingBar').classList.remove('show'); $('headerStatus').textContent = '在线'; }
 
+  /* ============ 新版主屏 · 渲染 ============ */
+function renderBigPhoto(){
+  var img = $('bigPhotoImg'), emp = $('bigPhotoEmpty');
+  if(!img || !emp) return;
+  if(person.bigHomeImage){
+    img.src = person.bigHomeImage;
+    img.style.display = 'block';
+    emp.style.display = 'none';
+  } else {
+    img.style.display = 'none';
+    emp.style.display = 'block';
+  }
+}
+
+/* ============ 今日状态 ============ */
+function getMoodCard(){
+  var pool = (cards && cards.system && Array.isArray(cards.system.mood)) ? cards.system.mood.filter(function(s){ return typeof s === 'string' && s.trim(); }) : [];
+  if(!pool.length) return null;
+  var today = new Date().toDateString();
+  var stored = null;
+  try{ stored = JSON.parse(localStorage.getItem(MOOD_KEY) || 'null'); }catch(e){}
+  if(stored && stored.date === today && stored.name){ return stored; }
+  var picked = pool[Math.floor(Math.random() * pool.length)];
+  var parts = picked.split('|');
+  var name = (parts[0] || '').trim();
+  var kws = (parts[1] || '').split(/[,，]/).map(function(s){ return s.trim(); }).filter(Boolean);
+  stored = { date: today, name: name, keywords: kws };
+  try{ localStorage.setItem(MOOD_KEY, JSON.stringify(stored)); }catch(e){}
+  return stored;
+}
+
+function renderMoodChip(){
+  var el = $('moodChip');
+  if(!el) return;
+  var mood = getMoodCard();
+  if(!mood || !mood.name){ el.style.display = 'none'; return; }
+  el.style.display = 'inline-flex';
+  var t = $('moodChipText');
+  if(t) t.textContent = mood.name;
+}
+
+function getMoodPool(){
+  var mood = getMoodCard();
+  if(!mood || !mood.keywords || !mood.keywords.length) return null;
+  var kws = mood.keywords;
+  var pool = [];
+  cards.text.forEach(function(b){
+    if(b.enabled === false) return;
+    var bigMatch = kws.some(function(kw){ return b.name.indexOf(kw) > -1; });
+    b.groups.forEach(function(sg){
+      var subMatch = kws.some(function(kw){ return sg.name.indexOf(kw) > -1; });
+      if(bigMatch || subMatch){
+        sg.items.forEach(function(it){ if(it && String(it).trim()) pool.push(String(it).trim()); });
+      }
+    });
+  });
+  if(!pool.length) return null;
+  if(person.cardCooldown > 0 && recentCards.length){
+    var filtered = pool.filter(function(t){ return recentCards.indexOf(t) === -1; });
+    if(filtered.length > 0) pool = filtered;
+  }
+  return pool;
+}
+
+function renderTopHero(){
+  var img = $('topPhotoImg'), emp = $('topPhotoEmpty');
+  if(img && emp){
+    if(person.topHeroImage){
+      img.src = person.topHeroImage; img.style.display = 'block'; emp.style.display = 'none';
+    } else {
+      img.style.display = 'none'; emp.style.display = 'block';
+    }
+  }
+  var td = $('topTodoContent');
+  if(td){
+    if(person.todoText){
+      td.textContent = person.todoText; td.classList.remove('empty');
+    } else {
+      td.textContent = '还没有待办'; td.classList.add('empty');
+    }
+  }
+}
+
+function renderAnniversaryBg(){
+  var c = $('anniversaryCard');
+  if(!c) return;
+  if(person.anniversaryBgImage){
+    c.style.backgroundImage = 'url(' + person.anniversaryBgImage + ')';
+    c.style.backgroundColor = '#fff';
+  } else {
+    c.style.backgroundImage = 'none';
+    c.style.backgroundColor = person.anniversaryBg || 'rgba(255,255,255,.6)';
+  }
+}
+
+function renderAppIcons(){
+  var iconSVGs = {
+    music:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+    moments:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="M5 18l5-4 4 3 3-2 2 2"/></svg>',
+    mailbox:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+    wallet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"/><path d="M3 7h16"/><path d="M16 12h5"/><circle cx="16" cy="12" r="0.8" fill="currentColor"/></svg>',
+    chat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg>',
+    cards:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>',
+    settings:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>'
+  };
+  var icons = person.appIcons || {};
+  Array.prototype.forEach.call(document.querySelectorAll('[data-icon-key]'), function(el){
+    var key = el.dataset.iconKey;
+    var badge = (key === 'chat') ? el.querySelector('.app-badge') : null;
+    if(icons[key]){
+      el.innerHTML = '<img src="' + icons[key] + '" alt="">' + (badge ? badge.outerHTML : '');
+    } else {
+      el.innerHTML = (key === 'chat' ? '<span class="app-badge" id="chatBadge" style="display:none;">0</span>' : '') + (iconSVGs[key] || '');
+    }
+  });
+  var cb = $('chatBadge');
+  if(cb){
+    if(unreadCount > 0){ cb.textContent = unreadCount > 99 ? '99+' : unreadCount; cb.style.display = 'grid'; }
+    else cb.style.display = 'none';
+  }
+}
+
+/* ============ 新版主屏 · 交互 ============ */
+if($('bigPhotoEdit')) $('bigPhotoEdit').onclick = function(e){
+  e.stopPropagation();
+  var inp = document.createElement('input'); inp.type='file'; inp.accept='image/*';
+  inp.onchange = function(){
+    var f = inp.files && inp.files[0]; if(!f) return;
+    compressImage(f, 1000, function(dataUrl){
+      saveImgToIdb('person_bigHomeImage', dataUrl).then(function(url){
+        person.bigHomeImage = url; savePerson(); renderBigPhoto();
+      });
+    }, 0.9);
+  };
+  inp.click();
+};
+if($('topPhotoEdit')) $('topPhotoEdit').onclick = function(e){
+  e.stopPropagation();
+  var inp = document.createElement('input'); inp.type='file'; inp.accept='image/*';
+  inp.onchange = function(){
+    var f = inp.files && inp.files[0]; if(!f) return;
+    compressImage(f, 800, function(dataUrl){
+      saveImgToIdb('person_topHeroImage', dataUrl).then(function(url){
+        person.topHeroImage = url; savePerson(); renderTopHero();
+      });
+    }, 0.9);
+  };
+  inp.click();
+};
+if($('topTodoEdit')) $('topTodoEdit').onclick = function(e){
+  e.stopPropagation();
+  var cur = person.todoText || '';
+  var v = window.prompt('今天想做什么？', cur);
+  if(v === null) return;
+  person.todoText = v.trim();
+  person.todoDate = new Date().toDateString();
+  savePerson(); renderTopHero();
+};
+if($('anniversaryEdit')) $('anniversaryEdit').onclick = function(e){
+  e.stopPropagation();
+  showDialog('编辑纪念日卡', '', [
+    { text:'改日期', onClick:function(){
+      var cur = stats.startDate || '';
+      var v = window.prompt('在一起的第一天（例：2024-01-01）', cur);
+      if(v === null) return;
+      stats.startDate = v.trim();
+      saveStats(); renderHome();
+    }},
+    { text:'改背景', onClick:function(){
+      renderHomeBeautify();
+      $('homeBeautifyPage').classList.add('open');
+    }},
+    { text:'取消', primary:true }
+  ]);
+};
+
+// 主屏美化页新增控件
+if($('annivBgGrid')){
+  $('annivBgGrid').addEventListener('click', function(e){
+    var sw = e.target.closest('[data-abg]'); if(!sw) return;
+    person.anniversaryBg = sw.dataset.abg === 'default' ? '' : sw.dataset.abg;
+    person.anniversaryBgImage = '';
+    savePerson(); renderAnniversaryBg(); renderHomeBeautify();
+  });
+}
+if($('annivBgUploadBtn')) $('annivBgUploadBtn').onclick = function(){ $('annivBgFile').click(); };
+if($('annivBgFile')){
+  $('annivBgFile').addEventListener('change', function(){
+    var f = $('annivBgFile').files && $('annivBgFile').files[0]; if(!f) return;
+    compressImage(f, 1200, function(dataUrl){
+      saveImgToIdb('person_anniversaryBgImage', dataUrl).then(function(url){
+        person.anniversaryBgImage = url; savePerson(); renderAnniversaryBg();
+      });
+    }, 0.9);
+    $('annivBgFile').value = '';
+  });
+}
+if($('annivBgClearBtn')) $('annivBgClearBtn').onclick = function(){
+  person.anniversaryBgImage = ''; person.anniversaryBg = ''; savePerson(); renderAnniversaryBg(); renderHomeBeautify();
+};
+if($('topPhotoUploadBtn')) $('topPhotoUploadBtn').onclick = function(){ $('topPhotoFile2').click(); };
+if($('topPhotoFile2')){
+  $('topPhotoFile2').addEventListener('change', function(){
+    var f = $('topPhotoFile2').files && $('topPhotoFile2').files[0]; if(!f) return;
+    compressImage(f, 800, function(dataUrl){
+      saveImgToIdb('person_topHeroImage', dataUrl).then(function(url){
+        person.topHeroImage = url; savePerson(); renderTopHero();
+      });
+    }, 0.9);
+    $('topPhotoFile2').value = '';
+  });
+}
+if($('topPhotoClearBtn')) $('topPhotoClearBtn').onclick = function(){
+  person.topHeroImage = ''; savePerson(); renderTopHero();
+};
+
+// App 图标自定义
+document.addEventListener('click', function(e){
+  var up = e.target.closest('[data-icon-upload]');
+  if(up){
+    var key = up.dataset.iconUpload;
+    var inp = document.createElement('input'); inp.type='file'; inp.accept='image/*';
+    inp.onchange = function(){
+      var f = inp.files && inp.files[0]; if(!f) return;
+      compressImage(f, 300, function(dataUrl){
+        saveImgToIdb('appicon_' + key, dataUrl).then(function(url){
+          person.appIcons = person.appIcons || {};
+          person.appIcons[key] = url;
+          savePerson(); renderAppIcons(); renderHomeBeautify();
+        });
+      }, 0.9);
+    };
+    inp.click();
+    return;
+  }
+  var rt = e.target.closest('[data-icon-reset]');
+  if(rt){
+    var key2 = rt.dataset.iconReset;
+    if(person.appIcons && person.appIcons[key2]){
+      delete person.appIcons[key2];
+      savePerson(); renderAppIcons(); renderHomeBeautify();
+    }
+    return;
+  }
+});
+
   /* 美化 */
   function applyBeautify(){
     try{
@@ -1977,14 +2614,14 @@ function playDing(){
         lockScreen.style.backgroundSize = 'cover';
         lockScreen.style.backgroundPosition = 'center';
       } else {
-        var lb = person.lockBg || '#2f3f4c';
+        var lb = person.lockBg || 'linear-gradient(160deg,#fdf3f0 0%,#f5e8ef 50%,#e8eff5 100%)';
   lockScreen.style.backgroundImage = 'none';
   lockScreen.style.background = lb;
 }
 // 应用锁屏文字样式
 var lockTimeEl = $('lockTimeLarge');
 var lockDateEl = $('lockDate');
-if(lockTimeEl){ lockTimeEl.style.color = person.lockTimeColor || '#fff'; lockTimeEl.style.fontSize = person.lockTimeSize || '64px'; }
+if(lockTimeEl){ lockTimeEl.style.color = person.lockTimeColor || '#1f5f6c'; lockTimeEl.style.fontSize = person.lockTimeSize || '64px'; }
 if(lockDateEl){ lockDateEl.style.color = person.lockTimeColor || '#fff'; lockDateEl.style.opacity = '0.85'; }
 
       $('customCssStyle').textContent = person.customCss || '';
@@ -2062,9 +2699,11 @@ if(lockDateEl){ lockDateEl.style.color = person.lockTimeColor || '#fff'; lockDat
       $('homeDays').textContent = days;
       if($('lockDays')) $('lockDays').textContent = days > 0 ? ('和 TA 在一起 ' + days + ' 天') : '';
 
-      var aff = Math.max(0, Math.min(100, stats.affection || 0));
-      $('homeAffectionVal').textContent = Math.round(aff) + '%';
-      $('homeAffectionFill').style.width = aff + '%';
+      renderMoodChip();
+renderTopHero();
+renderBigPhoto();
+renderAnniversaryBg();
+renderAppIcons();
 
       var cb = $('chatBadge');
       if(unreadCount > 0){ cb.textContent = unreadCount > 99 ? '99+' : unreadCount; cb.style.display = 'grid'; }
@@ -2299,8 +2938,12 @@ var musicTag = m.music ? '<span class="music-tag">🎵</span>' : '';
   }
 
   function renderBigGroups(){
-    try{
-      var drawer = $('drawerList'), content = $('biggroupContent');
+  try{
+    var openIds = {};
+    Array.prototype.forEach.call(document.querySelectorAll('#biggroupContent .subgroup-card.open[data-sub]'), function(el){
+      openIds[el.dataset.sub] = true;
+    });
+    var drawer = $('drawerList'), content = $('biggroupContent');
       if(!drawer || !content) return;
       if(!Array.isArray(cards.text)) cards.text = [];
 
@@ -2359,7 +3002,7 @@ if(!big.groups.length){
       return String(it).toLowerCase().indexOf(kw) > -1;
     });
     if(kw && items.length === 0 && sg.name.toLowerCase().indexOf(kw) === -1) return;
-    var isOpen = kw ? true : false;
+    var isOpen = kw ? true : !!openIds[sg.id];
     html += '<div class="subgroup-card' + (isOpen ? ' open' : '') + '" data-sub="' + sg.id + '" data-big="' + big.id + '">' +
               '<div class="subgroup-head" data-toggle="' + sg.id + '">' +
                 '<span class="subgroup-name" data-rename-sub="' + sg.id + '" data-big-id="' + big.id + '">' + esc(sg.name) + '</span>' +
@@ -2488,7 +3131,24 @@ content.innerHTML = html;
                '<form class="subgroup-add" data-add-readback="1" autocomplete="off"><input type="text" placeholder="添加一句被炸出来的台词" maxlength="120"><button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button></form>' +
               '</div>' +
             '</div>';
-    /* 婉拒一起听 */
+    /* 今日状态 */
+if(!Array.isArray(cards.system.mood)) cards.system.mood = DEFAULT_MOODS.slice();
+html += '<div class="subgroup-card">' +
+          '<div class="subgroup-head" data-sys-toggle="mood">' +
+            '<span class="subgroup-name">今日状态</span>' +
+            '<span class="subgroup-count">' + cards.system.mood.length + '</span>' +
+            '<span class="subgroup-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>' +
+          '</div>' +
+          '<div class="subgroup-body">' +
+            '<div style="padding:8px 14px 4px;font-size:11.5px;color:var(--light-text);line-height:1.6;">格式：<code style="background:var(--soft);padding:1px 6px;border-radius:5px;">状态名 | 关键词1,关键词2</code><br>关键词是"去哪抽卡"，比如"短回复"就去找名字带"短回复"的分组。<br>不写竖线 → 只显示不生效。匹配不到 → 正常随机抽卡。</div>' +
+            cards.system.mood.map(function(txt, i){
+              return '<div class="card-item"><span class="card-text">' + esc(txt) + '</span><button class="card-del" data-mood-del="' + i + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
+            }).join('') +
+            '<form class="subgroup-add" data-add-mood="1" autocomplete="off"><input type="text" placeholder="例：有点累 | 短回复,嗯,困" maxlength="120"><button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button></form>' +
+          '</div>' +
+        '</div>';
+
+/* 婉拒一起听 */
     html += '<div class="subgroup-card">' +
               '<div class="subgroup-head" data-sys-toggle="rejectListen">' +
                 '<span class="subgroup-name">婉拒一起听</span>' +
@@ -2723,6 +3383,8 @@ if(rbmDel){
   saveCards(); renderSystemView();
   return;
 }
+var moodDel = e.target.closest('[data-mood-del]');
+if(moodDel){ var mi = parseInt(moodDel.dataset.moodDel, 10); cards.system.mood.splice(mi, 1); saveCards(); renderSystemView(); return; }
 var rbDel = e.target.closest('[data-readback-del]');
     if(rbDel){
       var rbi = parseInt(rbDel.dataset.readbackDel, 10);
@@ -2821,6 +3483,16 @@ if(f.matches('[data-add-rejected]')){
   saveCards(); renderSystemView();
   return;
 }
+if(f.matches('[data-add-mood]')){
+  e.preventDefault();
+  var inpMd = f.querySelector('input');
+  var valMd = inpMd.value.trim();
+  if(!valMd) return;
+  if(!Array.isArray(cards.system.mood)) cards.system.mood = [];
+  cards.system.mood.push(valMd);
+  saveCards(); renderSystemView();
+  return;
+}
 if(f.matches('[data-add-readback]')){
       e.preventDefault();
       var inpRb = f.querySelector('input');
@@ -2894,10 +3566,13 @@ if($('dictSearchInput')){
       if(!files || !files.length) return;
       var arr = Array.prototype.slice.call(files), done = 0;
       arr.forEach(function(file){
-        compressImage(file, 400, function(dataUrl){
-          cards.sticker.push(dataUrl); done++;
-          if(done === arr.length){ saveCards(); renderStickerGridBig(); }
-        });
+        compressImage(file, 600, function(dataUrl){
+  var key = 'sticker_card_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  saveImgToIdb(key, dataUrl).then(function(url){
+    cards.sticker.push(url); done++;
+    if(done === arr.length){ saveCards(); renderStickerGridBig(); }
+  });
+}, 0.85);
       });
       $('stickerUploadBigFile').value = '';
     });
@@ -3135,8 +3810,19 @@ function makeOneReply(forceCare){
     }
   }
   var kw = pickKeywordGroup();
-  if(kw && Math.random() < 0.7){ markRecent(kw); return { me:false, type:'text', text:kw, time:Date.now() }; }
-  var r = Math.random() * 100;
+if(kw && Math.random() < 0.7){ markRecent(kw); return { me:false, type:'text', text:kw, time:Date.now() }; }
+
+/* 今日状态优先抽卡（60% 概率覆盖） */
+if(Math.random() < 0.6){
+  var moodPool = getMoodPool();
+  if(moodPool && moodPool.length){
+    var mp = moodPool[Math.floor(Math.random() * moodPool.length)];
+    markRecent(mp);
+    return { me:false, type:'text', text:mp, time:Date.now() };
+  }
+}
+
+var r = Math.random() * 100;
     var cc = person.concatChance || 0;
     var vc = person.voiceChance || 0;
     var ec = person.emojiChance || 0;
@@ -3241,7 +3927,7 @@ function openLetterModal(letterId){
     { text:'提笔回信', primary:true, onClick:function(){ mailTab = 'write'; renderMailbox(); $('mailboxPage').classList.add('open'); } }, 
     { text:'关闭' }
   ];
-  showDialog(titleText, bodyHTML, buttons);
+  showDialog(titleText, bodyHTML, buttons, true);
 }
 
 function renderMailbox(){
@@ -3258,7 +3944,7 @@ function renderMailbox(){
       return '<div class="letter-card" data-letter-id="' + l.id + '" style="width:100%;margin-bottom:10px;">' +
         '<div class="letter-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>' + (l.read ? '来自 ' + esc(person.name || 'TA') : '新来信 · ' + esc(person.name || 'TA')) + '</div>' +
         '<div class="letter-body">' + esc(l.text) + '</div>' +
-        '<div class="letter-status">' + formatTime(l.time) + '</div></div>'; 
+        '<div class="letter-status"><span>' + (l.read ? '已读' : '未读') + '</span><span>' + formatTime(l.time) + '</span></div></div>'; 
     }).join('') : '<div class="lib-empty">还没有收到信。</div>';
   } else if(mailTab === 'outbox'){
     var outbox = letters.filter(function(l){ return l.me; }).slice().reverse();
@@ -3266,7 +3952,7 @@ function renderMailbox(){
       return '<div class="letter-card" data-letter-id="' + l.id + '" style="width:100%;margin-bottom:10px;">' +
         '<div class="letter-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>你寄出的信</div>' +
         '<div class="letter-body">' + esc(l.text) + '</div>' +
-        '<div class="letter-status">' + (l.done ? '已送达' : '待送达') + ' · ' + formatTime(l.time) + '</div></div>'; 
+        '<div class="letter-status"><span>' + (l.done ? '已送达' : '待送达') + '</span><span>' + formatTime(l.time) + '</span></div></div>'; 
     }).join('') : '<div class="lib-empty">还没有寄出过信。</div>';
   }
 }
@@ -3524,32 +4210,7 @@ if(Math.random() * 100 < (person.letterChance || 10)){
   if($('sendBtn')) $('sendBtn').addEventListener('click', function(e){ e.preventDefault(); doSendMessage(); });
   if($('msgInput')) $('msgInput').addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.keyCode === 13){ e.preventDefault(); doSendMessage(); } });
 
-  if($('dailySignIn')){
-    $('dailySignIn').addEventListener('click', function(){
-      var today = new Date().toDateString();
-      if(signInData.lastSignDate === today){
-        showDialog('今日已签到', '明天再来吧！', [{ text:'知道了', primary:true }]);
-        return;
-      }
-      signInData.lastSignDate = today;
-      saveSignIn();
-
-      stats.affection = Math.min(100, (stats.affection || 0) + 1);
-      saveStats();
-
-      var bonus = Math.round((Math.random() * 4.8 + 0.2) * 100) / 100;
-      walletMe.balance = Math.round((walletMe.balance + bonus) * 100) / 100;
-      walletMe.records.push({ type:'in', amount: bonus, time: Date.now(), note: '签到' });
-      saveWalletMe();
-
-      renderHome();
-      renderWalletPage();
-
-      showDialog('签到成功', '好感度 +1\n钱包 + ¥' + bonus.toFixed(2), [{ text:'太棒了', primary:true }]);
-    });
-  }
-
-  /* 聊天表情面板 */
+/* 聊天表情面板 */
   function renderUserStickers(){
     var grid = $('userStickerGrid');
     if(!grid) return;
@@ -3584,10 +4245,13 @@ if(Math.random() * 100 < (person.letterChance || 10)){
       if(!files || !files.length) return;
       var arr = Array.prototype.slice.call(files), done = 0;
       arr.forEach(function(file){
-        compressImage(file, 400, function(dataUrl){
-          userStickers.push(dataUrl); done++;
-          if(done === arr.length){ saveUserStickers(); renderUserStickers(); }
-        });
+        compressImage(file, 600, function(dataUrl){
+  var key = 'sticker_user_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  saveImgToIdb(key, dataUrl).then(function(url){
+    userStickers.push(url); done++;
+    if(done === arr.length){ saveUserStickers(); renderUserStickers(); }
+  });
+}, 0.85);
       });
       $('stickerUploadFile').value = '';
     });
@@ -3758,13 +4422,21 @@ if($('cssImportFile')){
   if($('avatarPicker')) $('avatarPicker').onclick = function(){ $('avatarFile').click(); };
   if($('avatarFile')) $('avatarFile').addEventListener('change', function(){
     var f = $('avatarFile').files && $('avatarFile').files[0]; if(!f) return;
-    compressImage(f, 300, function(dataUrl){ person.avatar = dataUrl; savePerson(); renderSettingsPreview(); renderHeader(); renderMessages(); renderHome(); });
+    compressImage(f, 600, function(dataUrl){
+  saveImgToIdb('person_avatar', dataUrl).then(function(url){
+    person.avatar = url; savePerson(); renderSettingsPreview(); renderHeader(); renderMessages(); renderHome();
+  });
+}, 0.9);
     $('avatarFile').value = '';
   });
   if($('myAvatarPicker')) $('myAvatarPicker').onclick = function(){ $('myAvatarFile').click(); };
   if($('myAvatarFile')) $('myAvatarFile').addEventListener('change', function(){
     var f = $('myAvatarFile').files && $('myAvatarFile').files[0]; if(!f) return;
-    compressImage(f, 300, function(dataUrl){ person.myAvatar = dataUrl; savePerson(); renderSettingsPreview(); renderMessages(); renderHome(); });
+    compressImage(f, 600, function(dataUrl){
+  saveImgToIdb('person_myAvatar', dataUrl).then(function(url){
+    person.myAvatar = url; savePerson(); renderSettingsPreview(); renderMessages(); renderHome();
+  });
+}, 0.9);
     $('myAvatarFile').value = '';
   });
   if($('saveBtn')) $('saveBtn').onclick = function(){
@@ -3814,6 +4486,21 @@ person.myName = $('myNameInput').value.trim() || '我';
     sw.classList.toggle('active', active);
   });
   if($('lockTextColor')) $('lockTextColor').value = person.lockTimeColor || '#ffffff';
+  var list = $('appIconSettingsList');
+if(list){
+  var appNames = {
+    chat:'聊天', cards:'字卡', settings:'设置',
+    music:'一起听', moments:'动态', mailbox:'信箱', wallet:'钱包'
+  };
+  var icons = person.appIcons || {};
+  list.innerHTML = Object.keys(appNames).map(function(key){
+    var hasCustom = !!icons[key];
+    return '<div class="field"><span class="field-label" style="width:auto;flex:1">' + appNames[key] + '</span>' +
+           '<button class="btn-ghost" style="width:auto;padding:6px 14px;height:34px;font-size:13px;" data-icon-upload="' + key + '">' + (hasCustom ? '已自定义' : '上传图标') + '</button>' +
+           (hasCustom ? '<button class="btn-ghost" style="width:auto;padding:6px 14px;height:34px;font-size:13px;margin-left:6px;" data-icon-reset="' + key + '">恢复</button>' : '') +
+           '</div>';
+  }).join('');
+}
   var ltsg = $('lockTimeSizeGrid');
   if(ltsg) Array.prototype.forEach.call(ltsg.querySelectorAll('.font-chip'), function(b){ b.classList.toggle('active', b.dataset.lsize === (person.lockTimeSize || '64px')); });
 }
@@ -3825,7 +4512,11 @@ person.myName = $('myNameInput').value.trim() || '我';
   if($('homeBgUploadBtn')) $('homeBgUploadBtn').onclick = function(){ $('homeBgFile').click(); };
   if($('homeBgFile')) $('homeBgFile').addEventListener('change', function(){
     var f = $('homeBgFile').files && $('homeBgFile').files[0]; if(!f) return;
-    compressImage(f, 800, function(dataUrl){ person.homeBgImage = dataUrl; savePerson(); renderHomeBeautify(); applyBeautify(); });
+    compressImage(f, 1800, function(dataUrl){
+  saveImgToIdb('person_homeBgImage', dataUrl).then(function(url){
+    person.homeBgImage = url; savePerson(); renderHomeBeautify(); applyBeautify();
+  });
+}, 0.9);
     $('homeBgFile').value = '';
   });
   if($('homeBgClearBtn')) $('homeBgClearBtn').onclick = function(){ person.homeBgImage = ''; person.homeBg = 'default'; savePerson(); renderHomeBeautify(); applyBeautify(); };
@@ -3839,11 +4530,15 @@ person.myName = $('myNameInput').value.trim() || '我';
   if($('lockBgUploadBtn')) $('lockBgUploadBtn').onclick = function(){ $('lockBgFile').click(); };
   if($('lockBgFile')) $('lockBgFile').addEventListener('change', function(){
     var f = $('lockBgFile').files && $('lockBgFile').files[0]; if(!f) return;
-    compressImage(f, 1200, function(dataUrl){ person.lockBgImage = dataUrl; savePerson(); renderHomeBeautify(); applyBeautify(); });
+    compressImage(f, 2000, function(dataUrl){
+  saveImgToIdb('person_lockBgImage', dataUrl).then(function(url){
+    person.lockBgImage = url; savePerson(); renderHomeBeautify(); applyBeautify();
+  });
+}, 0.92);
     $('lockBgFile').value = '';
   });
-  if($('lockBgClearBtn')) $('lockBgClearBtn').onclick = function(){ person.lockBgImage = ''; person.lockBg = '#2f3f4c'; savePerson(); renderHomeBeautify(); applyBeautify(); };
-  if($('lockBeautifyResetBtn')) $('lockBeautifyResetBtn').onclick = function(){ person.lockBg = '#2f3f4c'; person.lockBgImage = ''; savePerson(); renderHomeBeautify(); applyBeautify(); };
+  if($('lockBgClearBtn')) $('lockBgClearBtn').onclick = function(){ person.lockBgImage = ''; person.lockBg = 'linear-gradient(160deg,#fdf3f0 0%,#f5e8ef 50%,#e8eff5 100%)'; person.lockTimeColor = '#1f5f6c'; savePerson(); renderHomeBeautify(); applyBeautify(); };
+  if($('lockBeautifyResetBtn')) $('lockBeautifyResetBtn').onclick = function(){ person.lockBg = 'linear-gradient(160deg,#fdf3f0 0%,#f5e8ef 50%,#e8eff5 100%)'; person.lockBgImage = ''; person.lockTimeColor = '#1f5f6c'; savePerson(); renderHomeBeautify(); applyBeautify(); };
 if($('lockTextColor')) $('lockTextColor').addEventListener('input', function(){ person.lockTimeColor = $('lockTextColor').value; savePerson(); applyBeautify(); });
 if($('lockTimeSizeGrid')){
   $('lockTimeSizeGrid').addEventListener('click', function(e){
@@ -3938,7 +4633,11 @@ if($('beautifyEntryRow')) $('beautifyEntryRow').onclick = function(){ renderBeau
   if($('bgUploadBtn')) $('bgUploadBtn').onclick = function(){ $('bgFile').click(); };
   if($('bgFile')) $('bgFile').addEventListener('change', function(){
     var f = $('bgFile').files && $('bgFile').files[0]; if(!f) return;
-    compressImage(f, 800, function(dataUrl){ person.bgImage = dataUrl; savePerson(); renderBeautify(); applyBeautify(); });
+    compressImage(f, 1600, function(dataUrl){
+  saveImgToIdb('person_bgImage', dataUrl).then(function(url){
+    person.bgImage = url; savePerson(); renderBeautify(); applyBeautify();
+  });
+}, 0.9);
     $('bgFile').value = '';
   });
   if($('bgClearBtn')) $('bgClearBtn').onclick = function(){ person.bgImage = ''; person.bgColor = '#f2f5f6'; savePerson(); renderBeautify(); applyBeautify(); };
@@ -3970,7 +4669,14 @@ if($('capsuleColorReset')){
       if(person.soundEnabled) playDing();
     });
   }
-  if($('beautifyResetBtn')) $('beautifyResetBtn').onclick = function(){
+  /* 系统预设里改状态后，清掉今天的缓存，让它重抽 */
+document.addEventListener('click', function(e){
+  if(e.target.closest('[data-sys-toggle="mood"]')){
+    try{ localStorage.removeItem(MOOD_KEY); }catch(err){}
+    renderMoodChip();
+  }
+});
+if($('beautifyResetBtn')) $('beautifyResetBtn').onclick = function(){
     showDialog('恢复默认美化', '确定恢复默认气泡、字体、背景等设置吗？', [
       { text:'取消' },
       { text:'恢复', danger:true, onClick:function(){
@@ -4645,9 +5351,18 @@ if($('backupEntryRow')) $('backupEntryRow').onclick = function(){ $('backupMsgCo
   function onAppReady(){ proactive.lastOpenTime = Date.now(); saveProactive(); checkProactiveOnOpen(); }
 
   /* App 图标点击 */
-Array.prototype.forEach.call(document.querySelectorAll('.app-item'), function(item){
+Array.prototype.forEach.call(document.querySelectorAll('.app-item, .dock-item'), function(item){
   item.addEventListener('click', function(){
     var app = item.dataset.app;
+    if(app === 'home'){
+      Array.prototype.forEach.call(document.querySelectorAll('.page.open'), function(p){ p.classList.remove('open'); });
+      Array.prototype.forEach.call(document.querySelectorAll('.chat-page.open'), function(p){ p.classList.remove('open'); });
+      chatOpenNow = false;
+      var home = $('homeScreen');
+      if(home) home.scrollTop = 0;
+      if($('bottomDock')) $('bottomDock').classList.remove('dock-hidden');
+      return;
+    }
     if(app === 'chat'){ 
       // 1. 先让聊天页面滑出来，保证动画丝滑
       $('chatPage').classList.add('open'); 
@@ -4820,7 +5535,8 @@ if($('chatMusicBack')){
     closeMsgActions();
   };
 
-  /* 初始化 */
+/* 初始化 */
+preloadAllImages().then(function(){
   loadPerson();
   loadStats();
   loadProactive();
@@ -4830,8 +5546,10 @@ if($('chatMusicBack')){
   loadTaStickers();
   loadUserStickers();
   loadPats();
-loadWallets();
-loadLetters();
+  loadWallets();
+  loadLetters();
+  loadMusicPlaylist();
+  loadMoments();
 
   renderHeader();
   renderMessages();
@@ -4842,10 +5560,8 @@ loadLetters();
   renderMyPatList();
   renderTaPatList();
   renderDict();
-loadMusicPlaylist();
-loadMoments();
-renderHome();
-renderHome();
+  renderHome();
+});
   var _capEl = $('floatingCapsule');
   if(_capEl){ delete _capEl.dataset.positioned; }
   setTimeout(refreshChatMusicBanner, 100);
@@ -4854,17 +5570,39 @@ renderHome();
 
   setInterval(updateClock, 30000);
 
-  $('lockScreen').classList.remove('show');
-setTimeout(onAppReady, 800);
+  if(getLockPwd()){
+  showLock();
+} else {
+  setTimeout(onAppReady, 800);
+}
 
   /* ============ 动态 ============ */
 function loadMoments(){
   try{
     var raw = localStorage.getItem(MOMENTS_KEY);
-    if(raw){ var d = JSON.parse(raw); if(Array.isArray(d)) moments = d.filter(function(m){ return m && (typeof m.text === 'string' || m.sticker); }); }
+    if(raw){
+      var d = JSON.parse(raw);
+      if(Array.isArray(d)){
+        moments = d.filter(function(m){ return m && (typeof m.text === 'string' || m.sticker); }).map(function(m){
+          if(m.sticker && typeof m.sticker === 'string'){
+            var key = idbMarkerToKey(m.sticker);
+            if(key) m.sticker = imgKeyToBlob[key] || '';
+          }
+          return m;
+        });
+      }
+    }
   }catch(e){}
 }
-function saveMoments(){ safeSetItem(MOMENTS_KEY, JSON.stringify(moments)); }
+function saveMoments(){
+  var toSave = moments.map(function(m){
+    var copy = {};
+    for(var k in m){ copy[k] = m[k]; }
+    if(copy.sticker) copy.sticker = urlToIdbMarker(copy.sticker);
+    return copy;
+  });
+  safeSetItem(MOMENTS_KEY, JSON.stringify(toSave));
+}
 
 function buildMomentHTML(m){
   var isMe = m.author === 'me';
@@ -5071,11 +5809,13 @@ if($('momentsCoverFile')){
   $('momentsCoverFile').addEventListener('change', function(){
     var f = $('momentsCoverFile').files && $('momentsCoverFile').files[0];
     if(!f) return;
-    compressImage(f, 800, function(dataUrl){
-      person.momentsCover = dataUrl;
-      savePerson();
-      renderMomentsCover();
-    });
+    compressImage(f, 1200, function(dataUrl){
+  saveImgToIdb('person_momentsCover', dataUrl).then(function(url){
+    person.momentsCover = url;
+    savePerson();
+    renderMomentsCover();
+  });
+}, 0.9);
     $('momentsCoverFile').value = '';
   });
 }
@@ -5578,6 +6318,22 @@ function pushMusicChatToMain(who, text){
   appendMusicMessage('TA', text);
   pushMusicChatToMain('TA', text);
 }
+
+  /* 底部 Dock 自动隐藏 */
+(function(){
+  var dockEl = $('bottomDock');
+  if(!dockEl) return;
+  var syncDock = function(){
+    var anyOpen = document.querySelector('.chat-page.open, .page.open');
+    if(anyOpen) dockEl.classList.add('dock-hidden');
+    else dockEl.classList.remove('dock-hidden');
+  };
+  var obs = new MutationObserver(syncDock);
+  Array.prototype.forEach.call(document.querySelectorAll('.chat-page, .page'), function(el){
+    obs.observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
+  syncDock();
+})();
 
   /* 初始化音乐 */
   musicAudio = $('musicAudio');
