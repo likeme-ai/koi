@@ -752,6 +752,25 @@
 .dock-icon img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
 .dock-label{display:none}
 .bottom-dock.dock-hidden{display:none!important}
+
+/* 首次进入公告 */
+.welcome-bg{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:20px}
+.welcome-bg.show{display:flex;animation:fadeIn .25s ease}
+.welcome-card{width:100%;max-width:400px;background:#fff;border-radius:20px;padding:26px 22px 20px;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column;max-height:88vh;animation:pop .3s ease}
+.welcome-emoji{text-align:center;font-size:38px;line-height:1;margin-bottom:8px}
+.welcome-title{text-align:center;font-size:18px;font-weight:700;color:var(--primary);letter-spacing:1px}
+.welcome-sub{text-align:center;font-size:12.5px;color:var(--light-text);margin-top:6px;margin-bottom:8px}
+.welcome-warning{text-align:center;font-size:12.5px;color:#c45b66;font-weight:600;background:#fdf2f4;padding:10px 12px;border-radius:10px;margin-bottom:14px;line-height:1.6;border:1px dashed rgba(196,91,102,.3)}
+.welcome-body{font-size:13px;line-height:1.75;color:var(--text);max-height:45vh;overflow-y:auto;padding-right:6px;flex:1 1 auto;}
+.welcome-body::-webkit-scrollbar{width:4px}
+.welcome-body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px}
+.welcome-body p{margin:0 0 10px}
+.welcome-h{font-weight:600;color:var(--primary);margin-top:14px !important;margin-bottom:6px !important;font-size:13.5px}
+.welcome-body strong{color:var(--primary);font-weight:600}
+.welcome-body code{background:var(--soft);padding:1px 6px;border-radius:5px;font-family:monospace;font-size:12px;color:var(--primary)}
+.welcome-body em{color:var(--light-text);font-style:normal;font-size:12px;}
+.welcome-btn{margin-top:16px;width:100%;height:46px;border:0;border-radius:12px;background:var(--primary);color:#fff;font-size:15px;font-family:inherit;font-weight:500;cursor:pointer;transition:opacity .16s ease;flex:0 0 auto;display:none;animation:fadeIn .3s ease;}
+.welcome-btn:active{opacity:.82}
 </style>
 </head>
 <body>
@@ -983,8 +1002,9 @@
       <button class="sticker-tab" data-stab="pat">拍一拍</button>
     </div>
     <div id="stabSticker">
-      <div class="sticker-actions"><button id="stickerAddBtn">添加</button><button id="stickerUrlBtn">链接导入</button></div>
-      <div class="sticker-grid-scroll"><div class="sticker-grid" id="userStickerGrid"></div></div>
+      <div class="sticker-actions"><button id="stickerAddBtn">添加图片 / GIF</button><button id="stickerUrlBtn">链接导入</button></div>
+<div style="padding:0 16px 6px;font-size:11px;color:var(--light-text);line-height:1.5;">💡 支持 JPG / PNG / GIF 动图</div>
+<div class="sticker-grid-scroll"><div class="sticker-grid" id="userStickerGrid"></div></div>
       <input type="file" id="stickerUploadFile" accept="image/*" multiple style="display:none;">
     </div>
     <div id="stabPat" style="display:none;">
@@ -1299,9 +1319,11 @@
     </div>
     <div id="viewSticker" style="display:none;">
       <div class="lib-toolbar">
-        <button class="toolbar-btn" id="stickerAddBigBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>上传图片</button>
-        <button class="toolbar-btn" id="stickerUrlBigBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>链接导入</button>
-      </div>
+  <button class="toolbar-btn" id="stickerAddBigBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>上传图片 / GIF</button>
+  <button class="toolbar-btn" id="stickerUrlBigBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>链接导入</button>
+</div>
+<div style="padding:0 16px 6px;font-size:11.5px;color:var(--light-text);line-height:1.6;">💡 支持 JPG / PNG / GIF 动图。GIF 会保留动画，但体积较大，别一次传太多。</div>
+<div id="stickerGridBig" style="padding:0 14px 40px;"></div>
       <div id="stickerGridBig" style="padding:0 14px 40px;"></div>
       <input type="file" id="stickerUploadBigFile" accept="image/*" multiple style="display:none;">
     </div>
@@ -1362,10 +1384,12 @@
       <textarea id="importTextarea" placeholder="【大分组】&#10;（小分组）&#10;字卡1&#10;字卡2"></textarea>
       <div class="import-hint">规则：<br>· <code>【大分组名】</code> 单独一行<br>· <code>（小分组名）</code> 单独一行<br>· 其他每一行就是一张字卡<br>· 同名会自动合并<br>· 可以直接上传 <code>.txt</code> 文件（编码建议 UTF-8）</div>
 <div class="actions" style="flex-direction:column;gap:10px;">
-  <button class="btn-ghost" id="importFileBtn">📂 从文件导入（.txt）</button>
+  <button class="btn-ghost" id="importFileBtn">📂 从文本导入（.txt）</button>
+  <button class="btn-ghost" id="importJsonBtn">📦 从 JSON 导入（.json）</button>
   <button class="btn-primary" id="importConfirmBtn">导入</button>
 </div>
 <input type="file" id="importTxtFile" accept=".txt,text/plain" style="display:none;">
+<input type="file" id="importJsonFile" accept=".json,application/json" style="display:none;">
     </div>
   </div>
 </section>
@@ -1574,6 +1598,41 @@
     </div>
   </div>
 </div>
+<div class="welcome-bg" id="welcomeBg">
+  <div class="welcome-card">
+    <div class="welcome-emoji">💌</div>
+    <div class="welcome-title">欢迎回来</div>
+    <div class="welcome-sub">这里是只属于你们两个人的小世界</div>
+<div class="welcome-warning">📢 请务必各位老师看完！！很重要！！<br>取决于你想和你梦角的连接方式</div>
+<div class="welcome-body" id="welcomeBody">
+      <p class="welcome-h">先花一分钟，搞懂这几个词是什么意思：</p>
+      <p><strong>大分组</strong> —— 情绪大分类，比如“撒娇粘人”、“关心心疼”。它就是个文件夹，把同一类的话放一起。</p>
+      <p><strong>小分组</strong> —— 文件夹里的抽屉。比如“关心心疼”下面，可以分“生病”、“累了”、“日常叮嘱”。TA 抽卡是从抽屉里抽的。</p>
+      <p><strong>关键词</strong> —— 贴在小分组上的标签。比如你给“生气”抽屉贴上 <code>哼,生气,不理你</code>，你只要说到这些词，TA 就优先去这个抽屉里翻卡。</p>
+      <p><strong>词典拼字</strong> —— 底层机制。你把词按“主语/动作/宾语/修饰/语气”填进去，TA 有一定概率把词随机拼成一句话发给你，比如“我+想+你+了”。</p>
+      <p class="welcome-h">系统预设</p>
+      <p>字卡库里的一个独立区。里面装的是<strong>特定情况下才会用到的话</strong>，不参与平时的随机抽卡。具体有这些：</p>
+      <p>· <strong>今日情话</strong>：每天主屏上显示的那句情话，从这抽。</p>
+      <p>· <strong>红包回复</strong>：TA 领了你发的红包之后，会说的话。</p>
+      <p>· <strong>已读不回被炸</strong>：TA 已读不回之后，被“炸”出来的话。</p>
+      <p>· <strong>婉拒一起听</strong>：TA 拒绝你的听歌邀请时，说的话。</p>
+      <p>· <strong>被拒绝</strong>：你拒绝了 TA 的邀请之后，TA 会说的话。</p>
+      <p>· <strong>主动消息</strong>：你很久没打开 App，或者到了早上/中午/晚上/深夜，TA 主动发给你说的开场白。里面有“回来”、“早”、“午”、“晚”、“深夜”、“想念”好几个小组，每组各自填话。</p>
+      <p>· <strong>今日状态</strong>：每天自动抽一次，决定 TA 今天整体的情绪基调。格式是 <code>状态名 | 关键词</code>，比如 <code>有点累 | 短回复,困</code>。<br><em>小提示：如果你只想把它当个主屏上的小摆设（比如每天固定显示“想你”），不想让它影响 TA 抽卡，有两个办法：① 状态只写名字，不写竖线和关键词。这样它只展示，不参与抽卡。② 去「设置 → 聊天回复设置 → 互动」，把“今日状态优先抽卡概率”调到 0%。</em></p>
+      
+      <p class="welcome-h">接下来，是你和 TA 的几种玩法：</p>
+      <p><strong>玩法一：纯盲盒</strong><br>你不搞任何特殊分类，把所有字卡全部塞进一个小分组里。TA 每一次回复，都是从这堆卡里纯随机抽。没有任何规律，每次都是未知的惊喜。</p>
+      <p><strong>玩法二：偶尔的关心</strong><br>你把一部分字卡单独拿出来建小分组，打上关键词，比如“哼”、“抱抱”、“难受”。再把你平时那些百搭的卡，全部放进一个没有关键词的小分组里。当你说出带关键词的话时，TA 优先去对应的小分组里抽卡哄你；平时没触发关键词，就从那个百搭小分组里随机抽。</p>
+      <p><strong>玩法三：今日状态</strong><br>配合“系统预设 → 今日状态”用。你每天给 TA 定个心情，比如“今天很开心”、“今天有点累”。TA 当天的回复，就会按这个状态去对应的卡池里抽，一整天情绪基调都由你定。当然，就像上面说的，不想让它影响抽卡，纯当个展示也完全可以。</p>
+      <p><strong>玩法四：自由拼字</strong><br>开启“拼字卡”玩法，TA 会把词典里的词随机拼成一句话发给你。是“我+想+你”，还是“宝贝+吃醋+啦”，全看运气。</p>
+      
+      <p class="welcome-h">还有一个隐藏机制（不走概率，强制触发）：</p>
+      <p><strong>情绪兜底</strong> —— 当你聊到“不舒服”、“生病”、“累了”、“哭了”、“难过”、“委屈”这类词时，不管关键词有没有命中，也不管今天是什么状态，TA 都会 <strong>100% 强制</strong> 优先去“关心/心疼/安慰”相关的卡池里抽卡。也就是说，你难过的时候，TA 一定会先哄你。</p>
+    </div>
+
+    <button class="welcome-btn" id="welcomeBtn" style="display:none;">我已经看完了，开始吧</button>
+  </div>
+</div>
 <div class="dialog-bg" id="dialogBg">
   <div class="dialog">
     <div class="dialog-title" id="dialogTitle">提示</div>
@@ -1706,32 +1765,42 @@ function preloadAllImages(){
   });
 }
 
-  /* 图片压缩 */
-  function compressImage(file, maxSize, callback){
-    maxSize = maxSize || 400;
-    var reader = new FileReader();
-    reader.onload = function(ev){
-      var img = new Image();
-      img.onload = function(){
-        var w = img.width, h = img.height;
-        if(w > maxSize || h > maxSize){
-          if(w > h){ h = Math.round(h * maxSize / w); w = maxSize; }
-          else { w = Math.round(w * maxSize / h); h = maxSize; }
-        }
-        try {
-          var canvas = document.createElement('canvas');
-          canvas.width = w; canvas.height = h;
-          var ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, w, h);
-          var dataUrl = canvas.toDataURL('image/jpeg', 0.75);
-          callback(dataUrl);
-        } catch(err){ callback(ev.target.result); }
-      };
-      img.onerror = function(){ callback(ev.target.result); };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
+  /* 图片压缩（GIF 动图跳过压缩，保留动画） */
+function compressImage(file, maxSize, callback, quality){
+  maxSize = maxSize || 400;
+  quality = (typeof quality === 'number') ? quality : 0.75;
+  /* 如果是 GIF 动图，不压缩、不转码，直接原样读取，保留动画 */
+  if(file && (file.type === 'image/gif' || /\.gif$/i.test(file.name || ''))){
+    var fr = new FileReader();
+    fr.onload = function(ev){ callback(ev.target.result); };
+    fr.onerror = function(){ callback(''); };
+    fr.readAsDataURL(file);
+    return;
   }
+  /* 其他图片：走原来的 canvas 压缩逻辑 */
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    var img = new Image();
+    img.onload = function(){
+      var w = img.width, h = img.height;
+      if(w > maxSize || h > maxSize){
+        if(w > h){ h = Math.round(h * maxSize / w); w = maxSize; }
+        else { w = Math.round(w * maxSize / h); h = maxSize; }
+      }
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        var dataUrl = canvas.toDataURL('image/jpeg', quality);
+        callback(dataUrl);
+      } catch(err){ callback(ev.target.result); }
+    };
+    img.onerror = function(){ callback(ev.target.result); };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 
   /* 安全写入 */
   function safeSetItem(key, value){
@@ -3596,15 +3665,85 @@ if($('importTxtFile')){
     if(!f) return;
     var reader = new FileReader();
     reader.onload = function(ev){
-      // 读取成功，把文件内容塞进文本框里
       $('importTextarea').value = ev.target.result || '';
-      // 清空 input，方便用户重复选同一个文件
       $('importTxtFile').value = '';
-      // 提示用户已经读取成功
-      showDialog('读取成功', '文件内容已填入文本框，请点击「导入」按钮完成导入。', [{ text:'好的', primary:true }]);
+      showDialog('读取成功', '文本已填入下方输入框，请点击「导入」按钮完成导入。', [{ text:'好的', primary:true }]);
     };
     reader.readAsText(f, 'UTF-8');
   });
+}
+
+/* 【新增】从 JSON 直接导入（兼容只有大分组的情况） */
+if($('importJsonBtn')) $('importJsonBtn').onclick = function(){ $('importJsonFile').click(); };
+if($('importJsonFile')){
+  $('importJsonFile').addEventListener('change', function(){
+    var f = $('importJsonFile').files && $('importJsonFile').files[0];
+    if(!f) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      try{
+        var json = JSON.parse(ev.target.result);
+        importJsonToCards(json);
+      }catch(err){
+        showDialog('导入失败', '文件不是有效的 JSON 格式，请检查后重试。', [{ text:'知道了', primary:true }]);
+      }
+      $('importJsonFile').value = '';
+    };
+    reader.readAsText(f, 'UTF-8');
+  });
+}
+
+/* 解析 JSON 并写入字卡库 */
+function importJsonToCards(json){
+  var bigCount = 0, subCount = 0, cardCount = 0;
+  
+  function addBigGroup(name, groups){
+    var big = cards.text.filter(function(b){ return b.name === name; })[0];
+    if(!big){
+      big = { id: uid('bg'), name: name, color: GROUP_COLORS[cards.text.length % GROUP_COLORS.length], keyword:'', groups: [] };
+      cards.text.push(big); bigCount++;
+    }
+    groups.forEach(function(sg){
+      var sub = big.groups.filter(function(g){ return g.name === sg.name; })[0];
+      if(!sub){
+        sub = { id: uid('sg'), name: sg.name, items: [] };
+        big.groups.push(sub); subCount++;
+      }
+      sg.items.forEach(function(txt){
+        if(txt && String(txt).trim()){ sub.items.push(String(txt).trim()); cardCount++; }
+      });
+    });
+  }
+
+  // 兼容三种常见 JSON 格式
+  if(Array.isArray(json)){
+    // 格式1：[{"name":"大分组名","items":["卡1","卡2"]}]
+    // 格式2：[{"name":"大分组名","groups":[{"name":"小分组","items":["卡1"]}]}]
+    json.forEach(function(item){
+      if(!item || !item.name) return;
+      var groups = [];
+      if(Array.isArray(item.groups) && item.groups.length){
+        groups = item.groups.map(function(g){ return { name: g.name || '默认', items: Array.isArray(g.items) ? g.items : [] }; });
+      } else if(Array.isArray(item.items)){
+        groups = [{ name: '默认', items: item.items }];
+      } else if(Array.isArray(item.cards)) {
+        groups = [{ name: '默认', items: item.cards }];
+      }
+      addBigGroup(item.name, groups);
+    });
+  } else if(json && typeof json === 'object'){
+    // 格式3：{"大分组名": ["卡1","卡2"]}
+    Object.keys(json).forEach(function(key){
+      var val = json[key];
+      var items = Array.isArray(val) ? val : (val && Array.isArray(val.items) ? val.items : []);
+      if(items.length) addBigGroup(key, [{ name: '默认', items: items }]);
+    });
+  } else {
+    throw new Error('unknown format');
+  }
+
+  saveCards(); renderLib(); updateCardsSummary();
+  showDialog('JSON 导入完成', '新增 ' + bigCount + ' 个大分组，' + subCount + ' 个小分组，' + cardCount + ' 张字卡。<br>没有小分组的字卡已自动归入「默认」。', [{ text:'好的', primary:true }], true);
 }
 
 if($('importConfirmBtn')) $('importConfirmBtn').onclick = function(){
@@ -4932,7 +5071,14 @@ function renderLockNotifications(){
   function handleLockInput(){
     var input = lockInput, realPwd = getLockPwd();
     if(lockPurpose === 'unlock'){
-      if(input === realPwd){ lockInput = ''; updateLockDots(); unlockHome(); setTimeout(onAppReady, 500); }
+  if(input === realPwd){ 
+    lockInput = ''; updateLockDots(); unlockHome(); 
+    setTimeout(function(){
+      var isFirst = false;
+      try{ isFirst = localStorage.getItem('chat_welcome_shown_v1') !== 'yes'; }catch(e){ isFirst = true; }
+      if(isFirst){ showWelcomeIfFirstTime(); } else { onAppReady(); }
+    }, 500); 
+  }
       else { lockShake(); $('lockHint').textContent = '密码不对，再试一次'; lockInput = ''; setTimeout(updateLockDots, 400); }
       return;
     }
@@ -5598,10 +5744,63 @@ preloadAllImages().then(function(){
 
   setInterval(updateClock, 30000);
 
-  if(getLockPwd()){
+/* ========== 首次进入公告 ========== */
+var WELCOME_KEY = 'chat_welcome_shown_v1';
+
+function showWelcomeIfFirstTime(){
+  var shown = '';
+  try{ shown = localStorage.getItem(WELCOME_KEY) || ''; }catch(e){}
+  if(shown === 'yes') return false;
+  var bg = $('welcomeBg');
+  if(!bg) return false;
+  bg.classList.add('show');
+  
+  // 强制翻到底逻辑
+  var welcomeBody = $('welcomeBody');
+  var welcomeBtn = $('welcomeBtn');
+  if(welcomeBody && welcomeBtn){
+    var checkScroll = function(){
+      // 当滚动条到底时（容错 10px），显示按钮
+      if(welcomeBody.scrollTop + welcomeBody.clientHeight >= welcomeBody.scrollHeight - 10){
+        welcomeBtn.style.display = 'block';
+      }
+    };
+    // 如果内容不够长，没滚动条，直接显示
+    if(welcomeBody.scrollHeight <= welcomeBody.clientHeight + 10){
+      welcomeBtn.style.display = 'block';
+    }
+    // 监听滚动事件
+    welcomeBody.addEventListener('scroll', checkScroll);
+    // 初始化时也检查一次（防止缓存问题）
+    setTimeout(checkScroll, 100);
+  }
+  return true;
+}
+
+if($('welcomeBtn')){
+  $('welcomeBtn').onclick = function(){
+    try{ localStorage.setItem(WELCOME_KEY, 'yes'); }catch(e){}
+    $('welcomeBg').classList.remove('show');
+    onAppReady();
+  };
+}
+
+/* 如果已经看过公告，正常启动；没看过就先弹公告 */
+if(getLockPwd()){
   showLock();
+  var isFirst = false;
+  try{ isFirst = localStorage.getItem(WELCOME_KEY) !== 'yes'; }catch(e){ isFirst = true; }
+  if(isFirst){
+    setTimeout(showWelcomeIfFirstTime, 500);
+  }
 } else {
-  setTimeout(onAppReady, 800);
+  var isFirst = false;
+  try{ isFirst = localStorage.getItem(WELCOME_KEY) !== 'yes'; }catch(e){ isFirst = true; }
+  if(isFirst){
+    setTimeout(showWelcomeIfFirstTime, 500);
+  } else {
+    setTimeout(onAppReady, 800);
+  }
 }
 
   /* ============ 动态 ============ */
