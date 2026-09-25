@@ -1713,7 +1713,11 @@
     <input type="text" class="music-import-input" id="musicImportInput" placeholder="https://... 或 网易云分享链接">
     <label class="music-import-label">歌名 - 歌手（格式：歌名 - 歌手）</label>
     <input type="text" class="music-import-input" id="musicImportName" placeholder="未命名歌曲 - 未知歌手">
-    <div class="music-import-actions">
+<div style="text-align:center;margin-bottom:14px;">
+  <input type="file" id="musicUploadFile" accept="audio/mp3,audio/*" style="display:none;">
+  <button type="button" class="music-import-btn ghost" id="musicUploadBtn" style="width:100%;">📂 从手机上传音频文件</button>
+</div>
+<div class="music-import-actions">
       <button type="button" class="music-import-btn ghost" id="musicImportCancel">取消</button>
       <button type="button" class="music-import-btn primary" id="musicImportConfirm">导入</button>
     </div>
@@ -2259,10 +2263,33 @@ var momentPostSticker = null;
 function loadMusicPlaylist(){
   try{
     var raw = localStorage.getItem(MUSIC_KEY);
-    if(raw){ var d = JSON.parse(raw); if(Array.isArray(d)) musicPlaylist = d.filter(function(s){ return s && s.url; }); }
+    if(raw){ 
+      var d = JSON.parse(raw); 
+      if(Array.isArray(d)){ 
+        musicPlaylist = d.filter(function(s){ return s && s.url; });
+        // 如果本地音频的 Blob URL 失效了，尝试从 IndexedDB 重新获取
+        musicPlaylist.forEach(function(s){
+          if(s.idbKey){
+            var cachedUrl = imgKeyToBlob[s.idbKey];
+            if(cachedUrl){ s.url = cachedUrl; }
+          }
+        });
+      } 
+    }
   }catch(e){}
 }
-function saveMusicPlaylist(){ safeSetItem(MUSIC_KEY, JSON.stringify(musicPlaylist)); }
+function saveMusicPlaylist(){ 
+  // 保存时，把本地音频的 Blob URL 转成 IDB 标记
+  var toSave = musicPlaylist.map(function(s){
+    var copy = {};
+    for(var k in s){ copy[k] = s[k]; }
+    if(s.idbKey && s.url && s.url.indexOf('blob:') === 0){
+      copy.url = '@idb:' + s.idbKey;
+    }
+    return copy;
+  });
+  safeSetItem(MUSIC_KEY, JSON.stringify(toSave)); 
+}
 var musicCurrentIndex = -1;
 var musicAudio = null;
 var musicTimerStart = 0;
@@ -7454,6 +7481,29 @@ function initMusicEvents(){
   $('musicImportBg').classList.add('open');
 };
 if($('musicImportCancel')) $('musicImportCancel').onclick = function(){ $('musicImportBg').classList.remove('open'); };
+
+if($('musicUploadBtn')) $('musicUploadBtn').onclick = function(){ $('musicUploadFile').click(); };
+if($('musicUploadFile')){
+  $('musicUploadFile').addEventListener('change', function(){
+    var f = $('musicUploadFile').files && $('musicUploadFile').files[0];
+    if(!f) return;
+    var fullName = ($('musicImportName').value || '').trim() || f.name.replace(/\.[^.]+$/, '');
+    var parts = fullName.split(' - ');
+    var songName = parts[0] || '未命名歌曲';
+    var artistName = parts[1] || '未知歌手';
+    
+    // 用 IndexedDB 存音频文件（因为文件较大，不能存 localStorage）
+    var key = 'music_audio_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+    saveImgToIdb(key, f).then(function(blobUrl){
+      musicPlaylist.push({ name: songName, artist: artistName, url: blobUrl, idbKey: key });
+      saveMusicPlaylist();
+      $('musicImportBg').classList.remove('open');
+      if(musicCurrentIndex === -1){ musicCurrentIndex = 0; playMusicAtIndex(0); }
+      else { showDialog('导入成功', '已添加本地歌曲', '「' + songName + ' - ' + artistName + '」已加入歌单，点播放试试。', [{ text:'好的', primary:true }]); }
+    });
+    $('musicUploadFile').value = '';
+  });
+}
 if($('musicImportBg')) $('musicImportBg').addEventListener('click', function(e){ if(e.target === $('musicImportBg')) $('musicImportBg').classList.remove('open'); });
 if($('musicImportConfirm')) $('musicImportConfirm').onclick = function(){
   var input = ($('musicImportInput').value || '').trim();
