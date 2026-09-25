@@ -2081,13 +2081,13 @@ var MOMENTS_KEY = 'chat_moments_v1';
   var DEFAULT_EMOJIS = ['😀','😂','🥰','😊','😍','🤔','😴','😭','😡','👍','❤️','🎉','✨','🌟','💔','🔥','🙏','👌','😅','🙂'];
   var DEFAULT_LOVES = ['今天也想你，比昨天多一点。','不管多忙，记得有人在想你。','你是我所有温柔的来源。','和你在一起，每天都很甜。','想牵着你的手，走过每一条街。','你是我的小确幸。'];
   var DEFAULT_RP_REPLIES = [
-    '这么快就领啦？',
-    '领了要对我负责哦',
-    '喜欢吗？给你的',
-    '收到啦，谢谢宝宝',
-    '够不够？不够再给你发',
-    '拿着，给自己买点喜欢的'
-  ];
+  '这么快就领啦？',
+  '领了要对我负责哦',
+  '喜欢吗？给你的',
+  '够不够？不够再给你发',
+  '拿着，给自己买点喜欢的',
+  '以后我的钱都是你的，随便花～'
+];
   var DEFAULT_REJECTED_BY_ME_REPLIES = [
   '好吧，那下次再一起听。',
   '那我自己听啦，等你哦。',
@@ -2441,6 +2441,7 @@ rejectedByMe: DEFAULT_REJECTED_BY_ME_REPLIES.slice(),
 callReject: ['现在有点忙，晚点再打给你', '在忙，等我一下', '现在不太方便，稍后回你'],
 callRejectedByMe: ['好吧，那下次再打给你', '那我等你', '嗯…那我先挂了'],
 waitForYou: ['宝宝，你怎么还没来找我', '你怎么还不出现呀', '宝宝，不要玩手机啦！快来陪陪我', '你再不来我就生气了哦', '好想你，快点回来嘛', '喂，你在忙吗？想你了', '我在这里等你哦', '忙完了记得找我', '刚刚一直在想你', '再不回来我就自己玩啦'],
+rpThanks: ['谢谢宝宝！', '收到啦，嘿嘿', '喜欢！谢谢你', '哇，爱你！', '拿着了，好开心', '谢谢，啵啵', '收到了，抱着不放'],
 mood: DEFAULT_MOODS.slice(),
         proactive: DEFAULT_PROACTIVE.map(function(g){
           return { id: 'pro_' + g.name, name: g.name, color: g.color, items: g.items.slice() };
@@ -2478,6 +2479,7 @@ if(!Array.isArray(d.system.rejectedByMe) || d.system.rejectedByMe.length === 0) 
 if(!Array.isArray(d.system.callReject) || d.system.callReject.length === 0) d.system.callReject = ['现在有点忙，晚点再打给你', '在忙，等我一下', '现在不太方便，稍后回你'];
 if(!Array.isArray(d.system.callRejectedByMe) || d.system.callRejectedByMe.length === 0) d.system.callRejectedByMe = ['好吧，那下次再打给你', '那我等你', '嗯…那我先挂了'];
 if(!Array.isArray(d.system.waitForYou) || d.system.waitForYou.length === 0) d.system.waitForYou = ['宝宝，你怎么还没来找我', '你怎么还不出现呀', '宝宝，不要玩手机啦！快来陪陪我', '你再不来我就生气了哦', '好想你，快点回来嘛', '喂，你在忙吗？想你了', '我在这里等你哦', '忙完了记得找我', '刚刚一直在想你', '再不回来我就自己玩啦'];
+if(!Array.isArray(d.system.rpThanks) || d.system.rpThanks.length === 0) d.system.rpThanks = ['谢谢宝宝！', '收到啦，嘿嘿', '喜欢！谢谢你', '哇，爱你！', '拿着了，好开心', '谢谢，啵啵', '收到了，抱着不放'];
     if(!Array.isArray(d.system.mood)) d.system.mood = DEFAULT_MOODS.slice();
 if(!Array.isArray(d.system.proactive)) d.system.proactive = [];
 
@@ -3183,7 +3185,15 @@ if(m.type === 'invite'){
            '</div>' +
          '</div>';
 }
-
+if(m.type === 'call_record'){
+  return '<div class="call-record-card">' +
+           '<div class="call-record-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>' +
+           '<div class="call-record-info">' +
+             '<div class="call-record-title">' + esc(m.title) + '</div>' +
+             '<div class="call-record-sub">' + esc(m.sub) + '</div>' +
+           '</div>' +
+         '</div>';
+}
 if(m.type === 'quiz'){
   var qs = m.questions || [];
   var bodyHTML = '';
@@ -3475,8 +3485,24 @@ content.innerHTML = html;
                 '<form class="subgroup-add" data-add-love="1" autocomplete="off"><input type="text" placeholder="添加一句情话" maxlength="120"><button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button></form>' +
               '</div>' +
             '</div>';
-    html += '<div class="subgroup-card">' +
-          '<div class="subgroup-head" data-sys-toggle="redpacket">' +
+    /* 红包致谢（TA 收到你红包后说的话） */
+if(!Array.isArray(cards.system.rpThanks)) cards.system.rpThanks = ['谢谢宝宝！', '收到啦，嘿嘿', '喜欢！谢谢你', '哇，爱你！', '拿着了，好开心'];
+html += '<div class="subgroup-card">' +
+      '<div class="subgroup-head" data-sys-toggle="rpThanks">' +
+            '<span class="subgroup-name">红包致谢</span>' +
+            '<span class="subgroup-count">' + cards.system.rpThanks.length + '</span>' +
+            '<span class="subgroup-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>' +
+          '</div>' +
+          '<div class="subgroup-body">' +
+            '<div style="padding:8px 14px 4px;font-size:11.5px;color:var(--light-text);line-height:1.6;">TA 领了你的红包之后，会说的话。跟“红包回复”是两回事，别搞混。</div>' +
+            cards.system.rpThanks.map(function(txt, i){
+              return '<div class="card-item"><span class="card-text">' + esc(txt) + '</span><button class="card-del" data-rp-thanks-del="' + i + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
+            }).join('') +
+            '<form class="subgroup-add" data-add-rp-thanks="1" autocomplete="off"><input type="text" placeholder="添加一句红包致谢" maxlength="120"><button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button></form>' +
+          '</div>' +
+        '</div>';
+html += '<div class="subgroup-card">' +
+          '<div class="subgroup-head" data-sys-toggle="readback">' +
                 '<span class="subgroup-name">红包回复</span>' +
                 '<span class="subgroup-count">' + cards.system.redpacket.length + '</span>' +
                 '<span class="subgroup-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>' +
@@ -6967,16 +6993,20 @@ function endCall(silent){
   callState = 'idle';
   if(callAutoHangTimer){ clearTimeout(callAutoHangTimer); callAutoHangTimer = null; }
   if(callIncomingTimeout){ clearTimeout(callIncomingTimeout); callIncomingTimeout = null; }
+  
+  var finalSeconds = callSeconds;
   stopTimer();
   closeCallScreen();
   hideCallCapsule();
-  if(silent !== true && callSeconds > 0){
-    insertCallRecordCard('ended');
+  
+  /* 【修复】不论谁挂断，只要有通话时长，就留下通话记录卡片 */
+  if(finalSeconds > 0){
+    insertCallRecordCard('ended', finalSeconds);
   }
 }
 
 /* 通话记录卡片 */
-function insertCallRecordCard(type){
+function insertCallRecordCard(type, seconds){
   var title = '', sub = '';
   if(type === 'rejected-out'){
     title = '📞 已拒接';
@@ -6989,9 +7019,9 @@ function insertCallRecordCard(type){
     sub = '你错过了 TA 的来电';
   } else {
     title = '📞 通话结束';
-    sub = '通话时长 ' + fmtCallTime(callSeconds);
+    sub = '通话时长 ' + fmtCallTime(seconds || callSeconds);
   }
-  var m = { type: 'sys', text: title + ' · ' + sub, time: Date.now() };
+  var m = { type: 'call_record', title: title, sub: sub, time: Date.now(), id: uid('m') };
   messages.push(m);
   saveMessages();
   if(chatOpenNow) appendMessage(m);
@@ -7686,7 +7716,7 @@ musicAudio.addEventListener('ended', refreshChatMusicBanner);
 /* ============ 更新提示 ============ */
 (function(){
   /* 每次发新版，改这里的版本号就行 */
-  var APP_VERSION = '1.0.1';
+var APP_VERSION = '1.0.2';
   var VERSION_KEY = 'chat_app_version_v1';
   var lastSeen = '';
   try{ lastSeen = localStorage.getItem(VERSION_KEY) || ''; }catch(e){}
