@@ -1207,8 +1207,9 @@
       <div class="stepper-row"><span class="stepper-label">语音概率</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="voice" data-dir="-1">−</button><span class="stepper-value" id="stepperVoiceVal">15</span><button class="stepper-btn" data-step="voice" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
     </div>
     <div class="beautify-section-title">互动</div>
-    <div class="field-group">
-      <div class="stepper-row"><span class="stepper-label">引用回复概率<span class="sub">触发后，TA 会引用你的上一句话回复</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="quote" data-dir="-1">−</button><span class="stepper-value" id="stepperQuoteVal">15</span><button class="stepper-btn" data-step="quote" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+<div class="field-group">
+  <div class="stepper-row"><span class="stepper-label">今日状态优先抽卡概率<span class="sub">概率越高，TA 越容易根据今日状态去对应分组抽卡</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="moodChance" data-dir="-1">−</button><span class="stepper-value" id="stepperMoodChanceVal">60</span><button class="stepper-btn" data-step="moodChance" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">引用回复概率<span class="sub">触发后，TA 会引用你的上一句话回复</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="quote" data-dir="-1">−</button><span class="stepper-value" id="stepperQuoteVal">15</span><button class="stepper-btn" data-step="quote" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
 <div class="stepper-row"><span class="stepper-label">已读不回概率</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="readNoReply" data-dir="-1">−</button><span class="stepper-value" id="stepperReadNoReplyVal">15</span><button class="stepper-btn" data-step="readNoReply" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
 <div class="stepper-row"><span class="stepper-label">接受听歌邀请</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="invite" data-dir="-1">−</button><span class="stepper-value" id="stepperInviteVal">80</span><button class="stepper-btn" data-step="invite" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
 <div class="stepper-row"><span class="stepper-label">TA 主动邀请听歌</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="taInvite" data-dir="-1">−</button><span class="stepper-value" id="stepperTaInviteVal">10</span><button class="stepper-btn" data-step="taInvite" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
@@ -1835,7 +1836,8 @@ var DEFAULT_PROACTIVE = [
     inviteChance: 80,
 taInviteChance: 10,
 quoteChance: 15,
-    concatChance: 15, concatCount: 3, concatUseAll: false, strictGrammar: 80,
+moodChance: 60, // 【新增】今日状态优先抽卡概率（默认60%）
+concatChance: 15, concatCount: 3, concatUseAll: false, strictGrammar: 80,
 letterChance: 10, letterCount: 3, letterMin: 2, letterMax: 24, letterUseDict: false,
     cardCooldown: 5,
 momentFollowChance: 60,
@@ -3812,8 +3814,8 @@ function makeOneReply(forceCare){
   var kw = pickKeywordGroup();
 if(kw && Math.random() < 0.7){ markRecent(kw); return { me:false, type:'text', text:kw, time:Date.now() }; }
 
-/* 今日状态优先抽卡（60% 概率覆盖） */
-if(Math.random() < 0.6){
+/* 今日状态优先抽卡（概率由用户在设置中自定义） */
+if(Math.random() * 100 < (person.moodChance || 60)){
   var moodPool = getMoodPool();
   if(moodPool && moodPool.length){
     var mp = moodPool[Math.floor(Math.random() * moodPool.length)];
@@ -4707,6 +4709,7 @@ if($('stepperMomentAutoVal')) $('stepperMomentAutoVal').textContent = person.mom
     $('stepperRedpacketVal').textContent = person.redpacketChance;
     $('stepperReadNoReplyVal').textContent = person.readNoReplyChance;
 $('stepperQuoteVal').textContent = person.quoteChance;
+if($('stepperMoodChanceVal')) $('stepperMoodChanceVal').textContent = person.moodChance || 60; // 【新增】
 $('stepperInviteVal').textContent = person.inviteChance;
 $('stepperTaInviteVal').textContent = person.taInviteChance;
     $('stepperConcatVal').textContent = person.concatChance;
@@ -4734,6 +4737,7 @@ $('letterUseDictToggle').checked = !!person.letterUseDict;
       else if(w === 'redpacket'){ k = 'redpacketChance'; step = 5; }
       else if(w === 'readNoReply'){ k = 'readNoReplyChance'; step = 5; }
 else if(w === 'quote'){ k = 'quoteChance'; step = 5; }
+else if(w === 'moodChance'){ k = 'moodChance'; step = 5; } // 【新增】今日状态概率加减逻辑
 else if(w === 'invite'){ k = 'inviteChance'; step = 5; }
 else if(w === 'taInvite'){ k = 'taInviteChance'; step = 5; }
       else if(w === 'emoji'){ k = 'emojiChance'; step = 5; }
