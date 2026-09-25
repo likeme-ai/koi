@@ -6352,6 +6352,13 @@ musicAudio.addEventListener('ended', refreshChatMusicBanner);
   initMusicEvents();
 
 })();
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(function(reg) {
+    console.log('Service Worker 注册成功');
+  }).catch(function(err) {
+    console.log('Service Worker 注册失败:', err);
+  });
+}
 </script>
 </body>
 </html>
