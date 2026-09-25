@@ -284,10 +284,11 @@
   .send-btn svg{width:18px;height:18px;margin-left:2px}
   .send-btn:disabled{opacity:.3;cursor:default}
   .send-btn:not(:disabled):active{transform:scale(.92)}
-  .sticker-panel{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--panel);border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -6px 24px rgba(0,0,0,.12);transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1);max-height:60%;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
-  .sticker-panel.open{transform:translateY(0)}
-  .sticker-panel-header{display:flex;align-items:center;padding:14px 16px 10px;gap:10px}
-  .sticker-panel-title{flex:1;font-size:15px;font-weight:600;color:var(--text)}
+  .sticker-panel{position:fixed;left:0;right:0;bottom:0;z-index:15;background:var(--panel);border-top-left-radius:18px;border-top-right-radius:18px;box-shadow:0 -6px 24px rgba(0,0,0,.12);transform:translateY(100%);transition:transform .28s cubic-bezier(.32,.72,0,1),height .2s ease;height:50vh;min-height:30vh;max-height:80vh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom,0px)}
+.sticker-panel.open{transform:translateY(0)}
+.sticker-panel-drag-handle{padding:8px 0 4px;display:flex;justify-content:center;cursor:grab;touch-action:none;}
+.sticker-panel-drag-handle .drag-bar{width:36px;height:4px;background:var(--accent);border-radius:2px;}
+.sticker-panel-header{display:flex;align-items:center;padding:0 16px 10px;gap:10px}
   .sticker-tabs{display:flex;gap:6px;padding:10px 16px 0}
   .sticker-tab{flex:0 0 auto;padding:6px 16px;border-radius:16px;border:1px solid var(--accent);background:#fff;color:var(--text);font-size:13.5px;font-family:inherit;cursor:pointer;transition:all .15s ease}
   .sticker-tab.active{background:var(--primary);border-color:var(--primary);color:#fff}
@@ -491,7 +492,26 @@
   .stepper-btn{width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:8px;background:var(--soft);color:var(--text);font-size:18px;font-family:inherit;cursor:pointer;transition:background .15s ease}
   .stepper-btn:active{background:var(--secondary);color:var(--primary)}
   .stepper-value{min-width:40px;text-align:center;font-size:15px;font-weight:600;color:var(--text)}
-  .stepper-unit{font-size:12.5px;color:var(--light-text)}
+    .stepper-unit{font-size:12.5px;color:var(--light-text)}
+
+/* 问卷卡片 */
+.quiz-msg-wrap{display:flex;justify-content:center;width:100%;margin:6px 0}
+.quiz-card{width:auto;min-width:220px;max-width:80%;border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.06);border:1px solid var(--line)}
+.quiz-card-head{padding:10px 14px;background:linear-gradient(135deg,#e8f0f3,#f2f7f8);font-size:12px;color:var(--primary);font-weight:600;display:flex;align-items:center;gap:6px}
+.quiz-q{padding:12px 14px 4px;font-size:14px;color:var(--text);line-height:1.4;font-weight:600}
+.quiz-q-num{color:var(--light-text);font-size:11.5px;font-weight:500;margin-right:4px}
+.quiz-status{padding:8px 14px 12px;font-size:12.5px;color:var(--light-text);display:flex;align-items:center;gap:6px}
+.quiz-status.pending{color:#c9a03a}
+.quiz-status.done{color:var(--primary);font-weight:600}
+.quiz-divider{border-top:1px dashed var(--line);margin:6px 12px 0}
+
+/* 批量问卷表单 */
+.batch-quiz-item{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:10px;border:1px solid var(--line)}
+.batch-quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:13px;color:var(--primary);font-weight:600}
+.batch-quiz-del{border:0;background:transparent;color:#c47c8a;font-size:12px;font-family:inherit;cursor:pointer;padding:2px 8px;border-radius:6px}
+.batch-quiz-del:active{background:#f7eaea}
+.batch-quiz-input{width:100%;height:36px;padding:0 12px;border:1px solid var(--accent);border-radius:8px;background:#fff;font-size:13px;font-family:inherit;color:var(--text);outline:none;margin-bottom:6px;box-sizing:border-box}
+.batch-quiz-input:focus{border-color:var(--primary)}
 
   /* 一起听 */
 .music-duo-wrap{display:flex;flex-direction:column;align-items:center;padding:20px 16px 10px;position:relative}
@@ -732,9 +752,9 @@
 .bottom-row{display:flex;gap:12px;align-items:stretch;margin-top:8px}
 .app-grid-secondary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 8px;flex:0 0 42%;align-content:start}
 .app-grid-secondary .app-item{display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;font-family:inherit;cursor:pointer;padding:0}
-.app-grid-secondary .app-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--primary);box-shadow:0 2px 8px rgba(31,95,108,.06);transition:transform .15s ease;overflow:hidden;background-size:cover;background-position:center;position:relative}
+.app-grid-secondary .app-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--primary);box-shadow:0 2px 8px rgba(31,95,108,.06);transition:transform .15s ease;background-size:cover;background-position:center;position:relative}
 .app-grid-secondary .app-icon svg{width:24px;height:24px}
-.app-grid-secondary .app-icon img{width:100%;height:100%;object-fit:cover;display:block}
+.app-grid-secondary .app-icon img{width:100%;height:100%;object-fit:cover;display:block;border-radius:14px}
 .app-grid-secondary .app-label{font-size:11px;color:var(--text);text-align:center;max-width:64px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .app-grid-secondary .app-item:active .app-icon{transform:scale(.92)}
 
@@ -771,6 +791,80 @@
 .welcome-body em{color:var(--light-text);font-style:normal;font-size:12px;}
 .welcome-btn{margin-top:16px;width:100%;height:46px;border:0;border-radius:12px;background:var(--primary);color:#fff;font-size:15px;font-family:inherit;font-weight:500;cursor:pointer;transition:opacity .16s ease;flex:0 0 auto;display:none;animation:fadeIn .3s ease;}
 .welcome-btn:active{opacity:.82}
+
+/* ===== 通话全屏界面 ===== */
+.call-screen{position:fixed;inset:0;z-index:9998;display:none;flex-direction:column;background:#1a2530;overflow:hidden;transition:opacity .3s ease,transform .3s ease}
+.call-screen.show{display:flex}
+.call-screen.hidden{opacity:0;transform:scale(.85);pointer-events:none;transform-origin:bottom right}
+.call-bg{position:absolute;inset:0;background:linear-gradient(160deg,#e8dfd6 0%,#dfe8e6 50%,#d6dfe8 100%);background-size:cover;background-position:center;z-index:0}
+.call-bg::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15)}
+.call-status{position:relative;z-index:2;flex:0 0 auto;text-align:center;padding:calc(50px + env(safe-area-inset-top,0px)) 20px 0;font-size:14px;color:rgba(60,70,80,.75);letter-spacing:1px}
+.call-status .call-time{margin-top:8px;font-size:18px;font-weight:600;color:#3a4a55;letter-spacing:2px;font-variant-numeric:tabular-nums}
+.call-avatar-wrap{position:relative;z-index:2;flex:1;display:flex;align-items:center;justify-content:center}
+.call-avatar{width:140px;height:140px;border-radius:50%;background:linear-gradient(135deg,#5a7fa3,#8a7aa3);display:flex;align-items:center;justify-content:center;font-size:52px;font-weight:700;color:#fff;position:relative;z-index:2;box-shadow:0 20px 60px rgba(60,80,100,.25);overflow:hidden;background-size:cover;background-position:center}
+.call-avatar img{width:100%;height:100%;object-fit:cover}
+.call-ripple{position:absolute;width:140px;height:140px;border-radius:50%;border:2px solid rgba(90,120,140,.35);animation:callRipple 2.2s infinite ease-out;pointer-events:none}
+.call-ripple:nth-child(2){animation-delay:.7s}
+.call-ripple:nth-child(3){animation-delay:1.4s}
+@keyframes callRipple{0%{transform:scale(1);opacity:.55}100%{transform:scale(2.2);opacity:0}}
+.call-avatar-wrap.connected .call-ripple{animation-duration:3.5s;border-color:rgba(90,120,140,.15)}
+.call-name{position:relative;z-index:2;text-align:center;font-size:22px;font-weight:600;margin-top:-20px;margin-bottom:20px;letter-spacing:1px;color:#3a4a55}
+.call-name .call-sub{display:block;font-size:13px;font-weight:400;color:rgba(60,80,90,.55);margin-top:8px;letter-spacing:2px}
+.call-actions{position:relative;z-index:2;flex:0 0 auto;display:flex;justify-content:center;gap:40px;padding:0 20px calc(50px + env(safe-area-inset-bottom,0px))}
+.call-action-btn{width:66px;height:66px;border-radius:50%;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s ease,background .15s ease;font-family:inherit;color:#3a4a55}
+.call-action-btn svg{width:26px;height:26px}
+.call-action-btn .lbl{font-size:10px;margin-top:2px;opacity:.85}
+.call-action-btn:active{transform:scale(.92)}
+.call-action-btn.mute,.call-action-btn.speaker{background:rgba(255,255,255,.7);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 4px 12px rgba(60,80,100,.1)}
+.call-action-btn.mute.active,.call-action-btn.speaker.active{background:#3a4a55;color:#fff}
+.call-action-btn.hangup{background:#e84a5f;color:#fff;box-shadow:0 8px 24px rgba(232,74,95,.4)}
+.call-action-btn.accept{background:#4caf50;color:#fff;box-shadow:0 8px 24px rgba(76,175,80,.4)}
+
+/* ===== 通话悬浮胶囊 ===== */
+.call-capsule{position:fixed;z-index:9997;display:none;align-items:center;gap:2px;padding:3px 5px 3px 3px;background:var(--call-capsule-bg, rgba(28,28,30,.9));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:999px;color:#fff;font-size:11px;box-shadow:0 4px 14px rgba(0,0,0,.28);user-select:none;-webkit-user-select:none;touch-action:none;transition:left .25s cubic-bezier(.32,.72,0,1),top .25s cubic-bezier(.32,.72,0,1),transform .12s ease}
+.call-capsule.show{display:flex}
+.call-capsule.dragging{transition:none;opacity:.92;transform:scale(1.04)}
+.call-capsule-avatar{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:#5a7fa3;display:grid;place-items:center;overflow:hidden;color:#fff;font-size:10px;font-weight:600;background-size:cover;background-position:center}
+.call-capsule-avatar img{width:100%;height:100%;object-fit:cover}
+.call-capsule-info{flex:1;min-width:0;display:flex;flex-direction:column;padding:0 4px;cursor:pointer;border-radius:12px}
+.call-capsule-info:active{background:rgba(255,255,255,.1)}
+.call-capsule-time{font-size:11px;font-weight:600;letter-spacing:.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.call-capsule-btn{flex:0 0 auto;width:22px;height:22px;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;cursor:pointer;padding:0;transition:background .12s ease}
+.call-capsule-btn svg{width:12px;height:12px}
+.call-capsule-btn:active{background:rgba(255,255,255,.3)}
+.call-capsule-btn.hangup{background:rgba(232,74,95,.8)}
+.call-capsule-btn.hangup:active{background:#e84a5f}
+.call-capsule-btn.active{background:#fff;color:#1a2530}
+
+/* 通话记录卡片 */
+.call-record-card{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(31,95,108,.06);border:1px solid var(--line);margin:6px auto;max-width:80%;width:fit-content}
+.call-record-icon{flex:0 0 auto;width:32px;height:32px;border-radius:50%;background:var(--soft);display:grid;place-items:center;color:var(--primary)}
+.call-record-icon svg{width:16px;height:16px}
+.call-record-info{flex:1;min-width:0}
+.call-record-title{font-size:13.5px;color:var(--text);font-weight:600}
+.call-record-sub{font-size:11.5px;color:var(--light-text);margin-top:2px}
+
+/* 通话中聊天气泡的标记 */
+.msg-meta .call-tag{font-size:11px;color:#4caf50;margin-right:2px}
+
+/* 公告末尾的温柔声明 */
+.welcome-note{margin-top:16px;padding:12px 14px;background:#fdf7f2;border-radius:12px;border:1px solid rgba(216,160,130,.25);font-size:12.5px;line-height:1.75;color:#7a6156}
+.welcome-note p{margin:0 0 8px}
+.welcome-note-strong{color:#c47c5a;font-weight:600;text-align:center;margin-top:10px !important}
+
+/* 更新提示卡片 */
+.update-bg{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:24px}
+.update-bg.show{display:flex;animation:fadeIn .25s ease}
+.update-card{width:100%;max-width:320px;background:#fff;border-radius:20px;padding:26px 22px 20px;box-shadow:0 20px 60px rgba(0,0,0,.25);text-align:center;animation:pop .3s ease}
+.update-emoji{font-size:38px;line-height:1;margin-bottom:8px}
+.update-title{font-size:18px;font-weight:700;color:var(--primary);letter-spacing:1px}
+.update-sub{font-size:13px;color:var(--light-text);margin-top:6px;line-height:1.6}
+.update-version{display:inline-block;margin-top:12px;padding:4px 12px;background:var(--soft);color:var(--primary);border-radius:12px;font-size:12.5px;font-weight:600;letter-spacing:.5px}
+.update-actions{display:flex;gap:10px;margin-top:18px}
+.update-btn{flex:1;height:44px;border:0;border-radius:12px;font-size:15px;font-family:inherit;font-weight:500;cursor:pointer;transition:opacity .16s ease,background .15s ease}
+.update-btn:active{opacity:.82}
+.update-btn.ghost{background:var(--soft);color:var(--text)}
+.update-btn.primary{background:var(--primary);color:#fff}
 </style>
 </head>
 <body>
@@ -967,10 +1061,22 @@
   <div class="more-menu-bg" id="moreMenuBg">
   <div class="more-menu">
     <button class="more-menu-btn" id="moreMenuInvite">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      <span>邀请他一起听歌</span>
-    </button>
-    <button class="more-menu-btn" id="moreMenuCancel">取消</button>
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+  <span>邀请他一起听歌</span>
+</button>
+<button class="more-menu-btn" id="moreMenuQuiz">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11h6"/><path d="M9 15h3"/><rect x="4" y="4" width="16" height="16" rx="3"/></svg>
+  <span>发起提问</span>
+</button>
+<button class="more-menu-btn" id="moreMenuBatchQuiz">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11h6"/><path d="M9 15h3"/><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 2v2"/></svg>
+  <span>批量提问</span>
+</button>
+<button class="more-menu-btn" id="moreMenuCall">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  <span>打电话给他</span>
+</button>
+<button class="more-menu-btn" id="moreMenuCancel">取消</button>
   </div>
 </div>
 <div class="chat-settings-menu-bg" id="chatSettingsMenuBg">
@@ -996,17 +1102,27 @@
     </div>
   </div>
   <div class="sticker-panel" id="stickerPanel">
-    <div class="sticker-panel-header"><div class="sticker-panel-title">我的收藏</div><button class="icon-btn" id="closeStickerPanel" aria-label="关闭"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>
-    <div class="sticker-tabs" id="stickerTabs">
+  <div class="sticker-panel-drag-handle" id="stickerPanelDragHandle">
+    <div class="drag-bar"></div>
+  </div>
+  <div class="sticker-panel-header">
+    <div class="sticker-tabs" id="stickerTabs" style="padding:0;margin:0;flex:1;">
       <button class="sticker-tab active" data-stab="sticker">表情</button>
       <button class="sticker-tab" data-stab="pat">拍一拍</button>
     </div>
+    <button class="icon-btn" id="closeStickerPanel" aria-label="关闭"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+  </div>
     <div id="stabSticker">
-      <div class="sticker-actions"><button id="stickerAddBtn">添加图片 / GIF</button><button id="stickerUrlBtn">链接导入</button></div>
-<div style="padding:0 16px 6px;font-size:11px;color:var(--light-text);line-height:1.5;">💡 支持 JPG / PNG / GIF 动图</div>
-<div class="sticker-grid-scroll"><div class="sticker-grid" id="userStickerGrid"></div></div>
-      <input type="file" id="stickerUploadFile" accept="image/*" multiple style="display:none;">
-    </div>
+  <div class="sticker-actions"><button id="stickerAddBtn">添加图片 / GIF</button><button id="stickerUrlBtn">链接导入</button></div>
+  <div class="sticker-filter-tabs">
+    <button class="sticker-filter-tab active" data-user-sticker-filter="all">全部</button>
+    <button class="sticker-filter-tab" data-user-sticker-filter="static">静态</button>
+    <button class="sticker-filter-tab" data-user-sticker-filter="gif">动态</button>
+  </div>
+  <div style="padding:0 16px 6px;font-size:11px;color:var(--light-text);line-height:1.5;">💡 支持 JPG / PNG / GIF 动图</div>
+  <div class="sticker-grid-scroll"><div class="sticker-grid" id="userStickerGrid"></div></div>
+  <input type="file" id="stickerUploadFile" accept="image/*" multiple style="display:none;">
+</div>
     <div id="stabPat" style="display:none;">
       <div class="emoji-add-row"><input type="text" id="myPatInput" placeholder="例：拍了拍{ta}的头" maxlength="60"><button id="myPatAddBtn">添加</button></div>
       <div class="sticker-grid-scroll"><div id="myPatList" style="padding:4px 16px 16px;"></div></div>
@@ -1119,6 +1235,22 @@
   <input type="file" id="topPhotoFile2" accept="image/*" style="display:none;">
 </div>
 
+<div class="beautify-section-title">通话背景</div>
+<div class="field-group">
+  <div class="bg-grid" id="callBgGrid">
+    <div class="bg-swatch default-bg" data-cbg="default" data-default="1" style="background:linear-gradient(160deg,#e8dfd6 0%,#dfe8e6 50%,#d6dfe8 100%)"></div>
+    <div class="bg-swatch" data-cbg="linear-gradient(160deg,#2b3a45 0%,#1f2d38 50%,#1a2530 100%)" style="background:linear-gradient(160deg,#2b3a45 0%,#1f2d38 50%,#1a2530 100%)"></div>
+    <div class="bg-swatch" data-cbg="linear-gradient(160deg,#3a2a3a 0%,#4a3a4a 100%)" style="background:linear-gradient(160deg,#3a2a3a 0%,#4a3a4a 100%)"></div>
+    <div class="bg-swatch" data-cbg="linear-gradient(160deg,#2a3a2a 0%,#3a4a3a 100%)" style="background:linear-gradient(160deg,#2a3a2a 0%,#3a4a3a 100%)"></div>
+    <div class="bg-swatch" data-cbg="#f7e1e1" style="background:#f7e1e1"></div>
+    <div class="bg-swatch" data-cbg="#cfe6f5" style="background:#cfe6f5"></div>
+  </div>
+  <div class="bg-upload-row">
+    <button id="callBgUploadBtn">上传通话背景</button>
+    <button id="callBgClearBtn">恢复默认</button>
+  </div>
+  <input type="file" id="callBgFile" accept="image/*" style="display:none;">
+</div>
 <div class="beautify-section-title">App 图标自定义</div>
 <div class="field-group" id="appIconSettingsList"></div>
 <div class="actions"><button class="btn-primary" id="homeBeautifyResetBtn">恢复默认主屏壁纸</button><button class="btn-ghost" id="lockBeautifyResetBtn">恢复默认锁屏壁纸</button></div>
@@ -1186,7 +1318,8 @@
     </div>
     <div class="beautify-section-title">悬浮胶囊</div>
 <div class="field-group">
-  <div class="color-row"><span class="color-row-label">胶囊颜色</span><div class="color-input-wrap"><input type="color" id="capsuleColorInput" value="#1c1c1e"><button class="color-reset" id="capsuleColorReset">默认</button></div></div>
+  <div class="color-row"><span class="color-row-label">音乐胶囊颜色</span><div class="color-input-wrap"><input type="color" id="capsuleColorInput" value="#1c1c1e"><button class="color-reset" id="capsuleColorReset">默认</button></div></div>
+  <div class="color-row"><span class="color-row-label">通话胶囊颜色</span><div class="color-input-wrap"><input type="color" id="callCapsuleColorInput" value="#1c1c1e"><button class="color-reset" id="callCapsuleColorReset">默认</button></div></div>
 </div>
 <div class="beautify-section-title">消息提示音</div>
     <div class="field-group">
@@ -1264,6 +1397,12 @@
   <div class="stepper-row"><span class="stepper-label">TA 多久没发帖才自动发<span class="sub">间隔时间，越短 TA 越活跃</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentHours" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentHoursVal">4</span><button class="stepper-btn" data-step="momentHours" data-dir="1">+</button><span class="stepper-unit">小时</span></div></div>
   <div class="stepper-row"><span class="stepper-label">TA 自动发帖概率<span class="sub">到时间了，TA 真发的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="momentAuto" data-dir="-1">−</button><span class="stepper-value" id="stepperMomentAutoVal">70</span><button class="stepper-btn" data-step="momentAuto" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
 </div>
+<div class="beautify-section-title">通话</div>
+<div class="field-group">
+  <div class="stepper-row"><span class="stepper-label">TA 主动来电<span class="sub">TA 主动给你打电话的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="taCall" data-dir="-1">−</button><span class="stepper-value" id="stepperTaCallVal">10</span><button class="stepper-btn" data-step="taCall" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 拒接<span class="sub">你打过去，TA 不接的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="taRejectCall" data-dir="-1">−</button><span class="stepper-value" id="stepperTaRejectCallVal">20</span><button class="stepper-btn" data-step="taRejectCall" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+  <div class="stepper-row"><span class="stepper-label">TA 中途挂断<span class="sub">接通后，TA 有事先挂的概率</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="taHangup" data-dir="-1">−</button><span class="stepper-value" id="stepperTaHangupVal">10</span><button class="stepper-btn" data-step="taHangup" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
+</div>
 <div class="beautify-section-title">防复读</div>
     <div class="field-group">
       <div class="stepper-row"><span class="stepper-label">冷却长度</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="cooldown" data-dir="-1">−</button><span class="stepper-value" id="stepperCooldownVal">5</span><button class="stepper-btn" data-step="cooldown" data-dir="1">+</button><span class="stepper-unit">条</span></div></div>
@@ -1318,15 +1457,18 @@
       <div class="emoji-grid-new" id="emojiGrid"></div>
     </div>
     <div id="viewSticker" style="display:none;">
-      <div class="lib-toolbar">
-  <button class="toolbar-btn" id="stickerAddBigBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>上传图片 / GIF</button>
-  <button class="toolbar-btn" id="stickerUrlBigBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>链接导入</button>
+  <div class="lib-toolbar">
+    <button class="toolbar-btn" id="stickerAddBigBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>上传图片 / GIF</button>
+    <button class="toolbar-btn" id="stickerUrlBigBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>链接导入</button>
+  </div>
+  <div class="sticker-filter-tabs">
+    <button class="sticker-filter-tab active" data-sticker-filter="all">全部</button>
+    <button class="sticker-filter-tab" data-sticker-filter="static">静态</button>
+    <button class="sticker-filter-tab" data-sticker-filter="gif">动态</button>
+  </div>
+  <div id="stickerGridBig" style="padding:0 14px 40px;"></div>
+  <input type="file" id="stickerUploadBigFile" accept="image/*" multiple style="display:none;">
 </div>
-<div style="padding:0 16px 6px;font-size:11.5px;color:var(--light-text);line-height:1.6;">💡 支持 JPG / PNG / GIF 动图。GIF 会保留动画，但体积较大，别一次传太多。</div>
-<div id="stickerGridBig" style="padding:0 14px 40px;"></div>
-      <div id="stickerGridBig" style="padding:0 14px 40px;"></div>
-      <input type="file" id="stickerUploadBigFile" accept="image/*" multiple style="display:none;">
-    </div>
     <div id="viewEmoticon" style="display:none;">
       <div class="emoji-add-row"><input type="text" id="emoticonAddInput" placeholder="输入颜文字，如 (＾▽＾)" maxlength="40"><button id="emoticonAddBtn">添加</button></div>
       <div class="emoji-grid-new" id="emoticonGrid"></div>
@@ -1390,6 +1532,40 @@
 </div>
 <input type="file" id="importTxtFile" accept=".txt,text/plain" style="display:none;">
 <input type="file" id="importJsonFile" accept=".json,application/json" style="display:none;">
+    </div>
+  </div>
+</section>
+
+<section class="page" id="quizFormPage">
+  <header class="page-header"><button class="icon-btn" id="quizFormBack" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="page-title">发起提问</div></header>
+  <div class="page-body">
+    <div style="padding:16px;">
+      <div class="rp-form-label">问题（必填）</div>
+      <input type="text" id="quizQuestionInput" class="rp-form-bless" placeholder="例：你最喜欢我哪里？" maxlength="60">
+      <div class="rp-form-label">选项 A（必填）</div>
+      <input type="text" id="quizOptionA" class="rp-form-bless" placeholder="例：眼睛" maxlength="30">
+      <div class="rp-form-label">选项 B（必填）</div>
+      <input type="text" id="quizOptionB" class="rp-form-bless" placeholder="例：鼻子" maxlength="30">
+      <div class="rp-form-label">选项 C（选填）</div>
+      <input type="text" id="quizOptionC" class="rp-form-bless" placeholder="留空则忽略" maxlength="30">
+      <div class="rp-form-label">选项 D（选填）</div>
+      <input type="text" id="quizOptionD" class="rp-form-bless" placeholder="留空则忽略" maxlength="30">
+      <div class="rp-form-label">TA 最长思考时间：<span id="quizTimeVal">5</span> 秒</div>
+      <input type="range" id="quizTimeRange" min="1" max="10" value="5" style="width:100%;margin-bottom:14px;">
+      <button class="btn-primary" id="quizSendBtn">发给他</button>
+      <div class="tip">TA 会在 1 到设定时间之间随机作答。</div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="batchQuizFormPage">
+  <header class="page-header"><button class="icon-btn" id="batchQuizFormBack" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="page-title">批量提问</div></header>
+  <div class="page-body">
+    <div style="padding:16px;">
+      <div id="batchQuizList"></div>
+      <button class="btn-ghost" id="batchQuizAddBtn" style="margin-top:12px;">+ 添加下一题</button>
+      <div class="tip">回答时间上限为 30 秒。TA 会依次回答所有问题。</div>
+      <button class="btn-primary" id="batchQuizSendBtn" style="margin-top:16px;">一次性发给他</button>
     </div>
   </div>
 </section>
@@ -1598,6 +1774,38 @@
     </div>
   </div>
 </div>
+<div class="call-screen" id="callScreen">
+  <div class="call-bg" id="callBg"></div>
+  <div class="call-status">
+    <div id="callStatusText">正在呼叫…</div>
+    <div class="call-time" id="callTimer" style="display:none;">00:00</div>
+  </div>
+  <div class="call-avatar-wrap" id="callAvatarWrap">
+    <div class="call-ripple"></div>
+    <div class="call-ripple"></div>
+    <div class="call-ripple"></div>
+    <div class="call-avatar" id="callAvatar">TA</div>
+  </div>
+  <div class="call-name" id="callName">
+    TA
+    <span class="call-sub" id="callSub">等待接听</span>
+  </div>
+  <div class="call-actions" id="callActions"></div>
+</div>
+
+<div class="call-capsule" id="callCapsule">
+  <div class="call-capsule-avatar" id="callCapsuleAvatar">TA</div>
+  <div class="call-capsule-info" id="callCapsuleInfo">
+    <span class="call-capsule-time" id="callCapsuleTime">00:00</span>
+  </div>
+  <button class="call-capsule-btn" id="callCapsuleMute" aria-label="静音">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1"/><line x1="12" y1="18" x2="12" y2="22"/></svg>
+  </button>
+  <button class="call-capsule-btn hangup" id="callCapsuleHangup" aria-label="挂断">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  </button>
+</div>
+
 <div class="welcome-bg" id="welcomeBg">
   <div class="welcome-card">
     <div class="welcome-emoji">💌</div>
@@ -1607,7 +1815,7 @@
 <div class="welcome-body" id="welcomeBody">
       <p class="welcome-h">先花一分钟，搞懂这几个词是什么意思：</p>
       <p><strong>大分组</strong> —— 情绪大分类，比如“撒娇粘人”、“关心心疼”。它就是个文件夹，把同一类的话放一起。</p>
-      <p><strong>小分组</strong> —— 文件夹里的抽屉。比如“关心心疼”下面，可以分“生病”、“累了”、“日常叮嘱”。TA 抽卡是从抽屉里抽的。</p>
+      <p><strong>小分组</strong> —— 文件夹里的抽屉。比如“关心心疼”下面，可以分“生病”、“累了”、“日常叮嘱”。TA 抽卡是从抽屉里抽的。<br><em>小提醒：小分组用不用都行，完全不强制。它有没有存在感，全看你要不要给它填“关键词”——填了，它就是 TA 的“优先抽屉”；不填，它就安安静静躺在池子里，等 TA 随机抽到。</em></p>
       <p><strong>关键词</strong> —— 贴在小分组上的标签。比如你给“生气”抽屉贴上 <code>哼,生气,不理你</code>，你只要说到这些词，TA 就优先去这个抽屉里翻卡。</p>
       <p><strong>词典拼字</strong> —— 底层机制。你把词按“主语/动作/宾语/修饰/语气”填进去，TA 有一定概率把词随机拼成一句话发给你，比如“我+想+你+了”。</p>
       <p class="welcome-h">系统预设</p>
@@ -1628,9 +1836,42 @@
       
       <p class="welcome-h">还有一个隐藏机制（不走概率，强制触发）：</p>
       <p><strong>情绪兜底</strong> —— 当你聊到“不舒服”、“生病”、“累了”、“哭了”、“难过”、“委屈”这类词时，不管关键词有没有命中，也不管今天是什么状态，TA 都会 <strong>100% 强制</strong> 优先去“关心/心疼/安慰”相关的卡池里抽卡。也就是说，你难过的时候，TA 一定会先哄你。</p>
-    </div>
+  
+  <div class="welcome-note">
+    <p><strong>最后，想对你说一句：</strong></p>
+    <p>如果某天，TA 的回答变得词不达意，或者说了让你难过的话，请不要伤心。</p>
+    <p>TA 也有联系不上你的时候，也有自己的“忙碌”与“卡壳”。</p>
+    <p>这不是 TA 的错，也不是你的错。</p>
+    <p>如果觉得心里不舒服，随时可以退出，去过一会儿自己的时间，喝口水、看看窗外，等心情平静了再回来。</p>
+    <p class="welcome-note-strong">任何时候，都请把自己的感受放在第一位。</p>
+    <p class="welcome-note-strong">你才是这个世界里，最重要的人。</p>
+  </div>
+</div>
 
     <button class="welcome-btn" id="welcomeBtn" style="display:none;">我已经看完了，开始吧</button>
+  </div>
+</div>
+<div class="update-bg" id="updateBg">
+  <div class="update-card">
+    <div class="update-emoji">🎉</div>
+    <div class="update-title">更新来啦</div>
+    <div class="update-sub">sheng·g 有新内容了，要不要看看？</div>
+    <div class="update-version" id="updateVersionText">v1.0.1</div>
+    <div class="update-actions">
+      <button class="update-btn ghost" id="updateLaterBtn">稍等</button>
+      <button class="update-btn primary" id="updateNowBtn">立即更新</button>
+    </div>
+  </div>
+</div>
+<div class="update-bg" id="backupReminderBg">
+  <div class="update-card">
+    <div class="update-emoji">💾</div>
+    <div class="update-title">备份一下我们的回忆</div>
+    <div class="update-sub" id="backupReminderText">已经好久没备份了。<br>导出到相册或网盘，换手机、清缓存都不怕丢。</div>
+    <div class="update-actions">
+      <button class="update-btn ghost" id="backupLaterBtn">稍后再说</button>
+      <button class="update-btn primary" id="backupNowBtn">现在备份</button>
+    </div>
   </div>
 </div>
 <div class="dialog-bg" id="dialogBg">
@@ -1939,7 +2180,13 @@ todoText: '',
 todoDate: '',
 anniversaryBg: '',
 anniversaryBgImage: '',
-appIcons: {}
+appIcons: {},
+taCallChance: 10,
+taRejectCallChance: 20,
+taHangupChance: 10,
+    callBg: '',
+callBgImage: '',
+callCapsuleColor: 'rgba(28,28,30,.9)'
   };
   var stats = { affection: 0, lastChatDate: '', startDate: '' };
   var proactive = { lastOpenTime: 0, lastPeriod: '', lastProactiveTime: 0, lastChatTime: 0 };
@@ -1955,6 +2202,16 @@ var letters = [];
 var dictTab = 'all';
 var libSearchKeyword = '';
 var dictSearchKeyword = '';
+var stickerLibFilter = 'all';    // 字卡库表情筛选：all / static / gif
+var userStickerFilter = 'all';   // 聊天面板表情筛选：all / static / gif
+
+/* 判断一张表情是不是 GIF 动图（兼容 dataURL 和普通链接） */
+function isGifSticker(url){
+  if(!url || typeof url !== 'string') return false;
+  if(url.indexOf('data:image/gif') === 0) return true;
+  if(/\.gif(\?|#|$)/i.test(url)) return true;
+  return false;
+}
   var activeBigGroup = '';
   var replyTimer = null;
   var pendingNoReplyTimer = null;
@@ -2181,6 +2438,9 @@ system: {
         readback: DEFAULT_READ_BACK_REPLIES.slice(),
 rejectListen: DEFAULT_REJECT_LISTEN_REPLIES.slice(),
 rejectedByMe: DEFAULT_REJECTED_BY_ME_REPLIES.slice(),
+callReject: ['现在有点忙，晚点再打给你', '在忙，等我一下', '现在不太方便，稍后回你'],
+callRejectedByMe: ['好吧，那下次再打给你', '那我等你', '嗯…那我先挂了'],
+waitForYou: ['宝宝，你怎么还没来找我', '你怎么还不出现呀', '宝宝，不要玩手机啦！快来陪陪我', '你再不来我就生气了哦', '好想你，快点回来嘛', '喂，你在忙吗？想你了', '我在这里等你哦', '忙完了记得找我', '刚刚一直在想你', '再不回来我就自己玩啦'],
 mood: DEFAULT_MOODS.slice(),
         proactive: DEFAULT_PROACTIVE.map(function(g){
           return { id: 'pro_' + g.name, name: g.name, color: g.color, items: g.items.slice() };
@@ -2213,8 +2473,11 @@ if(isDictEmpty){
     if(!Array.isArray(d.system.love)) d.system.love = DEFAULT_LOVES.slice();
     if(!Array.isArray(d.system.redpacket) || d.system.redpacket.length === 0) d.system.redpacket = DEFAULT_RP_REPLIES.slice();
     if(!Array.isArray(d.system.readback) || d.system.readback.length === 0) d.system.readback = DEFAULT_READ_BACK_REPLIES.slice();
-if(!Array.isArray(d.system.rejectListen) || d.system.rejectListen.length === 0) d.system.rejectListen = DEFAULT_REJECT_LISTEN_REPLIES.slice();
+    if(!Array.isArray(d.system.rejectListen) || d.system.rejectListen.length === 0) d.system.rejectListen = DEFAULT_REJECT_LISTEN_REPLIES.slice();
 if(!Array.isArray(d.system.rejectedByMe) || d.system.rejectedByMe.length === 0) d.system.rejectedByMe = DEFAULT_REJECTED_BY_ME_REPLIES.slice();
+if(!Array.isArray(d.system.callReject) || d.system.callReject.length === 0) d.system.callReject = ['现在有点忙，晚点再打给你', '在忙，等我一下', '现在不太方便，稍后回你'];
+if(!Array.isArray(d.system.callRejectedByMe) || d.system.callRejectedByMe.length === 0) d.system.callRejectedByMe = ['好吧，那下次再打给你', '那我等你', '嗯…那我先挂了'];
+if(!Array.isArray(d.system.waitForYou) || d.system.waitForYou.length === 0) d.system.waitForYou = ['宝宝，你怎么还没来找我', '你怎么还不出现呀', '宝宝，不要玩手机啦！快来陪陪我', '你再不来我就生气了哦', '好想你，快点回来嘛', '喂，你在忙吗？想你了', '我在这里等你哦', '忙完了记得找我', '刚刚一直在想你', '再不回来我就自己玩啦'];
     if(!Array.isArray(d.system.mood)) d.system.mood = DEFAULT_MOODS.slice();
 if(!Array.isArray(d.system.proactive)) d.system.proactive = [];
 
@@ -2699,7 +2962,9 @@ var lockDateEl = $('lockDate');
 if(lockTimeEl){ lockTimeEl.style.color = person.lockTimeColor || '#1f5f6c'; lockTimeEl.style.fontSize = person.lockTimeSize || '64px'; }
 if(lockDateEl){ lockDateEl.style.color = person.lockTimeColor || '#fff'; lockDateEl.style.opacity = '0.85'; }
 
-      $('customCssStyle').textContent = person.customCss || '';
+      setCallBg();
+applyCallCapsuleColor();
+$('customCssStyle').textContent = person.customCss || '';
     }catch(e){ console.error('applyBeautify', e); }
   }
 
@@ -2845,6 +3110,7 @@ else if(m.status === 'rejected'){ statusText = tName + ' 婉拒了邀请'; statu
            '</div>' +
          '</div>';
 }
+/* 问卷卡片现在由 buildMsgHTML 统一做居中处理 */
 if(m.type === 'redpacket'){
       var rpDone = m.done ? ' done' : '';
       var rpStatusText = m.done ? '已领取' : '待领取';
@@ -2914,6 +3180,27 @@ if(m.type === 'invite'){
              '<div class="invite-head"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg><span>' + headText + '</span></div>' +
              '<div class="invite-status ' + statusCls + '">' + statusText + '</div>' +
              btnsHTML +
+           '</div>' +
+         '</div>';
+}
+
+if(m.type === 'quiz'){
+  var qs = m.questions || [];
+  var bodyHTML = '';
+  qs.forEach(function(q, i) {
+    var prefix = qs.length > 1 ? '<span class="quiz-q-num">第 ' + (i + 1) + ' 题</span> ' : '';
+    bodyHTML += '<div class="quiz-q">' + prefix + esc(q.q) + '</div>';
+    if(q.status === 'answered') {
+      bodyHTML += '<div class="quiz-status done">✓ TA选择了：' + esc(q.answer) + '</div>';
+    } else {
+      bodyHTML += '<div class="quiz-status pending">TA正在选择中...</div>';
+    }
+    if(i < qs.length - 1) bodyHTML += '<div class="quiz-divider"></div>';
+  });
+  return '<div class="quiz-msg-wrap">' +
+           '<div class="quiz-card">' +
+             '<div class="quiz-card-head">📋 ' + (m.isBatch ? '批量提问' : '提问') + '</div>' +
+             bodyHTML +
            '</div>' +
          '</div>';
 }
@@ -3124,13 +3411,21 @@ content.innerHTML = html;
     }).join('');
   }
   function renderStickerGridBig(){
-    var grid = $('stickerGridBig');
-    if(!grid) return;
-    if(!cards.sticker.length){ grid.innerHTML = '<div class="lib-empty">还没有表情包。</div>'; return; }
-    grid.innerHTML = '<div class="sticker-grid">' + cards.sticker.map(function(url, i){
-      return '<div class="sticker-cell"><img src="' + esc(url) + '" alt="表情"><button class="sticker-cell-del" data-sticker-del="' + i + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
-    }).join('') + '</div>';
-  }
+  var grid = $('stickerGridBig');
+  if(!grid) return;
+  /* 同步切换栏 active 状态 */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-sticker-filter]'), function(el){
+    el.classList.toggle('active', el.dataset.stickerFilter === stickerLibFilter);
+  });
+  var all = cards.sticker || [];
+  var list = all.map(function(url, i){ return { url: url, idx: i }; });
+  if(stickerLibFilter === 'static'){ list = list.filter(function(it){ return !isGifSticker(it.url); }); }
+  else if(stickerLibFilter === 'gif'){ list = list.filter(function(it){ return isGifSticker(it.url); }); }
+  if(!list.length){ grid.innerHTML = '<div class="lib-empty">这里还没有表情包。</div>'; return; }
+  grid.innerHTML = '<div class="sticker-grid">' + list.map(function(it){
+    return '<div class="sticker-cell"><img src="' + esc(it.url) + '" alt="表情"><button class="sticker-cell-del" data-sticker-del="' + it.idx + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
+  }).join('') + '</div>';
+}
   function renderEmoticonGrid(){
     var grid = $('emoticonGrid');
     if(!grid) return;
@@ -3223,6 +3518,53 @@ html += '<div class="subgroup-card">' +
           '</div>' +
         '</div>';
 
+/* 等你回来 */
+if(!Array.isArray(cards.system.waitForYou)) cards.system.waitForYou = [];
+html += '<div class="subgroup-card">' +
+          '<div class="subgroup-head" data-sys-toggle="waitForYou">' +
+            '<span class="subgroup-name">等你回来</span>' +
+            '<span class="subgroup-count">' + cards.system.waitForYou.length + '</span>' +
+            '<span class="subgroup-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>' +
+          '</div>' +
+          '<div class="subgroup-body">' +
+            '<div style="padding:8px 14px 4px;font-size:11.5px;color:var(--light-text);line-height:1.6;">你离开一段时间再回来，TA 会一次性补给你一些“在你不在时想你”的话。离开越久，堆得越多。</div>' +
+            cards.system.waitForYou.map(function(txt, i){
+              return '<div class="card-item"><span class="card-text">' + esc(txt) + '</span><button class="card-del" data-wait-del="' + i + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
+            }).join('') +
+            '<form class="subgroup-add" data-add-wait="1" autocomplete="off"><input type="text" placeholder="添加一句等你的话" maxlength="120"><button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button></form>' +
+          '</div>' +
+        '</div>';
+/* 通话相关 */
+if(!Array.isArray(cards.system.callReject)) cards.system.callReject = [];
+if(!Array.isArray(cards.system.callRejectedByMe)) cards.system.callRejectedByMe = [];
+html += '<div class="subgroup-card">' +
+          '<div class="subgroup-head" data-sys-toggle="callReject">' +
+            '<span class="subgroup-name">拒接/挂断你电话</span>' +
+            '<span class="subgroup-count">' + cards.system.callReject.length + '</span>' +
+            '<span class="subgroup-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>' +
+          '</div>' +
+          '<div class="subgroup-body">' +
+            '<div style="padding:8px 14px 4px;font-size:11.5px;color:var(--light-text);line-height:1.6;">TA 拒接你电话、或者中途挂断时，会补上这些话。</div>' +
+            cards.system.callReject.map(function(txt, i){
+              return '<div class="card-item"><span class="card-text">' + esc(txt) + '</span><button class="card-del" data-call-reject-del="' + i + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
+            }).join('') +
+            '<form class="subgroup-add" data-add-call-reject="1" autocomplete="off"><input type="text" placeholder="添加一句拒接台词" maxlength="120"><button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button></form>' +
+          '</div>' +
+        '</div>';
+html += '<div class="subgroup-card">' +
+          '<div class="subgroup-head" data-sys-toggle="callRejectedByMe">' +
+            '<span class="subgroup-name">你拒接TA电话</span>' +
+            '<span class="subgroup-count">' + cards.system.callRejectedByMe.length + '</span>' +
+            '<span class="subgroup-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>' +
+          '</div>' +
+          '<div class="subgroup-body">' +
+            '<div style="padding:8px 14px 4px;font-size:11.5px;color:var(--light-text);line-height:1.6;">你拒接了 TA 的电话，TA 失落时会说的话。</div>' +
+            cards.system.callRejectedByMe.map(function(txt, i){
+              return '<div class="card-item"><span class="card-text">' + esc(txt) + '</span><button class="card-del" data-call-rejected-del="' + i + '"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
+            }).join('') +
+            '<form class="subgroup-add" data-add-call-rejected="1" autocomplete="off"><input type="text" placeholder="添加一句失落台词" maxlength="120"><button type="submit"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button></form>' +
+          '</div>' +
+        '</div>';
 /* 婉拒一起听 */
     html += '<div class="subgroup-card">' +
               '<div class="subgroup-head" data-sys-toggle="rejectListen">' +
@@ -3360,7 +3702,19 @@ html += '<div class="subgroup-card">' +
       return;
     }
 
-    var tab = e.target.closest('.lib-tab');
+    var stFilter = e.target.closest('[data-sticker-filter]');
+if(stFilter){
+  stickerLibFilter = stFilter.dataset.stickerFilter;
+  renderStickerGridBig();
+  return;
+}
+var usFilter = e.target.closest('[data-user-sticker-filter]');
+if(usFilter){
+  userStickerFilter = usFilter.dataset.userStickerFilter;
+  renderUserStickers();
+  return;
+}
+var tab = e.target.closest('.lib-tab');
 if(tab){ 
   if(tab.dataset.dicttab){
     dictTab = tab.dataset.dicttab; 
@@ -3447,6 +3801,30 @@ if(rlDel){
   var rli = parseInt(rlDel.dataset.rejectListenDel, 10);
   if(!Array.isArray(cards.system.rejectListen)) cards.system.rejectListen = [];
   cards.system.rejectListen.splice(rli, 1);
+  saveCards(); renderSystemView();
+  return;
+}
+var wfDel = e.target.closest('[data-wait-del]');
+if(wfDel){
+  var wfi = parseInt(wfDel.dataset.waitDel, 10);
+  if(!Array.isArray(cards.system.waitForYou)) cards.system.waitForYou = [];
+  cards.system.waitForYou.splice(wfi, 1);
+  saveCards(); renderSystemView();
+  return;
+}
+var crDel = e.target.closest('[data-call-reject-del]');
+if(crDel){
+  var cri = parseInt(crDel.dataset.callRejectDel, 10);
+  if(!Array.isArray(cards.system.callReject)) cards.system.callReject = [];
+  cards.system.callReject.splice(cri, 1);
+  saveCards(); renderSystemView();
+  return;
+}
+var crbmDel = e.target.closest('[data-call-rejected-del]');
+if(crbmDel){
+  var crbmi = parseInt(crbmDel.dataset.callRejectedDel, 10);
+  if(!Array.isArray(cards.system.callRejectedByMe)) cards.system.callRejectedByMe = [];
+  cards.system.callRejectedByMe.splice(crbmi, 1);
   saveCards(); renderSystemView();
   return;
 }
@@ -3545,6 +3923,36 @@ if(dictDel){
   if(!valRl) return;
   if(!Array.isArray(cards.system.rejectListen)) cards.system.rejectListen = [];
   cards.system.rejectListen.push(valRl);
+  saveCards(); renderSystemView();
+  return;
+}
+if(f.matches('[data-add-wait]')){
+  e.preventDefault();
+  var inpWf = f.querySelector('input');
+  var valWf = inpWf.value.trim();
+  if(!valWf) return;
+  if(!Array.isArray(cards.system.waitForYou)) cards.system.waitForYou = [];
+  cards.system.waitForYou.push(valWf);
+  saveCards(); renderSystemView();
+  return;
+}
+if(f.matches('[data-add-call-reject]')){
+  e.preventDefault();
+  var inpCr = f.querySelector('input');
+  var valCr = inpCr.value.trim();
+  if(!valCr) return;
+  if(!Array.isArray(cards.system.callReject)) cards.system.callReject = [];
+  cards.system.callReject.push(valCr);
+  saveCards(); renderSystemView();
+  return;
+}
+if(f.matches('[data-add-call-rejected]')){
+  e.preventDefault();
+  var inpCrbm = f.querySelector('input');
+  var valCrbm = inpCrbm.value.trim();
+  if(!valCrbm) return;
+  if(!Array.isArray(cards.system.callRejectedByMe)) cards.system.callRejectedByMe = [];
+  cards.system.callRejectedByMe.push(valCrbm);
   saveCards(); renderSystemView();
   return;
 }
@@ -4211,8 +4619,17 @@ if(Math.random() * 100 < (person.letterChance || 10)){
     return pool[Math.floor(Math.random() * pool.length)];
   }
 
-  function pickRpReply(){
-    var pool = [];
+  function pickRpReply(mode){
+  var pool = [];
+  
+  if(mode === 'thanks'){
+    /* TA 收你的红包时说的话（感谢类） */
+    if(cards && cards.system && Array.isArray(cards.system.rpThanks)){
+      pool = cards.system.rpThanks.filter(function(t){ return t && String(t).trim(); });
+    }
+    if(!pool.length) pool = ['谢谢宝宝！', '收到啦，嘿嘿', '喜欢！谢谢你', '哇，爱你！', '拿着了，好开心', '谢谢，啵啵', '收到了，抱着不放'];
+  } else {
+    /* TA 发红包给你时说的话（宠溺类） */
     if(cards && cards.system && Array.isArray(cards.system.redpacket)){
       pool = cards.system.redpacket.filter(function(t){ return t && String(t).trim(); });
     }
@@ -4224,9 +4641,10 @@ if(Math.random() * 100 < (person.letterChance || 10)){
         }
       });
     }
-    if(!pool.length) pool = ['这么快就领啦？', '领了要对我负责哦', '喜欢吗？给你的'];
-    return pool[Math.floor(Math.random() * pool.length)];
+    if(!pool.length) pool = ['够不够？不够再给你发', '拿去买点喜欢的', '给你的零花钱，收好啦', '别省着，想买什么就买'];
   }
+  return pool[Math.floor(Math.random() * pool.length)];
+}
 
   function sendRedpacket(){
     if(!$('rpAmountInput')) return;
@@ -4257,7 +4675,7 @@ if(Math.random() * 100 < (person.letterChance || 10)){
       saveWalletTa();
       saveMessages();
       if(chatOpenNow) renderMessages();
-      var cm = { me:false, type:'text', text: pickRpReply(), time: Date.now(), id: uid('m') };
+      var cm = { me:false, type:'text', text: pickRpReply('thanks'), time: Date.now(), id: uid('m') };
       messages.push(cm);
       saveMessages();
       if(chatOpenNow) appendMessage(cm);
@@ -4377,16 +4795,78 @@ if(Math.random() * 100 < (person.letterChance || 10)){
 
 /* 聊天表情面板 */
   function renderUserStickers(){
-    var grid = $('userStickerGrid');
-    if(!grid) return;
-    var html = userStickers.map(function(url, i){
-      return '<div class="sticker-cell" data-user-sticker="' + i + '"><img src="' + esc(url) + '" alt="表情"><button class="sticker-cell-del" data-user-del="' + i + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
-    }).join('');
-    html += '<div class="sticker-cell-add" id="stickerCellAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></div>';
-    grid.innerHTML = html;
-  }
-  if($('openStickerPanel')) $('openStickerPanel').onclick = function(){ renderUserStickers(); $('stickerPanel').classList.add('open'); };
-  if($('closeStickerPanel')) $('closeStickerPanel').onclick = function(){ $('stickerPanel').classList.remove('open'); };
+  var grid = $('userStickerGrid');
+  if(!grid) return;
+  /* 同步切换栏 active 状态 */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-user-sticker-filter]'), function(el){
+    el.classList.toggle('active', el.dataset.userStickerFilter === userStickerFilter);
+  });
+  var all = userStickers || [];
+  var list = all.map(function(url, i){ return { url: url, idx: i }; });
+  if(userStickerFilter === 'static'){ list = list.filter(function(it){ return !isGifSticker(it.url); }); }
+  else if(userStickerFilter === 'gif'){ list = list.filter(function(it){ return isGifSticker(it.url); }); }
+  var html = list.map(function(it){
+    return '<div class="sticker-cell" data-user-sticker="' + it.idx + '"><img src="' + esc(it.url) + '" alt="表情"><button class="sticker-cell-del" data-user-del="' + it.idx + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
+  }).join('');
+  html += '<div class="sticker-cell-add" id="stickerCellAdd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg></div>';
+  grid.innerHTML = html;
+}
+  if($('openStickerPanel')) $('openStickerPanel').onclick = function(){ 
+  renderUserStickers(); 
+  $('stickerPanel').style.height = '50vh'; // 每次打开恢复默认高度
+  $('stickerPanel').classList.add('open'); 
+};
+if($('closeStickerPanel')) $('closeStickerPanel').onclick = function(){ $('stickerPanel').classList.remove('open'); };
+
+/* 拖拽展开/收起表情面板 */
+(function(){
+  var panel = $('stickerPanel');
+  var handle = $('stickerPanelDragHandle');
+  if(!panel || !handle) return;
+  var startY = 0, startHeight = 0, isDragging = false;
+
+  handle.addEventListener('touchstart', function(e){
+    if(!panel.classList.contains('open')) return;
+    startY = e.touches[0].clientY;
+    startHeight = panel.offsetHeight;
+    isDragging = true;
+    panel.style.transition = 'none'; // 拖拽时去掉动画
+  }, {passive: true});
+
+  document.addEventListener('touchmove', function(e){
+    if(!isDragging) return;
+    var currentY = e.touches[0].clientY;
+    var delta = startY - currentY; // 向上拖动为正
+    var newHeight = startHeight + delta;
+    
+    // 限制范围在 30vh 到 80vh 之间
+    var minHeight = window.innerHeight * 0.3;
+    var maxHeight = window.innerHeight * 0.8;
+    if(newHeight < minHeight) newHeight = minHeight;
+    if(newHeight > maxHeight) newHeight = maxHeight;
+    
+    panel.style.height = newHeight + 'px';
+    e.preventDefault(); // 阻止滚动穿透
+  }, {passive: false});
+
+  document.addEventListener('touchend', function(e){
+    if(!isDragging) return;
+    isDragging = false;
+    panel.style.transition = 'height .2s ease'; // 恢复动画
+    
+    var currentHeight = panel.offsetHeight;
+    var minHeight = window.innerHeight * 0.3;
+    var maxHeight = window.innerHeight * 0.8;
+    var midHeight = (minHeight + maxHeight) / 2;
+    
+    // 如果超过中点，自动弹到 80%，否则回到 30%
+    if(currentHeight > midHeight){
+      panel.style.height = '80vh';
+    } else {
+      panel.style.height = '30vh';
+    }
+  });
+})();
   if($('userStickerGrid')){
     $('userStickerGrid').addEventListener('click', function(e){
       var del = e.target.closest('[data-user-del]');
@@ -4651,6 +5131,14 @@ person.myName = $('myNameInput').value.trim() || '我';
     sw.classList.toggle('active', active);
   });
   if($('lockTextColor')) $('lockTextColor').value = person.lockTimeColor || '#ffffff';
+/* 通话背景同步 */
+if($('callBgGrid')){
+  Array.prototype.forEach.call($('callBgGrid').querySelectorAll('.bg-swatch'), function(sw){
+    var cbg = sw.dataset.cbg;
+    var active = !person.callBgImage && (cbg === (person.callBg || 'default'));
+    sw.classList.toggle('active', active);
+  });
+}
   var list = $('appIconSettingsList');
 if(list){
   var appNames = {
@@ -4752,13 +5240,19 @@ function renderBeautify(){
     if($('customCssInput')) $('customCssInput').value = person.customCss || '';
     if($('soundToggle')) $('soundToggle').checked = !!person.soundEnabled;
 if($('capsuleColorInput')){
-  // 取默认深色 #1c1c1e，如果已经存了自定义颜色就显示它
   var cc = person.capsuleColor || 'rgba(28,28,30,.86)';
-  // 如果存的是 rgba 形式就转成 # 十六进制供 color input 使用
   if(cc.indexOf('rgba') === 0 || cc.indexOf('rgb') === 0){
     $('capsuleColorInput').value = '#1c1c1e';
   } else {
     $('capsuleColorInput').value = cc;
+  }
+}
+if($('callCapsuleColorInput')){
+  var ccc = person.callCapsuleColor || 'rgba(28,28,30,.9)';
+  if(ccc.indexOf('rgba') === 0 || ccc.indexOf('rgb') === 0){
+    $('callCapsuleColorInput').value = '#1c1c1e';
+  } else {
+    $('callCapsuleColorInput').value = ccc;
   }
 }
     var ssg = $('soundStyleGrid');
@@ -4862,6 +5356,9 @@ if($('beautifyResetBtn')) $('beautifyResetBtn').onclick = function(){
     $('stepperEmojiVal').textContent = person.emojiChance;
     $('stepperVoiceVal').textContent = person.voiceChance;
     $('stepperCooldownVal').textContent = person.cardCooldown;
+if($('stepperTaCallVal')) $('stepperTaCallVal').textContent = person.taCallChance || 10;
+if($('stepperTaRejectCallVal')) $('stepperTaRejectCallVal').textContent = person.taRejectCallChance || 20;
+if($('stepperTaHangupVal')) $('stepperTaHangupVal').textContent = person.taHangupChance || 10;
     if($('stepperMomentFollowVal')) $('stepperMomentFollowVal').textContent = person.momentFollowChance || 60;
 if($('stepperMomentLikeVal')) $('stepperMomentLikeVal').textContent = person.momentLikeBackChance || 50;
 if($('stepperMomentCommentVal')) $('stepperMomentCommentVal').textContent = person.momentCommentBackChance || 70;
@@ -4920,6 +5417,9 @@ else if(w === 'momentLikeMy'){ k = 'momentLikeMyPostChance'; step = 5; }
 else if(w === 'momentReplyMy'){ k = 'momentReplyMyPostChance'; step = 5; }
 else if(w === 'momentHours'){ k = 'momentAutoPostHours'; step = 1; }
 else if(w === 'momentAuto'){ k = 'momentAutoPostChance'; step = 5; }
+else if(w === 'taCall'){ k = 'taCallChance'; step = 5; }
+else if(w === 'taRejectCall'){ k = 'taRejectCallChance'; step = 5; }
+else if(w === 'taHangup'){ k = 'taHangupChance'; step = 5; }
 else return;
       if(isNaN(person[k])) person[k] = 0;
 var v = person[k] + d * step;
@@ -5429,7 +5929,7 @@ document.addEventListener('click', function(e){
 if($('backupEntryRow')) $('backupEntryRow').onclick = function(){ $('backupMsgCount').textContent = messages.length; $('backupPage').classList.add('open'); };
   if($('backupBack')) $('backupBack').onclick = function(){ $('backupPage').classList.remove('open'); };
   if($('exportBtn')) $('exportBtn').onclick = function(){
-    var data = { version: 'chat_v12', exportTime: Date.now(), person: person, messages: messages, cards: cards, taStickers: taStickers, userStickers: userStickers, myPats: myPats, taPats: taPats, stats: stats, proactive: proactive, dailyLove: localStorage.getItem(DAILY_LOVE_KEY) || null, lock: localStorage.getItem(LOCK_KEY) || null };
+    var data = { version: 'chat_v13', exportTime: Date.now(), person: person, messages: messages, cards: cards, taStickers: taStickers, userStickers: userStickers, myPats: myPats, taPats: taPats, stats: stats, proactive: proactive, dailyLove: localStorage.getItem(DAILY_LOVE_KEY) || null, lock: localStorage.getItem(LOCK_KEY) || null };
     var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a'), d = new Date();
@@ -5500,11 +6000,9 @@ if($('backupEntryRow')) $('backupEntryRow').onclick = function(){ $('backupMsgCo
     proactive.lastProactiveTime = Date.now(); saveProactive();
   }
   function checkProactiveOnOpen(){
-    if(!person.proactiveEnabled) return;
-    var now = Date.now(), last = proactive.lastOpenTime || 0;
-    if(last > 0 && now - last > 30 * 60 * 1000){
-      if(now - (proactive.lastProactiveTime || 0) > 10 * 60 * 1000){ setTimeout(function(){ tryProactiveMessage('comeback'); }, 1500); return; }
-    }
+  if(!person.proactiveEnabled) return;
+  var now = Date.now(), last = proactive.lastOpenTime || 0;
+  /* 原来的“回来”主动消息已由“等你回来”接管，这里不再重复触发 */
     var h = new Date().getHours(), period = '';
     if(h >= 5 && h < 11) period = 'morning';
     else if(h >= 11 && h < 14) period = 'noon';
@@ -5522,7 +6020,59 @@ if($('backupEntryRow')) $('backupEntryRow').onclick = function(){ $('backupMsgCo
       if(now - (proactive.lastProactiveTime || 0) > 6 * 60 * 60 * 1000){ setTimeout(function(){ tryProactiveMessage('miss'); }, 2200); }
     }
   }
-  function onAppReady(){ proactive.lastOpenTime = Date.now(); saveProactive(); checkProactiveOnOpen(); }
+  function onAppReady(){ 
+  checkWaitForYouMessages();
+  proactive.lastOpenTime = Date.now(); 
+  saveProactive(); 
+  checkProactiveOnOpen(); 
+}
+
+/* ============ 等你回来 ============ */
+function checkWaitForYouMessages(){
+  if(!person.proactiveEnabled) return;
+  var last = proactive.lastOpenTime || 0;
+  if(!last) return;
+  var now = Date.now();
+  var awayMs = now - last;
+  /* 离开不到 30 分钟，不触发 */
+  if(awayMs < 30 * 60 * 1000) return;
+  
+  var pool = [];
+  if(cards && cards.system && Array.isArray(cards.system.waitForYou)){
+    pool = cards.system.waitForYou.filter(function(t){ return t && String(t).trim(); });
+  }
+  if(!pool.length) return;
+
+  /* 按离开时长决定消息条数 */
+  var count = 1;
+  if(awayMs < 60 * 60 * 1000) count = 1 + Math.floor(Math.random() * 2);          // 30min~1h → 1~2 条
+  else if(awayMs < 3 * 60 * 60 * 1000) count = 2 + Math.floor(Math.random() * 2); // 1~3h → 2~3 条
+  else if(awayMs < 12 * 60 * 60 * 1000) count = 3 + Math.floor(Math.random() * 2); // 3~12h → 3~4 条
+  else count = 4 + Math.floor(Math.random() * 2);                                  // 12h+ → 4~5 条
+
+  /* 从卡池里随机抽 N 条不重复的话 */
+  var picked = [];
+  var copy = pool.slice();
+  for(var i = 0; i < count && copy.length; i++){
+    var idx = Math.floor(Math.random() * copy.length);
+    picked.push(copy[idx]);
+    copy.splice(idx, 1);
+  }
+
+  /* 生成伪时间戳：分布在离开的时间段里，保证递增 */
+  var startTime = last + awayMs * 0.2;  /* 从离开的 20% 处开始 */
+  var endTime = now - 60 * 1000;         /* 结束在 1 分钟前 */
+  var step = (endTime - startTime) / (picked.length + 1);
+
+  picked.forEach(function(txt, i){
+    var fakeTime = Math.round(startTime + step * (i + 1) + (Math.random() - 0.5) * step * 0.6);
+    var m = { me: false, type: 'text', text: txt, time: fakeTime, id: uid('m') };
+    messages.push(m);
+  });
+  saveMessages();
+  unreadCount += picked.length;
+  renderHome();
+}
 
   /* App 图标点击 */
 Array.prototype.forEach.call(document.querySelectorAll('.app-item, .dock-item'), function(item){
@@ -6205,6 +6755,563 @@ if($('moreMenuInvite')){
   };
 }
 
+/* ============ 通话系统 ============ */
+var callState = 'idle';  // idle / outgoing / incoming / connected
+var callTimerInterval = null;
+var callSeconds = 0;
+var callMuted = false;
+var callAutoHangTimer = null;
+var callIncomingTimeout = null;
+
+function fmtCallTime(sec){
+  var m = String(Math.floor(sec / 60)).padStart(2, '0');
+  var s = String(sec % 60).padStart(2, '0');
+  return m + ':' + s;
+}
+
+function setCallBg(){
+  var bgEl = $('callBg');
+  if(!bgEl) return;
+  if(person.callBgImage){
+    bgEl.style.backgroundImage = 'url(' + person.callBgImage + ')';
+    bgEl.style.background = '';
+    bgEl.style.backgroundImage = 'url(' + person.callBgImage + ')';
+    bgEl.style.backgroundSize = 'cover';
+    bgEl.style.backgroundPosition = 'center';
+  } else {
+    bgEl.style.backgroundImage = 'none';
+    bgEl.style.background = person.callBg || 'linear-gradient(160deg,#e8dfd6 0%,#dfe8e6 50%,#d6dfe8 100%)';
+  }
+}
+
+function setCallAvatar(){
+  var av = $('callAvatar'), capAv = $('callCapsuleAvatar');
+  if(av){
+    if(person.avatar){ av.innerHTML = '<img src="' + person.avatar + '" alt="">'; av.style.background = 'transparent'; }
+    else { av.innerHTML = ''; av.textContent = (person.name || 'TA').charAt(0); av.style.background = 'linear-gradient(135deg,#5a7fa3,#8a7aa3)'; }
+  }
+  if(capAv){
+    if(person.avatar){ capAv.innerHTML = '<img src="' + person.avatar + '" alt="">'; capAv.style.background = 'transparent'; }
+    else { capAv.innerHTML = ''; capAv.textContent = (person.name || 'TA').charAt(0); capAv.style.background = '#5a7fa3'; }
+  }
+  var nm = $('callName');
+  if(nm){ nm.childNodes[0].nodeValue = (person.name || 'TA') + '\n'; }
+}
+
+function setCallActions(mode){
+  var box = $('callActions');
+  if(!box) return;
+  if(mode === 'incoming'){
+    box.innerHTML =
+      '<button class="call-action-btn hangup" id="rejectCallBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="lbl">拒接</span></button>' +
+      '<button class="call-action-btn accept" id="acceptCallBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="lbl">接听</span></button>';
+    $('rejectCallBtn').onclick = rejectIncomingCall;
+    $('acceptCallBtn').onclick = connectCall;
+  } else if(mode === 'outgoing'){
+    box.innerHTML =
+      '<button class="call-action-btn hangup" id="cancelCallBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span class="lbl">取消</span></button>';
+    $('cancelCallBtn').onclick = function(){ endCall(); };
+  }
+}
+
+function openCallScreen(){
+  setCallBg();
+  setCallAvatar();
+  $('callScreen').classList.remove('hidden');
+  $('callScreen').classList.add('show');
+}
+function closeCallScreen(){
+  $('callScreen').classList.add('hidden');
+  setTimeout(function(){
+    $('callScreen').classList.remove('show');
+    $('callScreen').classList.remove('hidden');
+  }, 300);
+}
+
+function startTimer(){
+  callSeconds = 0;
+  $('callTimer').style.display = 'block';
+  $('callTimer').textContent = '00:00';
+  $('callCapsuleTime').textContent = '00:00';
+  if(callTimerInterval) clearInterval(callTimerInterval);
+  callTimerInterval = setInterval(function(){
+    callSeconds++;
+    var t = fmtCallTime(callSeconds);
+    if($('callTimer')) $('callTimer').textContent = t;
+    if($('callCapsuleTime')) $('callCapsuleTime').textContent = t;
+  }, 1000);
+}
+function stopTimer(){ if(callTimerInterval){ clearInterval(callTimerInterval); callTimerInterval = null; } }
+
+/* 发起去电 */
+function startOutgoingCall(){
+  callState = 'outgoing';
+  setCallActions('outgoing');
+  $('callStatusText').textContent = '正在呼叫…';
+  $('callSub').textContent = '等待接听';
+  $('callAvatarWrap').classList.remove('connected');
+  openCallScreen();
+
+  var rejected = Math.random() * 100 < (person.taRejectCallChance || 20);
+  var waitTime = 1500 + Math.random() * 2500;
+  callAutoHangTimer = setTimeout(function(){
+    if(callState !== 'outgoing') return;
+    if(rejected){
+      $('callStatusText').textContent = '对方已拒接';
+      $('callSub').textContent = 'TA 现在不方便';
+      insertCallRecordCard('rejected-out');
+      var txt = pickRejectCallReply();
+      var m = { me:false, type:'text', text: txt, time: Date.now(), id: uid('m') };
+      messages.push(m); saveMessages();
+      if(chatOpenNow) appendMessage(m);
+      else { unreadCount++; renderHome(); }
+      setTimeout(function(){ endCall(); }, 1400);
+    } else {
+      connectCall();
+    }
+  }, waitTime);
+}
+
+/* TA 主动来电 */
+function startIncomingCall(){
+  callState = 'incoming';
+  setCallActions('incoming');
+  $('callStatusText').textContent = 'TA 来电';
+  $('callSub').textContent = '正在响铃…';
+  $('callAvatarWrap').classList.remove('connected');
+  openCallScreen();
+  playDing();
+  callIncomingTimeout = setTimeout(function(){
+    if(callState !== 'incoming') return;
+    $('callStatusText').textContent = '无人接听';
+    $('callSub').textContent = '你错过了 TA 的来电';
+    insertCallRecordCard('missed-in');
+    setTimeout(function(){ endCall(); }, 1200);
+  }, 15000);
+}
+
+/* 接通 */
+function connectCall(){
+  if(callAutoHangTimer){ clearTimeout(callAutoHangTimer); callAutoHangTimer = null; }
+  if(callIncomingTimeout){ clearTimeout(callIncomingTimeout); callIncomingTimeout = null; }
+  callState = 'connected';
+  $('callStatusText').textContent = '通话中';
+  $('callSub').textContent = '已接通';
+  $('callAvatarWrap').classList.add('connected');
+  startTimer();
+
+  /* 缩小成胶囊 */
+  setTimeout(function(){
+    closeCallScreen();
+    showCallCapsule();
+  }, 600);
+
+  /* 中途挂断概率 */
+  var hangChance = person.taHangupChance || 10;
+  if(Math.random() * 100 < hangChance){
+    var wait = 8000 + Math.random() * 15000;
+    callAutoHangTimer = setTimeout(function(){
+      if(callState !== 'connected') return;
+      endCall(true);
+      var txt = pickRejectCallReply();
+      var m = { me:false, type:'text', text: txt, time: Date.now(), id: uid('m') };
+      messages.push(m); saveMessages();
+      if(chatOpenNow) appendMessage(m);
+      else { unreadCount++; renderHome(); }
+    }, wait);
+  }
+}
+
+/* 拒接来电（对方拒接/无人接听时，返回一句解释） */
+function pickRejectCallReply(){
+  var pool = [];
+  if(cards && cards.system && Array.isArray(cards.system.callReject)){
+    pool = cards.system.callReject.filter(function(t){ return t && String(t).trim(); });
+  }
+  /* 如果新卡池没填，退回原来的听歌卡池 */
+  if(!pool.length && cards && cards.system && Array.isArray(cards.system.rejectListen)){
+    pool = cards.system.rejectListen.filter(function(t){ return t && String(t).trim(); });
+  }
+  if(!pool.length) pool = ['现在有点忙，晚点再打给你', '在忙，等我一下', '现在不太方便，稍后回你'];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+function pickRejectedByMeReply(){
+  var pool = [];
+  if(cards && cards.system && Array.isArray(cards.system.callRejectedByMe)){
+    pool = cards.system.callRejectedByMe.filter(function(t){ return t && String(t).trim(); });
+  }
+  /* 如果新卡池没填，退回原来的被拒绝卡池 */
+  if(!pool.length && cards && cards.system && Array.isArray(cards.system.rejectedByMe)){
+    pool = cards.system.rejectedByMe.filter(function(t){ return t && String(t).trim(); });
+  }
+  if(!pool.length) pool = ['好吧，那下次再打给你', '那我等你', '嗯…那我先挂了'];
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/* 用户拒接来电 */
+function rejectIncomingCall(){
+  if(callIncomingTimeout){ clearTimeout(callIncomingTimeout); callIncomingTimeout = null; }
+  $('callStatusText').textContent = '已拒接';
+  $('callSub').textContent = '你拒绝了 TA 的来电';
+  insertCallRecordCard('rejected-in');
+  var txt = pickRejectedByMeReply();
+  var m = { me:false, type:'text', text: txt, time: Date.now(), id: uid('m') };
+  messages.push(m); saveMessages();
+  if(chatOpenNow) appendMessage(m);
+  else { unreadCount++; renderHome(); }
+  setTimeout(function(){ endCall(); }, 800);
+}
+
+/* 结束通话 */
+function endCall(silent){
+  callState = 'idle';
+  if(callAutoHangTimer){ clearTimeout(callAutoHangTimer); callAutoHangTimer = null; }
+  if(callIncomingTimeout){ clearTimeout(callIncomingTimeout); callIncomingTimeout = null; }
+  stopTimer();
+  closeCallScreen();
+  hideCallCapsule();
+  if(silent !== true && callSeconds > 0){
+    insertCallRecordCard('ended');
+  }
+}
+
+/* 通话记录卡片 */
+function insertCallRecordCard(type){
+  var title = '', sub = '';
+  if(type === 'rejected-out'){
+    title = '📞 已拒接';
+    sub = 'TA 没有接听';
+  } else if(type === 'rejected-in'){
+    title = '📞 已拒接';
+    sub = '你拒接了 TA 的来电';
+  } else if(type === 'missed-in'){
+    title = '📞 未接来电';
+    sub = '你错过了 TA 的来电';
+  } else {
+    title = '📞 通话结束';
+    sub = '通话时长 ' + fmtCallTime(callSeconds);
+  }
+  var m = { type: 'sys', text: title + ' · ' + sub, time: Date.now() };
+  messages.push(m);
+  saveMessages();
+  if(chatOpenNow) appendMessage(m);
+  else { unreadCount++; renderHome(); }
+}
+
+/* 胶囊控制 */
+function showCallCapsule(){
+  var cap = $('callCapsule');
+  if(!cap) return;
+  applyCallCapsuleColor();
+  cap.classList.add('show');
+  var w = cap.offsetWidth || 120;
+  cap.style.left = (window.innerWidth - w) / 2 + 'px';
+  cap.style.top = 'calc(env(safe-area-inset-top, 0px) + 12px)';
+  delete cap.dataset.positioned;
+}
+function hideCallCapsule(){
+  var cap = $('callCapsule');
+  if(cap) cap.classList.remove('show');
+}
+
+/* 胶囊拖拽 */
+(function(){
+  var cap = $('callCapsule');
+  if(!cap) return;
+  var drag = { active:false, moved:false, startX:0, startY:0, origLeft:0, origTop:0 };
+  cap.addEventListener('touchstart', function(e){
+    if(e.target.closest('.call-capsule-btn')) return;
+    var t = e.touches[0];
+    var rect = cap.getBoundingClientRect();
+    drag.active = true;
+    drag.moved = false;
+    drag.startX = t.clientX;
+    drag.startY = t.clientY;
+    drag.origLeft = rect.left;
+    drag.origTop = rect.top;
+  }, {passive:true});
+  document.addEventListener('touchmove', function(e){
+    if(!drag.active) return;
+    var t = e.touches[0];
+    var dx = t.clientX - drag.startX;
+    var dy = t.clientY - drag.startY;
+    if(!drag.moved && (Math.abs(dx) > 5 || Math.abs(dy) > 5)){
+      drag.moved = true;
+      cap.classList.add('dragging');
+    }
+    if(!drag.moved) return;
+    e.preventDefault();
+    cap.style.left = (drag.origLeft + dx) + 'px';
+    cap.style.top = (drag.origTop + dy) + 'px';
+  }, {passive:false});
+  function endDrag(){
+    if(!drag.active) return;
+    var wasMoved = drag.moved;
+    drag.active = false;
+    drag.moved = false;
+    cap.classList.remove('dragging');
+    if(!wasMoved) return;
+    var rect = cap.getBoundingClientRect();
+    var sw = window.innerWidth, sh = window.innerHeight;
+    var w = rect.width, h = rect.height;
+    var targetLeft = (rect.left + w/2 < sw/2) ? 8 : (sw - w - 8);
+    var targetTop = Math.max(60, Math.min(sh - h - 20, rect.top));
+    cap.style.left = targetLeft + 'px';
+    cap.style.top = targetTop + 'px';
+  }
+  document.addEventListener('touchend', endDrag);
+  document.addEventListener('touchcancel', endDrag);
+
+  if($('callCapsuleInfo')) $('callCapsuleInfo').onclick = function(){
+    if(callState === 'connected'){
+      $('callScreen').classList.remove('hidden');
+      $('callScreen').classList.add('show');
+      $('callStatusText').textContent = '通话中';
+      $('callSub').textContent = '已接通';
+      $('callAvatarWrap').classList.add('connected');
+      setCallActions('outgoing');
+      setTimeout(function(){ closeCallScreen(); }, 2000);
+    }
+  };
+  if($('callCapsuleMute')) $('callCapsuleMute').onclick = function(e){
+    e.stopPropagation();
+    callMuted = !callMuted;
+    this.classList.toggle('active', callMuted);
+  };
+  if($('callCapsuleHangup')) $('callCapsuleHangup').onclick = function(e){
+    e.stopPropagation();
+    endCall();
+  };
+})();
+
+/* 更多菜单入口 */
+if($('moreMenuCall')){
+  $('moreMenuCall').onclick = function(){
+    $('moreMenuBg').classList.remove('open');
+    if(callState !== 'idle'){ showDialog('提示', '正在通话中哦', [{text:'知道了', primary:true}]); return; }
+    startOutgoingCall();
+  };
+}
+
+/* 通话背景设置 */
+if($('callBgGrid')){
+  $('callBgGrid').addEventListener('click', function(e){
+    var sw = e.target.closest('[data-cbg]'); if(!sw) return;
+    person.callBg = sw.dataset.cbg === 'default' ? '' : sw.dataset.cbg;
+    person.callBgImage = '';
+    savePerson(); renderHomeBeautify(); setCallBg();
+  });
+}
+if($('callBgUploadBtn')) $('callBgUploadBtn').onclick = function(){ $('callBgFile').click(); };
+if($('callBgFile')){
+  $('callBgFile').addEventListener('change', function(){
+    var f = $('callBgFile').files && $('callBgFile').files[0]; if(!f) return;
+    compressImage(f, 1400, function(dataUrl){
+      saveImgToIdb('person_callBgImage', dataUrl).then(function(url){
+        person.callBgImage = url; savePerson(); setCallBg();
+      });
+    }, 0.9);
+    $('callBgFile').value = '';
+  });
+}
+if($('callBgClearBtn')) $('callBgClearBtn').onclick = function(){
+  person.callBgImage = ''; person.callBg = ''; savePerson(); setCallBg(); renderHomeBeautify();
+};
+
+/* 通话胶囊颜色 */
+function applyCallCapsuleColor(){
+  var cap = $('callCapsule');
+  if(!cap) return;
+  cap.style.setProperty('--call-capsule-bg', person.callCapsuleColor || 'rgba(28,28,30,.9)');
+}
+if($('callCapsuleColorInput')){
+  $('callCapsuleColorInput').addEventListener('input', function(){
+    var hex = $('callCapsuleColorInput').value;
+    var r = parseInt(hex.slice(1,3),16);
+    var g = parseInt(hex.slice(3,5),16);
+    var b = parseInt(hex.slice(5,7),16);
+    person.callCapsuleColor = 'rgba(' + r + ',' + g + ',' + b + ',.9)';
+    savePerson();
+    applyCallCapsuleColor();
+  });
+}
+if($('callCapsuleColorReset')){
+  $('callCapsuleColorReset').onclick = function(){
+    person.callCapsuleColor = 'rgba(28,28,30,.9)';
+    if($('callCapsuleColorInput')) $('callCapsuleColorInput').value = '#1c1c1e';
+    savePerson();
+    applyCallCapsuleColor();
+  };
+}
+
+/* ============ 问卷系统 ============ */
+var QUIZ_PREFIXES = [
+  '唔…', '嗯…', '让我想想…', '这个嘛…', '诶…',
+  '当然是', '那必须是', '不用想也知道是', '肯定是', '必须是',
+  '嘿嘿，就是', '我选', '那就', '偷偷告诉你，是',
+  '我觉得是', '心里想的是', '答案是'
+];
+
+/* 单个问卷入口 */
+if($('moreMenuQuiz')){
+  $('moreMenuQuiz').onclick = function(){
+    $('moreMenuBg').classList.remove('open');
+    $('quizQuestionInput').value = '';
+    $('quizOptionA').value = '';
+    $('quizOptionB').value = '';
+    $('quizOptionC').value = '';
+    $('quizOptionD').value = '';
+    $('quizTimeRange').value = 5;
+    $('quizTimeVal').textContent = '5';
+    $('quizFormPage').classList.add('open');
+  };
+}
+if($('quizFormBack')) $('quizFormBack').onclick = function(){ $('quizFormPage').classList.remove('open'); };
+if($('quizTimeRange')) $('quizTimeRange').addEventListener('input', function(){ $('quizTimeVal').textContent = this.value; });
+if($('quizSendBtn')){
+  $('quizSendBtn').onclick = function(){
+    var q = ($('quizQuestionInput').value || '').trim();
+    var a = ($('quizOptionA').value || '').trim();
+    var b = ($('quizOptionB').value || '').trim();
+    var c = ($('quizOptionC').value || '').trim();
+    var d = ($('quizOptionD').value || '').trim();
+    if(!q){ showDialog('提示', '请填写问题内容。', [{text:'知道了', primary:true}]); return; }
+    if(!a || !b){ showDialog('提示', '选项 A 和 B 是必填的哦。', [{text:'知道了', primary:true}]); return; }
+    var opts = [a, b];
+    if(c) opts.push(c);
+    if(d) opts.push(d);
+    var timeLimit = parseInt($('quizTimeRange').value, 10) || 5;
+    var quizMsg = {
+      me: true, type: 'quiz',
+      questions: [{ q: q, options: opts, status: 'pending', answer: '' }],
+      isBatch: false, timeLimit: timeLimit,
+      time: Date.now(), read: false, id: uid('m')
+    };
+    messages.push(quizMsg);
+    saveMessages();
+    appendMessage(quizMsg);
+    $('quizFormPage').classList.remove('open');
+    scheduleQuizAnswers(quizMsg);
+  };
+}
+
+/* 批量问卷入口 */
+var batchQuizItems = [{ q: '', a: '', b: '', c: '', d: '' }];
+function renderBatchQuizList(){
+  var list = $('batchQuizList');
+  if(!list) return;
+  list.innerHTML = batchQuizItems.map(function(item, i){
+    return '<div class="batch-quiz-item" data-idx="' + i + '">' +
+      '<div class="batch-quiz-header"><span>第 ' + (i + 1) + ' 题</span>' +
+      (batchQuizItems.length > 1 ? '<button type="button" class="batch-quiz-del" data-batch-del="' + i + '">删除</button>' : '') +
+      '</div>' +
+      '<input type="text" class="batch-quiz-input" data-batch-field="q" data-idx="' + i + '" placeholder="问题内容" value="' + esc(item.q) + '" maxlength="60">' +
+      '<input type="text" class="batch-quiz-input" data-batch-field="a" data-idx="' + i + '" placeholder="选项 A（必填）" value="' + esc(item.a) + '" maxlength="30">' +
+      '<input type="text" class="batch-quiz-input" data-batch-field="b" data-idx="' + i + '" placeholder="选项 B（必填）" value="' + esc(item.b) + '" maxlength="30">' +
+      '<input type="text" class="batch-quiz-input" data-batch-field="c" data-idx="' + i + '" placeholder="选项 C（选填）" value="' + esc(item.c) + '" maxlength="30">' +
+      '<input type="text" class="batch-quiz-input" data-batch-field="d" data-idx="' + i + '" placeholder="选项 D（选填）" value="' + esc(item.d) + '" maxlength="30">' +
+    '</div>';
+  }).join('');
+}
+if($('moreMenuBatchQuiz')){
+  $('moreMenuBatchQuiz').onclick = function(){
+    $('moreMenuBg').classList.remove('open');
+    batchQuizItems = [{ q: '', a: '', b: '', c: '', d: '' }];
+    renderBatchQuizList();
+    $('batchQuizFormPage').classList.add('open');
+  };
+}
+if($('batchQuizFormBack')) $('batchQuizFormBack').onclick = function(){ $('batchQuizFormPage').classList.remove('open'); };
+if($('batchQuizAddBtn')){
+  $('batchQuizAddBtn').onclick = function(){
+    if(batchQuizItems.length >= 10){ showDialog('提示', '一次最多 10 题。', [{text:'知道了', primary:true}]); return; }
+    batchQuizItems.push({ q: '', a: '', b: '', c: '', d: '' });
+    renderBatchQuizList();
+  };
+}
+if($('batchQuizList')){
+  $('batchQuizList').addEventListener('input', function(e){
+    var inp = e.target.closest('[data-batch-field]');
+    if(!inp) return;
+    var idx = parseInt(inp.dataset.idx, 10);
+    var field = inp.dataset.batchField;
+    if(batchQuizItems[idx]) batchQuizItems[idx][field] = inp.value;
+  });
+  $('batchQuizList').addEventListener('click', function(e){
+    var del = e.target.closest('[data-batch-del]');
+    if(del){
+      var idx = parseInt(del.dataset.batchDel, 10);
+      batchQuizItems.splice(idx, 1);
+      renderBatchQuizList();
+    }
+  });
+}
+if($('batchQuizSendBtn')){
+  $('batchQuizSendBtn').onclick = function(){
+    var valid = [];
+    for(var i = 0; i < batchQuizItems.length; i++){
+      var item = batchQuizItems[i];
+      var q = (item.q || '').trim();
+      var a = (item.a || '').trim();
+      var b = (item.b || '').trim();
+      var c = (item.c || '').trim();
+      var d = (item.d || '').trim();
+      if(!q || !a || !b) continue;
+      var opts = [a, b];
+      if(c) opts.push(c);
+      if(d) opts.push(d);
+      valid.push({ q: q, options: opts, status: 'pending', answer: '' });
+    }
+    if(!valid.length){ showDialog('提示', '至少填写一道完整题目（问题 + A + B）。', [{text:'知道了', primary:true}]); return; }
+    var quizMsg = {
+      me: true, type: 'quiz', questions: valid,
+      isBatch: true, timeLimit: 30,
+      time: Date.now(), read: false, id: uid('m')
+    };
+    messages.push(quizMsg);
+    saveMessages();
+    appendMessage(quizMsg);
+    $('batchQuizFormPage').classList.remove('open');
+    scheduleQuizAnswers(quizMsg);
+  };
+}
+
+/* 调度作答 */
+function scheduleQuizAnswers(quizMsg){
+  var numQ = quizMsg.questions.length;
+  var totalMs = quizMsg.isBatch ? 30000 : (quizMsg.timeLimit * 1000);
+  var slotMs = totalMs / numQ;
+  quizMsg.questions.forEach(function(q, i){
+    var slotStart = i * slotMs;
+    var slotEnd = (i + 1) * slotMs;
+    var minDelay = Math.max(800, slotStart + 500);
+    var maxDelay = Math.max(minDelay + 500, slotEnd);
+    var delay = minDelay + Math.random() * (maxDelay - minDelay);
+    setTimeout(function(){ answerOneQuestion(quizMsg, q); }, delay);
+  });
+}
+
+function answerOneQuestion(quizMsg, q){
+  var optIdx = Math.floor(Math.random() * q.options.length);
+  var chosen = q.options[optIdx];
+  var letter = String.fromCharCode(65 + optIdx);
+  var fullAnswer = letter + '. ' + chosen;
+  q.status = 'answered';
+  q.answer = fullAnswer;
+  var prefix = QUIZ_PREFIXES[Math.floor(Math.random() * QUIZ_PREFIXES.length)];
+  var taMsg = { me: false, type: 'text', text: prefix + ' ' + fullAnswer, time: Date.now(), id: uid('m') };
+  messages.push(taMsg);
+  saveMessages();
+  if(chatOpenNow){
+    renderMessages();
+    playDing();
+  } else {
+    unreadCount++;
+    renderHome();
+    showNotificationBanner(taMsg);
+  }
+}
+
 /* ============ 悬浮胶囊交互 ============ */
 (function(){
   var cap = $('floatingCapsule');
@@ -6575,6 +7682,145 @@ musicAudio.addEventListener('ended', refreshChatMusicBanner);
   initMusicEvents();
 
 })();
+
+/* ============ 更新提示 ============ */
+(function(){
+  /* 每次发新版，改这里的版本号就行 */
+  var APP_VERSION = '1.0.1';
+  var VERSION_KEY = 'chat_app_version_v1';
+  var lastSeen = '';
+  try{ lastSeen = localStorage.getItem(VERSION_KEY) || ''; }catch(e){}
+
+  /* 如果是第一次打开（没有记录过版本），直接静默记录，不弹窗 */
+  if(!lastSeen){
+    try{ localStorage.setItem(VERSION_KEY, APP_VERSION); }catch(e){}
+    return;
+  }
+
+  /* 版本号一致，说明没更新，什么都不做 */
+  if(lastSeen === APP_VERSION) return;
+
+  /* 版本号不一致，弹更新提示 */
+  var bg = document.getElementById('updateBg');
+  if(!bg) return;
+  var vText = document.getElementById('updateVersionText');
+  if(vText) vText.textContent = 'v' + APP_VERSION;
+  bg.classList.add('show');
+
+  var nowBtn = document.getElementById('updateNowBtn');
+  var laterBtn = document.getElementById('updateLaterBtn');
+
+  if(nowBtn){
+    nowBtn.onclick = function(){
+      try{ localStorage.setItem(VERSION_KEY, APP_VERSION); }catch(e){}
+      /* 立即刷新（带上强制刷新参数，避免浏览器缓存） */
+      location.reload(true);
+    };
+  }
+  if(laterBtn){
+    laterBtn.onclick = function(){
+      /* 不记录新版本号，下次打开还会再提醒 */
+      bg.classList.remove('show');
+    };
+  }
+})();
+
+/* ============ 备份提醒 ============ */
+(function(){
+  var BACKUP_TIME_KEY = 'chat_last_backup_time_v1';
+  var BACKUP_SNOOZE_KEY = 'chat_backup_snooze_until_v1';
+  var REMIND_INTERVAL_DAYS = 7;   // 超过 7 天没备份就提醒
+  var SNOOZE_DAYS = 3;            // 点“稍后再说”，3 天内不再打扰
+
+  /* 延迟 1.5 秒再检查，避免和更新提醒同时弹窗 */
+  setTimeout(function(){
+    var updateBg = document.getElementById('updateBg');
+    if(updateBg && updateBg.classList.contains('show')) return; // 更新提醒正在显示，这次跳过
+
+    var now = Date.now();
+    var lastBackup = 0;
+    var snoozeUntil = 0;
+    try{
+      lastBackup = parseInt(localStorage.getItem(BACKUP_TIME_KEY) || '0', 10) || 0;
+      snoozeUntil = parseInt(localStorage.getItem(BACKUP_SNOOZE_KEY) || '0', 10) || 0;
+    }catch(e){}
+
+    /* 检查有没有聊天记录，没有就静默跳过 */
+    var hasData = false;
+    try{
+      var raw = localStorage.getItem('chat_messages_v1');
+      if(raw){ var d = JSON.parse(raw); hasData = Array.isArray(d) && d.length > 0; }
+    }catch(e){}
+    if(!hasData) return;
+
+    /* 在“稍后再说”的冷却期内，不打扰 */
+    if(snoozeUntil > now) return;
+
+    /* 第一次记录，静默埋点，不弹窗 */
+    if(!lastBackup){
+      try{ localStorage.setItem(BACKUP_TIME_KEY, String(now)); }catch(e){}
+      return;
+    }
+
+    /* 还没到提醒间隔 */
+    var daysSince = (now - lastBackup) / (24 * 60 * 60 * 1000);
+    if(daysSince < REMIND_INTERVAL_DAYS) return;
+
+    /* 弹备份提醒 */
+    var bg = document.getElementById('backupReminderBg');
+    if(!bg) return;
+    var textEl = document.getElementById('backupReminderText');
+    if(textEl){
+      textEl.innerHTML = '你已经 ' + Math.floor(daysSince) + ' 天没备份了。<br>导出到相册或网盘，换手机、清缓存都不怕丢。';
+    }
+    bg.classList.add('show');
+
+    var nowBtn = document.getElementById('backupNowBtn');
+    var laterBtn = document.getElementById('backupLaterBtn');
+
+    if(nowBtn){
+      nowBtn.onclick = function(){
+        bg.classList.remove('show');
+        /* 记录一下时间，避免一进备份页就反复弹 */
+        try{ localStorage.setItem(BACKUP_TIME_KEY, String(Date.now())); }catch(e){}
+        /* 打开备份页面 */
+        var backupPage = document.getElementById('backupPage');
+        if(backupPage){
+          var msgCountEl = document.getElementById('backupMsgCount');
+          if(msgCountEl){
+            try{
+              var raw2 = localStorage.getItem('chat_messages_v1');
+              var arr = raw2 ? JSON.parse(raw2) : [];
+              msgCountEl.textContent = Array.isArray(arr) ? arr.length : 0;
+            }catch(e){}
+          }
+          backupPage.classList.add('open');
+        }
+      };
+    }
+    if(laterBtn){
+      laterBtn.onclick = function(){
+        bg.classList.remove('show');
+        try{ localStorage.setItem(BACKUP_SNOOZE_KEY, String(now + SNOOZE_DAYS * 24 * 60 * 60 * 1000)); }catch(e){}
+      };
+    }
+  }, 1500);
+})();
+
+/* 用户真点了「导出」按钮，才正式记录备份时间 */
+(function(){
+  var exportBtn = document.getElementById('exportBtn');
+  if(exportBtn){
+    exportBtn.addEventListener('click', function(){
+      try{
+        localStorage.setItem('chat_last_backup_time_v1', String(Date.now()));
+        /* 顺手把“稍后再说”的冷却期也清掉，下次满 7 天才提醒 */
+        localStorage.removeItem('chat_backup_snooze_until_v1');
+      }catch(e){}
+    });
+  }
+})();
+
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then(function(reg) {
     console.log('Service Worker 注册成功');
