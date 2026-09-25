@@ -572,6 +572,20 @@
 .music-playlist-item .pl-del:active{background:#f7eaea;color:var(--highlight)}
 .music-playlist-empty{text-align:center;padding:40px 20px;color:var(--light-text);font-size:13px}
 
+/* 音乐导入弹窗 */
+.music-import-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none;align-items:center;justify-content:center;padding:24px}
+.music-import-bg.open{display:flex;animation:fadeIn .18s ease}
+.music-import-card{width:100%;max-width:360px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.music-import-title{font-size:16px;font-weight:600;color:var(--text);text-align:center;margin-bottom:16px}
+.music-import-label{font-size:13px;color:var(--light-text);margin-bottom:6px;display:block}
+.music-import-input{width:100%;height:42px;padding:0 12px;border:1px solid var(--accent);border-radius:10px;background:#fff;font-size:14px;font-family:inherit;color:var(--text);outline:none;margin-bottom:14px;box-sizing:border-box}
+.music-import-input:focus{border-color:var(--primary)}
+.music-import-actions{display:flex;gap:10px;margin-top:6px}
+.music-import-btn{flex:1;height:42px;border:0;border-radius:10px;font-size:15px;font-family:inherit;font-weight:500;cursor:pointer}
+.music-import-btn.ghost{background:var(--soft);color:var(--text)}
+.music-import-btn.primary{background:var(--primary);color:#fff}
+.music-import-btn:active{opacity:.82}
+
   /* 聊天页顶部的一起听横幅 */
 .chat-music-banner{display:none;align-items:center;gap:8px;padding:8px 14px;padding-top:calc(8px + env(safe-area-inset-top,0px));background:linear-gradient(90deg,#e8f0f3,#f2f7f8);color:var(--primary);font-size:13px;border-bottom:1px solid var(--line)}
 .chat-music-banner.show{display:flex}
@@ -1692,6 +1706,19 @@
   </div>
 </section>
 
+<div class="music-import-bg" id="musicImportBg">
+  <div class="music-import-card">
+    <div class="music-import-title">导入音乐</div>
+    <label class="music-import-label">粘贴网易云分享链接，或 MP3 直链：</label>
+    <input type="text" class="music-import-input" id="musicImportInput" placeholder="https://... 或 网易云分享链接">
+    <label class="music-import-label">歌名 - 歌手（格式：歌名 - 歌手）</label>
+    <input type="text" class="music-import-input" id="musicImportName" placeholder="未命名歌曲 - 未知歌手">
+    <div class="music-import-actions">
+      <button type="button" class="music-import-btn ghost" id="musicImportCancel">取消</button>
+      <button type="button" class="music-import-btn primary" id="musicImportConfirm">导入</button>
+    </div>
+  </div>
+</div>
 <div class="music-playlist-bg" id="musicPlaylistBg">
   <div class="music-playlist-panel">
     <div class="music-playlist-header">
@@ -7422,37 +7449,37 @@ function initMusicEvents(){
     if($('musicPrevBtn')) $('musicPrevBtn').onclick = playPrevSong;
     if($('musicNextBtn')) $('musicNextBtn').onclick = playNextSong;
     if($('musicImportBtn')) $('musicImportBtn').onclick = function(){
-  var input = window.prompt('粘贴网易云分享链接，或 MP3 直链：', '');
-  if(input === null) return;
-  input = input.trim();
-  if(!input) return;
+  if($('musicImportInput')) $('musicImportInput').value = '';
+  if($('musicImportName')) $('musicImportName').value = '';
+  $('musicImportBg').classList.add('open');
+};
+if($('musicImportCancel')) $('musicImportCancel').onclick = function(){ $('musicImportBg').classList.remove('open'); };
+if($('musicImportBg')) $('musicImportBg').addEventListener('click', function(e){ if(e.target === $('musicImportBg')) $('musicImportBg').classList.remove('open'); });
+if($('musicImportConfirm')) $('musicImportConfirm').onclick = function(){
+  var input = ($('musicImportInput').value || '').trim();
+  if(!input){ showDialog('提示', '请先粘贴链接。', [{text:'知道了', primary:true}]); return; }
 
   var finalUrl = input;
   var isNetEase = false;
-
-  // 判断是否是网易云链接
   var idMatch = input.match(/id=(\d+)/);
   if(idMatch && input.indexOf('music.163.com') > -1){
     finalUrl = 'https://music.163.com/song/media/outer/url?id=' + idMatch[1] + '.mp3';
     isNetEase = true;
   } else {
-    // 不是网易云链接，按原来的 MP3 直链规则校验
     if(!/\.(mp3|m4a|ogg|wav|flac)(\?|$)/i.test(input)){
       showDialog('链接格式可能不对', '请输入网易云分享链接，或以 .mp3 / .m4a / .ogg / .wav / .flac 结尾的直链。', [{ text:'知道了', primary:true }]);
       return;
     }
   }
 
-  var fullName = window.prompt('输入歌名和歌手（格式：歌名 - 歌手）：', '未命名歌曲 - 未知歌手');
-  if(fullName === null) fullName = '未命名歌曲 - 未知歌手';
-  fullName = fullName.trim() || '未命名歌曲 - 未知歌手';
-
+  var fullName = ($('musicImportName').value || '').trim() || '未命名歌曲 - 未知歌手';
   var parts = fullName.split(' - ');
   var songName = parts[0] || '未命名歌曲';
   var artistName = parts[1] || '未知歌手';
 
   musicPlaylist.push({ name: songName, artist: artistName, url: finalUrl });
   saveMusicPlaylist();
+  $('musicImportBg').classList.remove('open');
   if(musicCurrentIndex === -1){ musicCurrentIndex = 0; playMusicAtIndex(0); }
   else { showDialog('导入成功', isNetEase ? '已解析网易云链接' : '已添加歌曲', '「' + songName + ' - ' + artistName + '」已加入歌单，点播放试试。', [{ text:'好的', primary:true }]); }
 };
@@ -7716,7 +7743,7 @@ musicAudio.addEventListener('ended', refreshChatMusicBanner);
 /* ============ 更新提示 ============ */
 (function(){
   /* 每次发新版，改这里的版本号就行 */
-var APP_VERSION = '1.0.2';
+var APP_VERSION = '1.0.3';
   var VERSION_KEY = 'chat_app_version_v1';
   var lastSeen = '';
   try{ lastSeen = localStorage.getItem(VERSION_KEY) || ''; }catch(e){}
