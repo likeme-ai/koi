@@ -1360,8 +1360,12 @@
   <div class="page-body">
     <div class="import-area">
       <textarea id="importTextarea" placeholder="【大分组】&#10;（小分组）&#10;字卡1&#10;字卡2"></textarea>
-      <div class="import-hint">规则：<br>· <code>【大分组名】</code> 单独一行<br>· <code>（小分组名）</code> 单独一行<br>· 其他每一行就是一张字卡<br>· 同名会自动合并</div>
-      <div class="actions"><button class="btn-primary" id="importConfirmBtn">导入</button></div>
+      <div class="import-hint">规则：<br>· <code>【大分组名】</code> 单独一行<br>· <code>（小分组名）</code> 单独一行<br>· 其他每一行就是一张字卡<br>· 同名会自动合并<br>· 可以直接上传 <code>.txt</code> 文件（编码建议 UTF-8）</div>
+<div class="actions" style="flex-direction:column;gap:10px;">
+  <button class="btn-ghost" id="importFileBtn">📂 从文件导入（.txt）</button>
+  <button class="btn-primary" id="importConfirmBtn">导入</button>
+</div>
+<input type="file" id="importTxtFile" accept=".txt,text/plain" style="display:none;">
     </div>
   </div>
 </section>
@@ -3581,9 +3585,29 @@ if($('dictSearchInput')){
   }
 
   /* 批量导入 */
-  if($('btnImportBatch')) $('btnImportBatch').onclick = function(){ $('importTextarea').value = ''; $('importPage').classList.add('open'); };
-  if($('importBack')) $('importBack').onclick = function(){ $('importPage').classList.remove('open'); };
-  if($('importConfirmBtn')) $('importConfirmBtn').onclick = function(){
+if($('btnImportBatch')) $('btnImportBatch').onclick = function(){ $('importTextarea').value = ''; $('importPage').classList.add('open'); };
+if($('importBack')) $('importBack').onclick = function(){ $('importPage').classList.remove('open'); };
+
+/* 【新增】从文件读取文本 */
+if($('importFileBtn')) $('importFileBtn').onclick = function(){ $('importTxtFile').click(); };
+if($('importTxtFile')){
+  $('importTxtFile').addEventListener('change', function(){
+    var f = $('importTxtFile').files && $('importTxtFile').files[0];
+    if(!f) return;
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      // 读取成功，把文件内容塞进文本框里
+      $('importTextarea').value = ev.target.result || '';
+      // 清空 input，方便用户重复选同一个文件
+      $('importTxtFile').value = '';
+      // 提示用户已经读取成功
+      showDialog('读取成功', '文件内容已填入文本框，请点击「导入」按钮完成导入。', [{ text:'好的', primary:true }]);
+    };
+    reader.readAsText(f, 'UTF-8');
+  });
+}
+
+if($('importConfirmBtn')) $('importConfirmBtn').onclick = function(){
     var raw = $('importTextarea').value;
     if(!raw.trim()){ showDialog('导入失败', '请先粘贴内容。', [{ text:'知道了', primary:true }]); return; }
     var lines = raw.split(/\r?\n/);
