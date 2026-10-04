@@ -782,7 +782,8 @@ html, body {
   .moment-name{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .moment-time{font-size:11.5px;color:var(--light-text);margin-top:2px}
   .moment-text{font-size:14.5px;line-height:1.55;color:var(--text);word-break:break-word;white-space:pre-wrap}
-  .moment-sticker{max-width:160px;border-radius:10px;overflow:hidden}
+  .moment-sticker{max-width:100%;border-radius:10px;overflow:hidden;margin-top:6px}
+.moment-sticker img{width:100%;display:block;max-height:400px;object-fit:cover}
   .moment-sticker img{width:100%;display:block}
   .moment-actions{display:flex;gap:8px;padding-top:6px;border-top:1px dashed var(--line);margin-top:2px}
   .moment-action-btn{flex:1;height:32px;border:0;background:transparent;color:var(--light-text);font-size:12.5px;font-family:inherit;cursor:pointer;border-radius:8px;transition:background .15s ease}
@@ -2614,8 +2615,10 @@ html, body {
         <button id="momentPostStickerRemove" style="position:absolute;top:-8px;left:130px;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:0;font-size:14px;cursor:pointer;">×</button>
       </div>
       <div style="display:flex;gap:8px;margin-top:12px;">
-        <button id="momentPostStickerBtn" style="flex:1;height:40px;border:1px solid var(--accent);border-radius:10px;background:#fff;color:var(--text);font-size:14px;font-family:inherit;cursor:pointer;">添加表情包</button>
-      </div>
+  <button id="momentPostStickerBtn" style="flex:1;height:40px;border:1px solid var(--accent);border-radius:10px;background:#fff;color:var(--text);font-size:14px;font-family:inherit;cursor:pointer;">选择表情包</button>
+  <button id="momentPostImageBtn" style="flex:1;height:40px;border:1px solid var(--accent);border-radius:10px;background:#fff;color:var(--text);font-size:14px;font-family:inherit;cursor:pointer;">导入图片</button>
+</div>
+<input type="file" id="momentPostImageFile" accept="image/*" style="display:none;">
     </div>
   </div>
 </section>
@@ -4082,7 +4085,7 @@ if(!Array.isArray(d.system.itinerary) || !d.system.itinerary.length) d.system.it
   '📍 在健身房举铁','📍 在阳台吹风','📍 在回忆我们的过去','📍 在处理工作',
   '📍 在赶路','📍 在听我们常听的歌','📍 在挑送给你的礼物','📍 在梦里找你'
 ];
-    if(!Array.isArray(d.system.redpacket) || d.system.redpacket.length === 0) d.system.redpacket = DEFAULT_RP_REPLIES.slice();
+    if(!Array.isArray(d.system.redpacket)) d.system.redpacket = DEFAULT_RP_REPLIES.slice();
     if(!Array.isArray(d.system.readback) || d.system.readback.length === 0) d.system.readback = DEFAULT_READ_BACK_REPLIES.slice();
     if(!Array.isArray(d.system.rejectListen) || d.system.rejectListen.length === 0) d.system.rejectListen = DEFAULT_REJECT_LISTEN_REPLIES.slice();
 if(!Array.isArray(d.system.rejectedByMe) || d.system.rejectedByMe.length === 0) d.system.rejectedByMe = DEFAULT_REJECTED_BY_ME_REPLIES.slice();
@@ -10227,6 +10230,24 @@ if($('momentPostStickerBtn')) $('momentPostStickerBtn').onclick = function(){
   }).join('');
   $('momentStickerPickerBg').classList.add('open');
 };
+if($('momentPostImageBtn')) $('momentPostImageBtn').onclick = function(){ $('momentPostImageFile').click(); };
+if($('momentPostImageFile')){
+  $('momentPostImageFile').addEventListener('change', function(){
+    var f = this.files && this.files[0]; if(!f) return;
+    compressImage(f, 1200, function(dataUrl){
+      var key = 'moment_img_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+      saveImgToIdb(key, dataUrl).then(function(url){
+        momentPostSticker = url;
+        $('momentPostStickerPreview').src = momentPostSticker;
+        $('momentPostStickerPreview').style.maxWidth = '100%'; /* 本地图片大一点 */
+        $('momentPostStickerPreview').style.maxHeight = '200px';
+        $('momentPostStickerPreview').style.objectFit = 'cover';
+        $('momentPostStickerBox').style.display = 'block';
+      });
+    }, 0.85);
+    this.value = '';
+  });
+}
 
 if($('momentStickerPickerClose')){
   $('momentStickerPickerClose').onclick = function(){ $('momentStickerPickerBg').classList.remove('open'); };
