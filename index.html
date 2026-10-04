@@ -14,7 +14,6 @@
     --primary: #1f5f6c;--secondary: #d2e6ec;--accent: #d1d1d1;--text: #5a5a5a;--light-text: #8a8a8a;--highlight: #e1b2b2;
     --bg: #f2f5f6;--panel: #ffffff;--bar: #ffffff;--line: #e6edef;--soft: #eef5f7;
     --msg-self-bg: rgba(241,214,214,.8);--msg-other-bg: rgba(219,229,241,.8);--chat-bg: #f2f5f6;
-    --chat-font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
     --chat-font-size: 15px;--font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
     --font-size-base: 15px;--home-bg: linear-gradient(160deg,#dceef5 0%,#eef7fa 45%,#e6f0f4 100%);
   }
@@ -97,29 +96,7 @@ html, body {
   .status-left{display:flex;align-items:baseline;gap:8px;min-width:0}
 .home-greeting{font-size:13px;color:var(--light-text);letter-spacing:.5px}
 .home-title{font-size:14px;font-weight:700;color:var(--primary);letter-spacing:.5px}
-.couple-card{margin-top:12px;border-radius:20px;padding:14px 18px;background:rgba(255,255,255,.72);backdrop-filter:blur(14px);box-shadow:0 6px 24px rgba(31,95,108,.08)}
-  .couple-row{display:flex;align-items:center;justify-content:center;gap:18px}
-  .couple-person{display:flex;flex-direction:column;align-items:center;gap:8px}
-  .couple-person .avatar{width:56px;height:56px;border-radius:50%;background:#e8ecef;display:grid;place-items:center;color:#b8c0c7;overflow:hidden;background-size:cover;background-position:center;border:2px solid #fff;box-shadow:0 4px 12px rgba(31,95,108,.12)}
-  .couple-person .avatar svg{width:30px;height:30px}
-  .couple-person .name{font-size:13px;font-weight:600;color:var(--primary);max-width:80px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .couple-heart{color:var(--highlight);font-size:20px;line-height:1;margin-top:-10px}
-  .couple-days{margin-top:14px;text-align:center}
-  .couple-days .num{font-size:30px;font-weight:700;color:var(--primary);letter-spacing:.5px}
-  .couple-days .label{font-size:12px;color:var(--light-text);margin-left:6px}
-  .affection-bar{margin-top:10px;padding-top:10px;border-top:1px dashed rgba(31,95,108,.12)}
-  .affection-head{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--light-text);margin-bottom:8px}
-  .affection-head .val{font-weight:600;color:var(--primary)}
-  .affection-track{height:8px;background:rgba(31,95,108,.1);border-radius:4px;overflow:hidden}
-  .affection-fill{height:100%;background:linear-gradient(90deg,#e1b2b2,#1f5f6c);border-radius:4px;transition:width .5s ease;width:0}
-  .status-line{margin-top:14px;text-align:center;font-size:13px;color:var(--light-text);letter-spacing:.3px}
-  .status-line .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#4caf50;margin-right:6px;vertical-align:middle;animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .daily-love{display:flex;align-items:center;justify-content:center;gap:6px;padding:0 0 12px;font-size:13.5px;line-height:1.5;color:var(--primary);letter-spacing:.3px}
-.daily-signin{margin-top:12px;padding:14px 18px;border-radius:16px;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);box-shadow:0 4px 16px rgba(31,95,108,.06);display:flex;align-items:center;gap:10px;font-size:14px;line-height:1.5;color:var(--primary);letter-spacing:.3px;cursor:pointer}
-  .daily-love-icon{flex:0 0 auto;color:var(--highlight);font-size:16px}
-  #dailyLoveText{flex:1;min-width:0}
-  .app-grid{margin-top:22px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px 12px}
   .app-item{display:flex;flex-direction:column;align-items:center;gap:7px;border:0;background:transparent;font-family:inherit;cursor:pointer;position:relative}
   .app-item:active .app-icon{transform:scale(.92)}
   .app-icon{width:clamp(46px, 14vw, 56px);height:clamp(46px, 14vw, 56px);border-radius:clamp(12px, 4vw, 16px);background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--primary);box-shadow:0 4px 12px rgba(31,95,108,.08);transition:transform .16s ease;position:relative}
@@ -160,7 +137,7 @@ html, body {
   .chat-status{margin-top:3px;font-size:11.5px;color:var(--light-text)}
   .icon-btn{flex:0 0 auto;width:40px;height:40px;display:grid;place-items:center;border:0;border-radius:10px;background:transparent;color:var(--text);cursor:pointer;transition:background .15s ease,color .15s ease}
   .icon-btn:active{background:var(--secondary);color:var(--primary)}
-  .messages{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:12px;padding:18px 14px 22px;background:var(--chat-bg);background-size:cover;background-position:center;font-family:var(--chat-font-family);font-size:var(--chat-font-size);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y}
+  .messages{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:12px;padding:18px 14px 22px;background:var(--chat-bg);background-size:cover;background-position:center;font-size:var(--chat-font-size);-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:pan-y}
   .messages::-webkit-scrollbar{width:5px}
   .messages::-webkit-scrollbar-thumb{background:var(--accent);border-radius:3px}
   .msg{display:flex;align-items:flex-start;gap:8px;max-width:100%}
@@ -349,14 +326,20 @@ html, body {
   .rp-form-bless{width:100%;height:42px;padding:0 14px;border:1px solid var(--accent);border-radius:10px;background:#fff;font-size:14px;font-family:inherit;color:var(--text);outline:none;margin-bottom:14px}
   .rp-form-bless:focus{border-color:var(--primary)}
   .date-divider{text-align:center;font-size:11.5px;color:var(--light-text);padding:8px 20px 4px;letter-spacing:.3px}
-  .typing-bar{flex:0 0 auto;display:none;align-items:center;gap:8px;padding:10px 16px;background:var(--chat-bg);border-top:1px solid var(--line);font-size:13px;color:var(--light-text);font-family:var(--chat-font-family)}
-  .typing-bar.show{display:flex;animation:typingIn .25s ease}
-  @keyframes typingIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-  .typing-dots{display:inline-flex;align-items:center;gap:4px;height:14px}
-  .typing-dots span{display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--light-text);animation:dotBounce 1.2s infinite ease-in-out}
-  .typing-dots span:nth-child(1){animation-delay:0s}
-  .typing-dots span:nth-child(2){animation-delay:.18s}
-  .typing-dots span:nth-child(3){animation-delay:.36s}
+  .typing-bar{flex:0 0 auto;display:none;padding:8px 14px;background:var(--chat-bg)}
+.typing-bar.show{display:block;animation:typingIn .25s ease}
+@keyframes typingIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.typing-capsule{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 7px;background:#fff;border-radius:22px;box-shadow:0 2px 10px rgba(0,0,0,.08);max-width:80%}
+.typing-capsule .tc-avatar{width:30px;height:30px;border-radius:50%;background:#e8ecef;display:grid;place-items:center;overflow:hidden;flex:0 0 auto;color:#b8c0c7}
+.typing-capsule .tc-avatar svg{width:18px;height:18px}
+.typing-capsule .tc-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.typing-capsule .tc-text{font-size:13px;color:var(--light-text);white-space:nowrap}
+.typing-capsule .tc-text strong{font-weight:600;color:var(--primary)}
+.typing-capsule .tc-dots{display:inline-flex;align-items:center;gap:4px;margin-left:2px;height:14px}
+.typing-capsule .tc-dots span{display:inline-block;width:6px;height:6px;border-radius:50%;background:#c8d4d9;animation:dotBounce 1.2s infinite ease-in-out}
+.typing-capsule .tc-dots span:nth-child(1){animation-delay:0s}
+.typing-capsule .tc-dots span:nth-child(2){animation-delay:.18s}
+.typing-capsule .tc-dots span:nth-child(3){animation-delay:.36s}
   @keyframes dotBounce{0%,80%,100%{transform:translateY(0);opacity:.5}40%{transform:translateY(-4px);opacity:1}}
   .composer{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:8px 12px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px));background:var(--bar);border-top:1px solid var(--line)}
   .composer input{flex:1;min-width:0;height:40px;padding:0 16px;border:0;border-radius:20px;background:var(--secondary);font-size:var(--font-size-base);font-family:inherit;color:var(--text);outline:none;transition:background .16s ease}
@@ -480,10 +463,6 @@ html, body {
 .subgroup-card.open .subgroup-arrow{transform:rotate(90deg)}
 .subgroup-body{display:none;border-top:1px solid var(--line);padding:4px 0 10px;background:var(--panel)}
   .subgroup-card.open .subgroup-body{display:block}
-  .dict-grid{display:flex;flex-wrap:wrap;gap:8px;padding:6px 0}
-  .dict-item{position:relative;padding:6px 24px 6px 12px;background:#e3ebee;border-radius:8px;font-size:14px;color:var(--text);line-height:1.3}
-  .dict-item-del{position:absolute;top:-4px;right:-4px;width:16px;height:16px;display:grid;place-items:center;border:0;border-radius:50%;background:#fff;color:#8a8a8a;cursor:pointer;font-size:10px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-  .dict-item-del:active{background:var(--highlight);color:#fff}
   .card-item{display:flex;align-items:center;gap:8px;padding:4px 14px;border-bottom:1px solid var(--line)}
   .card-text{flex:1;min-width:0;font-size:13.5px;color:var(--text);line-height:1.4;word-break:break-word;cursor:pointer}
   .card-item:last-child{border-bottom:0}
@@ -603,10 +582,6 @@ html, body {
 
   /* 一起听 */
 .music-duo-wrap{display:flex;flex-direction:column;align-items:center;padding:20px 16px 10px;position:relative}
-.music-duo-bubbles{display:flex;justify-content:space-between;width:100%;max-width:320px;margin-bottom:8px}
-.music-bubble-left, .music-bubble-right{background:#fff;padding:6px 12px;border-radius:16px;font-size:12px;color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.04);position:relative;max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.music-bubble-left::after{content:"";position:absolute;bottom:-6px;left:20px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #fff}
-.music-bubble-right::after{content:"";position:absolute;bottom:-6px;right:20px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid #fff}
 .music-duo-avatars{display:flex;justify-content:center;align-items:center;gap:10px}
 .music-duo-heart{font-size:18px;color:rgba(225,178,178,.55);line-height:1;flex:0 0 auto;user-select:none}
 .music-avatar-left, .music-avatar-right{width:56px;height:56px;border-radius:50%;background:#e8ecef;display:grid;place-items:center;overflow:hidden;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.08);color:#b8c0c7}
@@ -673,15 +648,6 @@ html, body {
 .music-import-btn.ghost{background:var(--soft);color:var(--text)}
 .music-import-btn.primary{background:var(--primary);color:#fff}
 .music-import-btn:active{opacity:.82}
-
-  /* 聊天页顶部的一起听横幅 */
-.chat-music-banner{display:none;align-items:center;gap:8px;padding:8px 14px;padding-top:calc(8px + env(safe-area-inset-top,0px));background:linear-gradient(90deg,#e8f0f3,#f2f7f8);color:var(--primary);font-size:13px;border-bottom:1px solid var(--line)}
-.chat-music-banner.show{display:flex}
-.chat-music-banner svg{flex:0 0 auto;opacity:.8}
-.chat-music-banner .cmb-text{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chat-music-banner .cmb-text strong{font-weight:600}
-.chat-music-banner .cmb-back{flex:0 0 auto;border:0;background:rgba(31,95,108,.12);color:var(--primary);font-size:12px;font-family:inherit;padding:5px 12px;border-radius:12px;cursor:pointer}
-.chat-music-banner .cmb-back:active{background:rgba(31,95,108,.22)}
 
 /* 一起听标记 */
 .msg-meta .music-tag{font-size:11px;color:var(--primary);opacity:.85;margin-right:2px}
@@ -793,7 +759,6 @@ html, body {
   .moment-comment{font-size:13px;color:var(--text);line-height:1.5;word-break:break-word}
   .moment-comment-name{color:var(--primary);font-weight:600}
   .moment-empty{text-align:center;padding:60px 24px;color:var(--light-text);font-size:14px;line-height:1.8}
-.avatar{display:grid;place-items:center;overflow:hidden;background-size:cover;background-position:center}
   .avatar{display:grid;place-items:center;overflow:hidden;background-size:cover;background-position:center}
   .avatar img{width:100%;height:100%;object-fit:cover;display:block}
 /* ============ 新版主屏 ============ */
@@ -859,7 +824,7 @@ html, body {
 .bottom-row{display:flex;gap:12px;align-items:stretch;margin-top:8px}
 .app-grid-secondary{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 8px;flex:0 0 42%;align-content:start}
 .app-grid-secondary .app-item{display:flex;flex-direction:column;align-items:center;gap:5px;background:transparent;border:0;font-family:inherit;cursor:pointer;padding:0}
-..app-grid-secondary .app-icon{width:clamp(44px, 13vw, 52px);height:clamp(44px, 13vw, 52px);border-radius:clamp(10px, 3.5vw, 14px);background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--primary);box-shadow:0 2px 8px rgba(31,95,108,.06);transition:transform .15s ease;background-size:cover;background-position:center;position:relative}
+.app-grid-secondary .app-icon{width:clamp(44px, 13vw, 52px);height:clamp(44px, 13vw, 52px);border-radius:clamp(10px, 3.5vw, 14px);background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--primary);box-shadow:0 2px 8px rgba(31,95,108,.06);transition:transform .15s ease;background-size:cover;background-position:center;position:relative}
 ..app-grid-secondary .app-icon svg{width:clamp(20px, 6.5vw, 24px);height:clamp(20px, 6.5vw, 24px)}
 .app-grid-secondary .app-icon img{width:100%;height:100%;object-fit:cover;display:block;border-radius:14px}
 .app-grid-secondary .app-label{font-size:11px;color:var(--text);text-align:center;max-width:64px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -902,7 +867,6 @@ html, body {
 .welcome-emoji{text-align:center;font-size:38px;line-height:1;margin-bottom:8px}
 .welcome-title{text-align:center;font-size:18px;font-weight:700;color:var(--primary);letter-spacing:1px}
 .welcome-sub{text-align:center;font-size:12.5px;color:var(--light-text);margin-top:6px;margin-bottom:8px}
-.welcome-warning{text-align:center;font-size:12.5px;color:#c45b66;font-weight:600;background:#fdf2f4;padding:10px 12px;border-radius:10px;margin-bottom:14px;line-height:1.6;border:1px dashed rgba(196,91,102,.3)}
 .welcome-tabs{display:flex;gap:8px;margin:12px 0 12px;flex:0 0 auto}
 .welcome-tab{flex:1;height:38px;border:1px solid var(--accent);border-radius:10px;background:#fff;color:var(--text);font-size:14px;font-family:inherit;cursor:pointer;transition:all .15s ease}
 .welcome-tab.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600}
@@ -986,9 +950,6 @@ html, body {
 .call-record-info{flex:1;min-width:0}
 .call-record-title{font-size:13.5px;color:var(--text);font-weight:600}
 .call-record-sub{font-size:11.5px;color:var(--light-text);margin-top:2px}
-
-/* 通话中聊天气泡的标记 */
-.msg-meta .call-tag{font-size:11px;color:#4caf50;margin-right:2px}
 
 /* 公告末尾的温柔声明 */
 .welcome-note{margin-top:16px;padding:12px 14px;background:#fdf7f2;border-radius:12px;border:1px solid rgba(216,160,130,.25);font-size:12.5px;line-height:1.75;color:#7a6156}
@@ -1287,7 +1248,7 @@ html, body {
   letter-spacing:2px;font-weight:500;
 }
 /* 👇 更多菜单悬浮面板样式 */
-./* 👇 更多菜单弹窗的基础显示规则（千万不要漏掉） */
+/* 👇 更多菜单弹窗的基础显示规则（千万不要漏掉） */
 .more-menu-bg { position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 300; display: none; align-items: flex-end; justify-content: center; }
 .more-menu-bg.open { display: flex; animation: fadeIn .15s ease; }
 .more-menu { width: 100%; max-width: 600px; background: #fff; border-top-left-radius: 16px; border-top-right-radius: 16px; padding-bottom: env(safe-area-inset-bottom,0px); animation: slideUp .2s ease; overflow: hidden; }
@@ -1319,12 +1280,7 @@ html, body {
   margin-bottom: 2px;
 }
 /* 缩小张数徽章的内边距 */
-.subgroup-head > span:nth-child(2) {
-  padding: 1px 6px !important;
-  font-size: 10.5px !important;
-}
-/* 缩小权重徽章的内边距 */
-.subgroup-head .subgroup-count {
+.subgroup-head > .subgroup-count {
   padding: 1px 6px !important;
   font-size: 10.5px !important;
 }
@@ -1577,7 +1533,7 @@ html, body {
       <button class="icon-btn" id="openSettingsFromChat" aria-label="设置"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     </header>
     <div class="messages" id="messages"></div>
-    <div class="typing-bar" id="typingBar"><span>对方正在输入</span><span class="typing-dots"><span></span><span></span><span></span></span></div>
+    <div class="typing-bar" id="typingBar"></div>
     <div class="composer-wrap">
       <div class="composer-quote" id="composerQuote">
         <div class="composer-quote-content" id="composerQuoteContent"></div>
@@ -1860,15 +1816,6 @@ html, body {
 <input type="file" id="cssImportFile" accept=".css,text/css" style="display:none;">
       </div>
     </div>
-    <div class="beautify-section-title">字体</div>
-    <div class="field-group"><div class="font-grid" id="fontFamilyGrid">
-      <button class="font-chip" data-font="default">系统默认</button>
-      <button class="font-chip" data-font="serif">衬线宋体</button>
-      <button class="font-chip" data-font="kai">楷体</button>
-      <button class="font-chip" data-font="yuan">圆体</button>
-      <button class="font-chip" data-font="hand">手写体</button>
-      <button class="font-chip" data-font="mono">等宽体</button>
-    </div></div>
     <div class="beautify-section-title">字号</div>
     <div class="field-group"><div class="font-grid" id="fontSizeGrid">
       <button class="font-chip" data-size="13px">小</button>
@@ -1975,8 +1922,6 @@ html, body {
       <div class="reply-cat-body">
         <div class="stepper-row"><span class="stepper-label">拼字卡概率</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="concat" data-dir="-1">−</button><span class="stepper-value" id="stepperConcatVal">15</span><button class="stepper-btn" data-step="concat" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
         <div class="stepper-row"><span class="stepper-label">拼几张</span><div class="stepper-ctrl"><button class="stepper-btn" data-step="concatCount" data-dir="-1">−</button><span class="stepper-value" id="stepperConcatCountVal">3</span><button class="stepper-btn" data-step="concatCount" data-dir="1">+</button><span class="stepper-unit">张</span></div></div>
-        <div class="stepper-row"><span class="stepper-label">强制语法概率<span class="sub">越高越像正经情话（我+想+你），越低越胡言乱语（宝贝+吃醋+啦）</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="strictGrammar" data-dir="-1">−</button><span class="stepper-value" id="stepperStrictGrammarVal">80</span><button class="stepper-btn" data-step="strictGrammar" data-dir="1">+</button><span class="stepper-unit">%</span></div></div>
-        <div class="color-row"><span class="color-row-label">融合全部字卡</span><label class="switch"><input type="checkbox" id="concatUseAllToggle"><span class="switch-slider"></span></label></div>
       </div>
     </div>
 
@@ -1991,7 +1936,6 @@ html, body {
         <div class="stepper-row"><span class="stepper-label">信件包含字卡张数<span class="sub">信件正文由几张字卡拼成</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="letterCount" data-dir="-1">−</button><span class="stepper-value" id="stepperLetterCountVal">3</span><button class="stepper-btn" data-step="letterCount" data-dir="1">+</button><span class="stepper-unit">张</span></div></div>
         <div class="stepper-row"><span class="stepper-label">TA 回信最快<span class="sub">写完信后，最快多少小时收到回信</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="letterMin" data-dir="-1">−</button><span class="stepper-value" id="stepperLetterMinVal">2</span><button class="stepper-btn" data-step="letterMin" data-dir="1">+</button><span class="stepper-unit">小时</span></div></div>
         <div class="stepper-row"><span class="stepper-label">TA 回信最慢<span class="sub">写完信后，最慢多少小时收到回信</span></span><div class="stepper-ctrl"><button class="stepper-btn" data-step="letterMax" data-dir="-1">−</button><span class="stepper-value" id="stepperLetterMaxVal">24</span><button class="stepper-btn" data-step="letterMax" data-dir="1">+</button><span class="stepper-unit">小时</span></div></div>
-        <div class="color-row"><span class="color-row-label">信件包含词典字卡<span class="sub">开启后，信件内容可以抽取词典的词</span></span><label class="switch"><input type="checkbox" id="letterUseDictToggle"><span class="switch-slider"></span></label></div>
       </div>
     </div>
 
@@ -2085,7 +2029,6 @@ html, body {
     <button class="lib-tab" data-tab="sticker">表情包</button>
     <button class="lib-tab" data-tab="emoticon">颜文字</button>
     <button class="lib-tab" data-tab="pat">拍一拍</button>
-    <button class="lib-tab" data-tab="dict">词典</button>
     <button class="lib-tab" data-tab="system">系统预设</button>
   </div>
   <div class="page-body" style="flex:1 1 auto;min-height:0;overflow:hidden;display:flex;flex-direction:column;padding:0;">
@@ -2124,25 +2067,6 @@ html, body {
       <div class="emoji-add-row"><input type="text" id="taPatInput" placeholder="例：亲了亲你的脸颊" maxlength="60"><button id="taPatAddBtn">添加</button></div>
       <div id="taPatList" style="padding:4px 14px 20px;"></div>
     </div>
-    <div id="viewDict" style="display:none;">
-  <div class="lib-tabs" id="dictTabs">
-    <button class="lib-tab active" data-dicttab="all">全部</button>
-    <button class="lib-tab" data-dicttab="subject">主语</button>
-    <button class="lib-tab" data-dicttab="verb">动作</button>
-    <button class="lib-tab" data-dicttab="object">宾语</button>
-    <button class="lib-tab" data-dicttab="modifier">修饰</button>
-    <button class="lib-tab" data-dicttab="tone">语气</button>
-  </div>
-  <div class="content-search" style="padding:10px 14px 0;"><input type="text" id="dictSearchInput" placeholder="搜索词典里的词…" autocomplete="off"></div>
-  <div class="emoji-add-row">
-    <input type="text" id="dictInput" placeholder="输入字/词，逗号分隔可批量。例：我,你,想,抱抱" maxlength="200">
-    <button id="dictAddBtn">添加</button>
-  </div>
-  <div class="lib-toolbar" style="padding:4px 14px;">
-    <button class="toolbar-btn" id="dictClearBtn">清空当前分类</button>
-  </div>
-  <div id="dictList" style="padding:4px 14px 20px;"></div>
-</div>
     <div id="viewSystem" style="display:none;"></div>
   </div>
 </section>
@@ -2214,22 +2138,6 @@ html, body {
       <div class="tip">回答时间上限为 30 秒。TA 会依次回答所有问题。</div>
       <button class="btn-primary" id="batchQuizSendBtn" style="margin-top:16px;">一次性发给他</button>
     </div>
-  </div>
-</section>
-
-<section class="page" id="affectionPage">
-  <header class="page-header"><button class="icon-btn" id="affectionBack" aria-label="返回"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button><div class="page-title">好感度</div></header>
-  <div class="page-body">
-    <div style="text-align:center;padding:36px 20px 24px;">
-      <div style="font-size:52px;line-height:1;color:var(--highlight);">❤</div>
-      <div style="margin-top:18px;font-size:44px;font-weight:700;color:var(--primary);" id="affectionBigVal">0%</div>
-      <div style="margin-top:8px;font-size:13px;color:var(--light-text);">和 TA 在一起 <span id="affectionBigDays" style="color:var(--primary);font-weight:600;">0</span> 天</div>
-    </div>
-    <div class="field-group" style="padding:20px 18px;">
-      <div class="affection-track" style="height:12px;"><div class="affection-fill" id="affectionBigFill"></div></div>
-      <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--light-text);"><span>陌生</span><span>熟悉</span><span>亲密</span><span>深爱</span></div>
-    </div>
-    <div class="tip">好感度会随聊天、互动慢慢增长。</div>
   </div>
 </section>
 
@@ -3079,16 +2987,7 @@ function idbPut(key, blob){
     });
   });
 }
-function idbDelete(key){
-  return idbOpen().then(function(db){
-    return new Promise(function(resolve, reject){
-      var tx = db.transaction(IDB_IMG_STORE, 'readwrite');
-      tx.objectStore(IDB_IMG_STORE).delete(key);
-      tx.oncomplete = function(){ resolve(); };
-      tx.onerror = function(e){ reject(e.target.error); };
-    });
-  });
-}
+
 function dataUrlToBlob(dataUrl){
   var parts = dataUrl.split(',');
   var mimeMatch = parts[0].match(/:(.*?);/);
@@ -3222,8 +3121,7 @@ function compressImage(file, maxSize, callback, quality){
   var USER_STICKER_KEY = 'chat_user_stickers_v1';
   var STATS_KEY = 'chat_stats_v1';
   var DAILY_LOVE_KEY = 'chat_daily_love_v1';
-  var SIGN_IN_KEY = 'chat_signin_v1';
-  var LOCK_KEY = 'chat_lock_v1';
+var LOCK_KEY = 'chat_lock_v1';
   var PROACTIVE_KEY = 'chat_proactive_v1';
   var PAT_ME_KEY = 'chat_pat_me_v1';
   var PAT_TA_KEY = 'chat_pat_ta_v1';
@@ -3376,14 +3274,6 @@ var DEFAULT_PROACTIVE = [
     { name: '想念', color: PROACTIVE_COLORS[5], items: ['今天怎么没找我。','有点想你了。','好久没聊了，在忙吗。','想你了，宝宝。'] }
   ];
 
-  var FONT_MAP = {
-    'default': '-apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif',
-    'serif': 'Georgia, "Songti SC", "SimSun", serif',
-    'kai': '"Kaiti SC", "KaiTi", "STKaiti", serif',
-    'yuan': '"Yuanti SC", "YouYuan", "PingFang SC", sans-serif',
-    'hand': '"Xingkai SC", "STXingkai", "Kaiti SC", cursive',
-    'mono': '"SF Mono", Consolas, "Courier New", monospace'
-  };
   var DEFAULT_SELF_COLOR = '#f1d6d6';
   var DEFAULT_OTHER_COLOR = '#dbe5f1';
 
@@ -3398,8 +3288,8 @@ var DEFAULT_PROACTIVE = [
 taInviteChance: 10,
 quoteChance: 15,
 moodChance: 60, // 【新增】今日状态优先抽卡概率（默认60%）
-concatChance: 15, concatCount: 3, concatUseAll: false, strictGrammar: 80,
-letterChance: 10, letterCount: 3, letterMin: 2, letterMax: 24, letterUseDict: false,
+concatChance: 15, concatCount: 3,
+letterChance: 10, letterCount: 3, letterMin: 2, letterMax: 24,
     cardCooldown: 5,
 momentFollowChance: 60,
 momentLikeBackChance: 50,
@@ -3411,7 +3301,7 @@ momentAutoPostChance: 70,
 momentsCover: '',
     bubbleStyle: 'rounded',
     colorSelf: DEFAULT_SELF_COLOR, colorOther: DEFAULT_OTHER_COLOR,
-    fontFamily: 'default', fontSize: '15px',
+    fontSize: '15px',
     bgColor: '#f2f5f6', bgImage: '',
     customCss: '', soundEnabled: true,
     soundType: 'ding',
@@ -3441,7 +3331,6 @@ callRingtone: ''
   };
   var stats = { affection: 0, lastChatDate: '', startDate: '' };
   var proactive = { lastOpenTime: 0, lastPeriod: '', lastProactiveTime: 0, lastChatTime: 0 };
-  var signInData = { lastSignDate: '' };
   var messages = [];
 var letters = [];
   var cards = null;
@@ -3449,10 +3338,8 @@ var letters = [];
   var userStickers = [];
   var myPats = [];
   var taPats = [];
-  var libTab = 'text';
-var dictTab = 'all';
+var libTab = 'text';
 var libSearchKeyword = '';
-var dictSearchKeyword = '';
 var stickerLibFilter = 'all';    // 字卡库表情筛选：all / static / gif
 var userStickerFilter = 'all';   // 聊天面板表情筛选：all / static / gif
 
@@ -3465,9 +3352,9 @@ function isGifSticker(url){
 }
   var activeBigGroup = '';
   var replyTimer = null;
-  var pendingNoReplyTimer = null;
-  var pendingNoReplyMsgs = [];
-  var lockInput = '', lockPurpose = 'unlock', lockTempNew = '';
+var typingTimer = null;
+var pendingNoReplyTimer = null;
+var lockInput = '', lockPurpose = 'unlock', lockTempNew = '';
   var unreadCount = 0;
   var chatOpenNow = false;
   var recentCards = [];
@@ -3551,8 +3438,6 @@ function loadPerson(){
           }
         });
         
-// 【临时】强制清空所有自定义图标，恢复默认 SVG
-person.appIcons = {};
       }
     }
   }catch(e){}
@@ -3563,13 +3448,6 @@ person.appIcons = {};
       if(raw){ var d = JSON.parse(raw); if(d && typeof d === 'object'){ stats.affection = (typeof d.affection === 'number') ? d.affection : 0; stats.lastChatDate = d.lastChatDate || ''; stats.startDate = d.startDate || ''; } }
     }catch(e){}
   }
-  function loadSignIn(){
-    try{
-      var raw = localStorage.getItem(SIGN_IN_KEY);
-      if(raw){ var d = JSON.parse(raw); if(d && typeof d === 'object'){ signInData.lastSignDate = d.lastSignDate || ''; } }
-    }catch(e){}
-  }
-  function saveSignIn(){ safeSetItem(SIGN_IN_KEY, JSON.stringify(signInData)); }
   function loadProactive(){
     try{
       var raw = localStorage.getItem(PROACTIVE_KEY);
@@ -3680,7 +3558,12 @@ function loadUserStickers(){
     }
   }catch(e){}
 }
-  function saveWalletMe(){ safeSetItem(WALLET_ME_KEY, JSON.stringify(walletMe)); }
+  function saveWalletMe(){
+  if(walletMe.records && walletMe.records.length > 200){
+    walletMe.records = walletMe.records.slice(walletMe.records.length - 200);
+  }
+  safeSetItem(WALLET_ME_KEY, JSON.stringify(walletMe));
+}
   function saveWalletTa(){ safeSetItem(WALLET_TA_KEY, JSON.stringify(walletTa)); }
 
   function loadPats(){
@@ -3717,7 +3600,7 @@ function savePerson(){
 }
   function saveStats(){ safeSetItem(STATS_KEY, JSON.stringify(stats)); }
   function saveProactive(){ safeSetItem(PROACTIVE_KEY, JSON.stringify(proactive)); }
-  var MAX_MESSAGES_KEEP = 1000;
+  var MAX_MESSAGES_KEEP = 20000;
 function saveMessages(){
     if(messages.length > MAX_MESSAGES_KEEP){ messages = messages.slice(messages.length - MAX_MESSAGES_KEEP); }
     /* 表情包消息的 blob URL 要转成 @idb: 标记，否则下次打开就失效 */
@@ -3741,8 +3624,6 @@ function saveMessages(){
     safeSetItem(CARDS_KEY, JSON.stringify(toSave));
   }catch(e){}
 }
-  function saveTaStickers(){ safeSetItem(TA_STICKER_KEY, JSON.stringify(serializeStickerArray(taStickers))); }
-function saveUserStickers(){ safeSetItem(USER_STICKER_KEY, JSON.stringify(serializeStickerArray(userStickers))); }
   function saveMyPats(){ safeSetItem(PAT_ME_KEY, JSON.stringify(myPats)); }
   function saveTaPats(){ safeSetItem(PAT_TA_KEY, JSON.stringify(taPats)); }
 
@@ -3833,7 +3714,8 @@ function switchPersona(id){
   
   // 清除旧梦角的所有定时器，防止消息串台
   if(replyTimer) { clearTimeout(replyTimer); replyTimer = null; }
-  if(pendingNoReplyTimer) { clearTimeout(pendingNoReplyTimer); pendingNoReplyTimer = null; }
+if(typingTimer) { clearTimeout(typingTimer); typingTimer = null; }
+if(pendingNoReplyTimer) { clearTimeout(pendingNoReplyTimer); pendingNoReplyTimer = null; }
   if(window._musicTimerInterval) { clearInterval(window._musicTimerInterval); window._musicTimerInterval = null; }
   
   // 更新到新梦角的 ID
@@ -4375,8 +4257,25 @@ else preview = '发来一条消息';
       setTimeout(function(){ banner.style.display = 'none'; bannerCount = 0; }, 300);
     }, 3000);
   }
-  function showTyping(){ $('typingBar').classList.add('show'); $('headerStatus').textContent = '对方正在输入…'; }
-  function hideTyping(){ $('typingBar').classList.remove('show'); $('headerStatus').textContent = '在线'; }
+  function showTyping(){
+  var bar = $('typingBar');
+  if(!bar) return;
+  var avatarHTML = person.avatar ? '<img src="' + person.avatar + '" alt="">' : DEFAULT_AVATAR_SVG;
+  bar.innerHTML = '<div class="typing-capsule">' +
+    '<div class="tc-avatar">' + avatarHTML + '</div>' +
+    '<div class="tc-text"><strong>' + esc(person.name || 'TA') + '</strong> 正在输入</div>' +
+    '<div class="tc-dots"><span></span><span></span><span></span></div>' +
+  '</div>';
+  bar.classList.add('show');
+  var hs = $('headerStatus');
+  if(hs) hs.textContent = '对方正在输入…';
+}
+function hideTyping(){
+  var bar = $('typingBar');
+  if(bar) bar.classList.remove('show');
+  var hs = $('headerStatus');
+  if(hs) hs.textContent = '在线';
+}
 
   /* ============ 新版主屏 · 渲染 ============ */
 function renderBigPhoto(){
@@ -4489,11 +4388,17 @@ function renderAppIcons(){
   diary:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>'
 };
   Array.prototype.forEach.call(document.querySelectorAll('[data-icon-key]'), function(el){
-    var key = el.dataset.iconKey;
-    var isChat = (key === 'chat');
-    var defaultHTML = (isChat ? '<span class="app-badge" id="chatBadge" style="display:none;">0</span>' : '') + (iconSVGs[key] || '');
-    el.innerHTML = defaultHTML;
-  });
+  var key = el.dataset.iconKey;
+  var isChat = (key === 'chat');
+  var custom = (person.appIcons && person.appIcons[key]) ? person.appIcons[key] : '';
+  var inner = '';
+  if(custom){
+  inner = '<img src="' + custom + '" alt="">' + (isChat ? '<span class="app-badge" id="chatBadge" style="display:none;">0</span>' : '');
+} else {
+  inner = (isChat ? '<span class="app-badge" id="chatBadge" style="display:none;">0</span>' : '') + (iconSVGs[key] || '');
+}
+  el.innerHTML = inner;
+});
   var cb = $('chatBadge');
   if(cb){
     if(unreadCount > 0){ cb.textContent = unreadCount > 99 ? '99+' : unreadCount; cb.style.display = 'grid'; }
@@ -4631,10 +4536,9 @@ document.addEventListener('click', function(e){
       var root = document.documentElement;
       root.style.setProperty('--msg-self-bg', person.colorSelf);
       root.style.setProperty('--msg-other-bg', person.colorOther);
-      root.style.setProperty('--chat-font-family', FONT_MAP[person.fontFamily] || FONT_MAP['default']);
       root.style.setProperty('--chat-font-size', person.fontSize);
 
-      var messagesEl = $('messages');
+var messagesEl = $('messages');
       if(person.bgImage){
         messagesEl.style.background = '';
         messagesEl.style.backgroundImage = 'url(' + person.bgImage + ')';
@@ -4684,7 +4588,8 @@ if(lockDateEl){ lockDateEl.style.color = person.lockTimeColor || '#fff'; lockDat
 
       setCallBg();
 applyCallCapsuleColor();
-$('customCssStyle').textContent = person.customCss || '';
+var cssEl = $('customCssStyle');
+if(cssEl) cssEl.textContent = person.customCss || '';
     }catch(e){ console.error('applyBeautify', e); }
   }
 
@@ -4708,18 +4613,6 @@ $('customCssStyle').textContent = person.customCss || '';
     var wd = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
     if($('lockDate')) $('lockDate').textContent = (d.getMonth()+1) + '月' + d.getDate() + '日 ' + wd[d.getDay()];
   }
-  function renderSignIn(){
-    var statusEl = $('signInStatus');
-    if(!statusEl) return;
-    var today = new Date().toDateString();
-    if(signInData.lastSignDate === today){
-      statusEl.textContent = '今日已签到 ✓';
-      statusEl.style.color = 'var(--light-text)';
-    } else {
-      statusEl.textContent = '+1好感度 & 零花钱';
-      statusEl.style.color = 'var(--primary)';
-    }
-  }
   function renderDailyLove(){
     var today = new Date().toDateString();
     var stored = null;
@@ -4732,8 +4625,7 @@ $('customCssStyle').textContent = person.customCss || '';
       try{ localStorage.setItem(DAILY_LOVE_KEY, JSON.stringify(stored)); }catch(e){}
     }
     if($('dailyLoveText')) $('dailyLoveText').textContent = stored.text;
-    if($('lockLove')) $('lockLove').textContent = stored.text;
-  }
+}
   function renderHome(){
     try{
       updateClock();
@@ -4788,8 +4680,7 @@ if(momentsIcon){
       else cb.style.display = 'none';
 
       renderDailyLove();
-      renderSignIn();
-      applyBeautify();
+applyBeautify();
       updateCardsSummary();
     }catch(e){ console.error('renderHome', e); }
   }
@@ -5120,15 +5011,14 @@ var musicTag = m.music ? '<span class="music-tag">🎵</span>' : '';
       $('viewSticker').style.display = (libTab === 'sticker') ? '' : 'none';
       $('viewEmoticon').style.display = (libTab === 'emoticon') ? '' : 'none';
       $('viewPat').style.display = (libTab === 'pat') ? '' : 'none';
-      $('viewDict').style.display = (libTab === 'dict') ? '' : 'none';
-      $('viewSystem').style.display = (libTab === 'system') ? '' : 'none';
+$('viewSystem').style.display = (libTab === 'system') ? '' : 'none';
 
       if(libTab === 'text') renderBigGroups();
       else if(libTab === 'emoji') renderEmojiGrid();
       else if(libTab === 'sticker') renderStickerGridBig();
       else if(libTab === 'emoticon') renderEmoticonGrid();
       else if(libTab === 'pat') renderTaPatList();
-      else if(libTab === 'dict') renderDict();
+      // 词典已移除
       else if(libTab === 'system') renderSystemView();
     }catch(e){ console.error('renderLib', e); }
   }
@@ -5279,29 +5169,7 @@ content.innerHTML = html;
       return '<div class="emoji-tile" style="font-size:16px;" data-emoticon="' + i + '">' + esc(txt) + '<button class="emoji-tile-del" data-emoticon-del="' + i + '">×</button></div>';
     }).join('');
   }
-  function renderDict(){
-  var box = $('dictList');
-  if(!box) return;
-  var labelMap = { all:'全部', subject:'主语', verb:'动作', object:'宾语', modifier:'修饰', tone:'语气' };
-  var keys = (dictTab === 'all') ? ['subject','verb','object','modifier','tone'] : [dictTab];
-  var kw = (dictSearchKeyword || '').trim().toLowerCase();
-  var html = '';
   
-  keys.forEach(function(k){
-    var arr = cards.dict[k] || [];
-    var items = arr.filter(function(w){ if(!kw) return true; return String(w).toLowerCase().indexOf(kw) > -1; });
-    if(!items.length && !kw) return;
-    
-    var label = labelMap[k] || k;
-    html += '<div style="padding:10px 0 4px;font-size:13px;font-weight:600;color:var(--primary);">' + label + ' (' + items.length + ')</div>';
-    html += '<div class="dict-grid">' + items.map(function(w, i){ 
-      return '<span class="dict-item">' + esc(w) + '<button class="dict-item-del" data-dict-del="' + k + '" data-idx="' + arr.indexOf(w) + '">×</button></span>'; 
-    }).join('') + '</div>';
-  });
-  
-  if(!html) box.innerHTML = '<div class="lib-empty">词典为空。<br>上面输入框添加字/词吧。</div>';
-  else box.innerHTML = html;
-}
   function renderSystemView(){
 var v = $('viewSystem');
 if(!v) return;
@@ -5419,12 +5287,12 @@ html += cat('🎭', '其他', 1,
   sub('readback', '已读不回', cards.system.readback, 'data-readback-del', 'data-add-readback', '添加一句被炸出来的台词')
 );
 
-  // ⏰ 自动回复
-  var autoInner = sub('waitForYou', '等你回来', cards.system.waitForYou, 'data-wait-del', 'data-add-wait', '添加一句等你的话', '你离开一段时间再回来，TA 会一次性补给你一些"在你不在时想你"的话。离开越久，堆得越多。');
-  cards.system.proactive.forEach(function(pg, pi){
-    autoInner += subPro(pi, pg.name, pg.items);
-  });
-  html += cat('⏰', '自动回复', cards.system.proactive.length + 1, autoInner);
+  // ⏰ 主动消息
+var autoInner = '';
+cards.system.proactive.forEach(function(pg, pi){
+  autoInner += subPro(pi, pg.name, pg.items);
+});
+html += cat('⏰', '主动消息', cards.system.proactive.length, autoInner);
 
   // 📞 通话
   html += cat('📞', '通话', 2,
@@ -5629,14 +5497,10 @@ if(usFilter){
 }
 var tab = e.target.closest('.lib-tab');
 if(tab){ 
-  if(tab.dataset.dicttab){
-    dictTab = tab.dataset.dicttab; 
-    Array.prototype.forEach.call(document.querySelectorAll('.lib-tab[data-dicttab]'), function(t){ t.classList.toggle('active', t.dataset.dicttab === dictTab); }); 
-    renderDict(); 
-  } else if(tab.dataset.tab){
-  libTab = tab.dataset.tab; 
-  renderLib(); 
-}
+  if(tab.dataset.tab){
+    libTab = tab.dataset.tab; 
+    renderLib(); 
+  }
   return; 
 }
 
@@ -5859,15 +5723,6 @@ var rbDel = e.target.closest('[data-readback-del]');
     }
     var proDel = e.target.closest('[data-pro-del]');
     if(proDel){ var pi = parseInt(proDel.dataset.proDel, 10); var ii = parseInt(proDel.dataset.idx, 10); if(cards.system.proactive[pi]) cards.system.proactive[pi].items.splice(ii, 1); saveCards(); renderSystemView(); return; }
-
-    var dictDel = e.target.closest('[data-dict-del]');
-if(dictDel){
-  var dKey = dictDel.dataset.dictDel;
-  var dIdx = parseInt(dictDel.dataset.idx, 10);
-  if(cards.dict[dKey]) cards.dict[dKey].splice(dIdx, 1);
-  saveCards(); renderDict();
-  return;
-}
 
     var d1 = e.target.closest('[data-my-pat-del]');
     if(d1){ var i1 = parseInt(d1.dataset.myPatDel, 10); myPats.splice(i1, 1); saveMyPats(); renderMyPatList(); return; }
@@ -6148,12 +6003,7 @@ if(f.matches('[data-add-readback]')){
     renderLib();
   });
 }
-if($('dictSearchInput')){
-  $('dictSearchInput').addEventListener('input', function(){
-    dictSearchKeyword = $('dictSearchInput').value || '';
-    renderDict();
-  });
-}
+// 词典输入搜索已移除
 
   if($('emojiAddBtn')) $('emojiAddBtn').onclick = function(){
     var inp = $('emojiAddInput');
@@ -6193,7 +6043,6 @@ if($('dictSearchInput')){
   }
 
   /* 批量导入 */
-if($('btnImportBatch')) $('btnImportBatch').onclick = function(){ $('importTextarea').value = ''; $('importPage').classList.add('open'); };
 if($('importBack')) $('importBack').onclick = function(){ $('importPage').classList.remove('open'); };
 
 /* 【新增】从文件读取文本 */
@@ -6327,24 +6176,6 @@ if($('importConfirmBtn')) $('importConfirmBtn').onclick = function(){
     saveCards(); renderLib(); updateCardsSummary();
     $('importPage').classList.remove('open');
     showDialog('导入完成', '新增 ' + addedCards + ' 张字卡，新增 ' + newBigs + ' 个大分组，' + newSubs + ' 个小分组。', [{ text:'好的', primary:true }]);
-  };
-
-  /* 去重复 */
-  if($('btnDedup')) $('btnDedup').onclick = function(){
-    var removed = 0;
-    cards.text.forEach(function(b){
-      b.groups.forEach(function(sg){
-        var seen = {}, unique = [];
-        sg.items.forEach(function(it){
-          var k = String(it).trim(); if(!k) return;
-          if(seen[k]){ removed++; return; }
-          seen[k] = true; unique.push(it);
-        });
-        sg.items = unique;
-      });
-    });
-    saveCards(); renderLib(); updateCardsSummary();
-    showDialog('去重完成', removed > 0 ? ('共移除 ' + removed + ' 条重复字卡。') : '没有发现重复字卡。', [{ text:'知道了', primary:true }]);
   };
 
   /* 抽卡 */
@@ -6508,66 +6339,36 @@ b.groups.forEach(function(sg){
   }
   return pool[Math.floor(Math.random() * pool.length)];
 }
-  function getConcatPool(){
-  var pool = [];
-  if(cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
-    ['subject','verb','object','modifier','tone'].forEach(function(k){
-      (cards.dict[k] || []).forEach(function(w){ pool.push(w); });
-    });
-  }
-  if(person.concatUseAll){
-    var all = allTextCards();
-    pool = pool.concat(all);
-  }
-  if(!pool.length) pool = allTextCards();
-  return pool;
-}
 
   function buildConcatMsg(){
   var n = person.concatCount || 3;
-if(n < 2) n = 2; if(n > 10) n = 10;
+  if(n < 2) n = 2; if(n > 10) n = 10;
   var parts = [];
-  var strict = Math.random() * 100 < (person.strictGrammar || 80);
-  
-  if(strict && cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
-    var countMap = { 
-      2: [['verb','object'],['subject','verb']], 
-      3: [['subject','verb','object'],['subject','verb','tone']], 
-      4: [['subject','modifier','verb','object']], 
-      5: [['subject','modifier','verb','object','tone']] 
-    };
-    var patterns = countMap[n] || [['subject','verb','object']];
-    var pattern = patterns[Math.floor(Math.random() * patterns.length)];
-    pattern.forEach(function(k){ 
-      var arr = (cards.dict[k]||[]).filter(Boolean); 
-      if(arr.length) parts.push(arr[Math.floor(Math.random()*arr.length)]); 
-    });
+
+  var pool = allTextCards();
+  if(!pool.length) return null;
+
+  var pool2 = pool.slice();
+  while(parts.length < n && pool2.length){
+    var idx = Math.floor(Math.random() * pool2.length);
+    parts.push(pool2[idx]);
+    pool2.splice(idx, 1);
   }
-  
-  // 如果严格拼字不够，或者不严格，就自由补全
-  if(parts.length < n) {
-    var pool = [];
-    if(cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
-      ['subject','verb','object','modifier','tone'].forEach(function(k){ (cards.dict[k]||[]).forEach(function(w){ pool.push(w); }); });
-    }
-    if(person.concatUseAll){ pool = pool.concat(allTextCards()); }
-    if(!pool.length) pool = allTextCards();
-    
-    var pool2 = pool.slice();
-    parts.forEach(function(p){ 
-      var idx = pool2.indexOf(p); 
-      if(idx > -1) pool2.splice(idx, 1); 
-    });
-    
-    while(parts.length < n && pool2.length){
-      var idx = Math.floor(Math.random() * pool2.length);
-      parts.push(pool2[idx]);
-      pool2.splice(idx, 1);
-    }
-  }
-  
+
   if(!parts.length) return null;
-  var text = parts.join('');
+  var text = '';
+  for(var pi = 0; pi < parts.length; pi++){
+    var part = String(parts[pi]).trim();
+    if(!part) continue;
+    if(text && text.length > 0){
+      var lastChar = text.charAt(text.length - 1);
+      if('，。！？、!?'.indexOf(lastChar) === -1){
+        text += '，';
+      }
+    }
+    text += part;
+  }
+  if(!text) return null;
   markRecent(text);
   return { me:false, type:'text', text:text, time:Date.now() };
 }
@@ -6666,14 +6467,9 @@ var r = Math.random() * 100;
     messages.forEach(function(m){ if(m.me && !m.read){ m.read = true; changed = true; } });
     if(changed){ saveMessages(); renderMessages(); }
   }
-  function generateLetterText(useDictOnly){
-  var pool = [];
-  if(useDictOnly && cards.dict && typeof cards.dict === 'object' && !Array.isArray(cards.dict)){
-    ['subject','verb','object','modifier','tone'].forEach(function(k){ (cards.dict[k]||[]).forEach(function(w){ pool.push(w); }); });
-  } else {
-    pool = allTextCards();
-  }
-  if(!pool.length) return '我想你了。';
+  function generateLetterText(){
+var pool = allTextCards();
+if(!pool.length) return '我想你了。';
   var n = person.letterCount || 3;
   if(n < 1) n = 1; if(n > 10) n = 10;
   var parts = [];
@@ -6687,7 +6483,7 @@ var r = Math.random() * 100;
 }
 
 function sendTaLetter(){
-  var text = generateLetterText(person.letterUseDict);
+  var text = generateLetterText();
   var l = { id: uid('letter'), me:false, text: text, time: Date.now(), read: false, done: true };
   letters.push(l); saveLetters();
   var m = { me:false, type:'letter', letterId: l.id, text: text, time: Date.now(), id: uid('m') };
@@ -6717,7 +6513,7 @@ function sendMyLetter(text){
     if(!target) return;
     target.done = true; saveLetters();
     
-    var replyText = generateLetterText(person.letterUseDict);
+    var replyText = generateLetterText();
     var rl = { id: uid('letter'), me:false, text: replyText, time: Date.now(), read: false, done: true };
     letters.push(rl); saveLetters();
     
@@ -6793,29 +6589,43 @@ function startReadNoReply(){
     }, delay);
   }
 
-  function scheduleReply(){
-    // 👇 如果用户最后一条消息被撤回了，且没有新消息，就不回复
-var lastUserMsg = null;
-for(var i=messages.length-1;i>=0;i--){ if(messages[i].me){ lastUserMsg = messages[i]; break; } }
-if(lastUserMsg && lastUserMsg.recalled) return;
+    function scheduleReply(){
+    // 如果用户最后一条消息被撤回了，且没有新消息，就不回复
+    var lastUserMsg = null;
+    for(var i=messages.length-1;i>=0;i--){ if(messages[i].me){ lastUserMsg = messages[i]; break; } }
+    if(lastUserMsg && lastUserMsg.recalled) return;
     if(replyTimer) clearTimeout(replyTimer);
+    if(typingTimer) clearTimeout(typingTimer);
     var minS = person.replyMin, maxS = person.replyMax;
     if(maxS < minS) maxS = minS;
     var delay = (minS + Math.random() * (maxS - minS)) * 1000;
+
+    // 【新增】发消息 3 秒后：标记已读 + 弹出"正在输入"
+    // 如果回复本身就快到 3 秒内，就不弹了（避免一闪而过）
+    if(delay > 3200){
+      typingTimer = setTimeout(function(){
+        typingTimer = null;
+        markMyMessagesRead();
+        showTyping();
+      }, 3000);
+    }
+
     replyTimer = setTimeout(function(){
-      setTimeout(markMyMessagesRead, 3000);
+      // 清除还没触发的"正在输入"定时器
+      if(typingTimer){ clearTimeout(typingTimer); typingTimer = null; }
+      // 确保消息标记为已读
+      markMyMessagesRead();
       setTimeout(function(){
         var maxCount = person.replyCount;
 var count = 1 + Math.floor(Math.random() * maxCount);
 if(count > maxCount) count = maxCount;
 var picked = [];
 for(var i=0;i<count;i++){ var r = makeOneReply(false); if(r) picked.push(r); }
-if(!picked.length) return;
+if(!picked.length){ hideTyping(); return; }
 
 /* 👇 引用逻辑升级：从最近 30 条消息里随机挑一条来引用（包括 TA 自己的） */
 if(Math.random() * 100 < (person.quoteChance || 0)){
   var quotePool = messages.slice(-30).filter(function(m){
-    // 排除系统消息、撤回的消息、红包、信件、邀请等特殊卡片
     return (m.type === 'text' || m.type === 'sticker' || m.type === 'emoji' || m.type === 'voice') && !m.recalled && !m.type.includes('sys');
   });
   if(quotePool.length > 0){
@@ -6859,31 +6669,12 @@ setTimeout(function(){ taSendGift(); }, 2000 + Math.random() * 2000);
       else { unreadCount++; renderHome(); showNotificationBanner(m); if(!sentOne){ sentOne = true; } }
       
       /* 2. 1.5~2.5 秒后撤回（直白保留原话） */
-      setTimeout(function(){
-        m.recalled = true;
-        m.recallTime = Date.now();
-        saveMessages();
-        if(chatOpenNow){ renderMessages(); }
-        
-        /* 3. 此地无银三百两：撤回后 3~5 秒，用户没反应，TA 自己先慌 */
-        if(window.__recallPanicTimer){ clearTimeout(window.__recallPanicTimer); }
-        window.__recallPanicTimer = setTimeout(function(){
-          var last = messages[messages.length - 1];
-          if(last && last.me) return; /* 用户已经回复了，不补刀 */
-          
-          var PANIC_REPLIES = [
-            '你……怎么不说话？',
-            '你是不是看到了？',
-            '那个……我刚刚是复制别人的，你别当真！',
-            '喂？人呢？你吓我啊……'
-          ];
-          var txt = PANIC_REPLIES[Math.floor(Math.random() * PANIC_REPLIES.length)];
-          var pm = { me:false, type:'text', text: txt, time: Date.now(), id: uid('m') };
-          messages.push(pm); saveMessages();
-          if(chatOpenNow) appendMessage(pm);
-          else { unreadCount++; renderHome(); showNotificationBanner(pm); }
-        }, 3000 + Math.random() * 2000);
-      }, 1500 + Math.random() * 1000);
+setTimeout(function(){
+  m.recalled = true;
+  m.recallTime = Date.now();
+  saveMessages();
+  if(chatOpenNow){ renderMessages(); }
+}, 1500 + Math.random() * 1000);
     } else {
       if(chatOpenNow){ appendMessage(m); if(!sentOne){ playDing(); sentOne = true; } }
       else { unreadCount++; renderHome(); showNotificationBanner(m); if(!sentOne){ sentOne = true; } }
@@ -7083,10 +6874,9 @@ setTimeout(function(){ taSendGift(); }, 2000 + Math.random() * 2000);
   Notification.requestPermission();
 }
     if(pendingNoReplyTimer){
-      clearTimeout(pendingNoReplyTimer);
-      pendingNoReplyTimer = null;
-      pendingNoReplyMsgs = [];
-      if(Math.random() < 0.9){
+  clearTimeout(pendingNoReplyTimer);
+  pendingNoReplyTimer = null;
+  if(Math.random() < 0.9){
         var rbMsg = { me:false, type:'text', text: pickReadBackReply(), time: Date.now(), id: uid('m') };
         messages.push(rbMsg);
         saveMessages();
@@ -7114,53 +6904,6 @@ if(callState === 'idle' && Math.random() * 100 < (person.taCallChance || 10)){
   }, delayCall);
 }
 
-  /* 如果用户刚回复的是撤回的消息，TA 彻底慌神 */
-var recalledMsg = null;
-/* 往前找最近 6 条 TA 消息，只要其中一条在 2 分钟内撤回，就触发 */
-for(var qi = messages.length - 2; qi >= 0 && qi >= messages.length - 8; qi--){
-  var mi = messages[qi];
-  if(mi && !mi.me && mi.recalled && mi.recallTime){
-    if(Date.now() - mi.recallTime < 120000){ recalledMsg = mi; break; }
-  }
-}
-/* 没找到最近撤回的，就不触发；找到就慌 */
-if(recalledMsg){
-  /* 👇 小提醒：如果 TA 已经"装死慌过"了，就不重复触发 */
-  var alreadyPanicked = false;
-  for(var pi = messages.length - 1; pi >= 0 && pi >= messages.length - 4; pi--){
-    if(messages[pi].me) break;
-    var pt = messages[pi].text || '';
-    if(pt.indexOf('你怎么不说话') > -1 || pt.indexOf('你是不是看到了') > -1){
-      alreadyPanicked = true; break;
-    }
-  }
-  if(alreadyPanicked) return; /* 已慌过，不重复 */
-  /* 👆 小提醒结束 */
-
-  /* 干掉"没反应的慌乱"，避免重复 */
-  if(window.__recallPanicTimer){ clearTimeout(window.__recallPanicTimer); window.__recallPanicTimer = null; }
-  /* 干掉可能已经发出去的那条"没反应的慌乱"（用户看到了也没关系，但避免刷屏） */
-  var lastIdx = messages.length - 1;
-  /* 延迟一小会儿，让用户的回复先渲染出来，TA 再慌 */
-  setTimeout(function(){
-    var PANIC_REPLIES = [
-      '啊啊啊你怎么还没删！',
-      '你快忘掉！快点！',
-      '你别引用了！我求你了！',
-      '撤回键怎么突然不好使了……呜呜呜',
-      '你怎么什么都看得到啊！',
-      '我不理你了……（过了两秒）好吧我理你。',
-      '你你你……你截图了对不对！',
-      '不是，你怎么这个时候才回我……',
-      '我以为你没看到……你吓死我了。'
-    ];
-    var txt = PANIC_REPLIES[Math.floor(Math.random() * PANIC_REPLIES.length)];
-    var pm = { me:false, type:'text', text: txt, time: Date.now(), id: uid('m') };
-    messages.push(pm); saveMessages();
-    if(chatOpenNow) appendMessage(pm);
-    else { unreadCount++; renderHome(); showNotificationBanner(pm); }
-  }, 800 + Math.random() * 1000);
-}
 }
 if($('msgInput')) $('msgInput').addEventListener('input', function(){ $('sendBtn').disabled = $('msgInput').value.trim().length === 0; });
   if($('composer')) $('composer').addEventListener('submit', function(e){ e.preventDefault(); doSendMessage(); });
@@ -7366,28 +7109,7 @@ if($('headerAvatar')){
     var inp = $('myPatInput'); var v = inp.value.trim(); if(!v) return;
     myPats.push(v); saveMyPats(); renderMyPatList(); inp.value = '';
   };
-  if($('dictAddBtn')) $('dictAddBtn').onclick = function(){
-  var inp = $('dictInput');
-  var v = inp.value.trim(); if(!v) return;
-  var items = v.split(/[,，\s]+/).filter(Boolean);
-  var key = (dictTab === 'all') ? 'subject' : dictTab;
-  items.forEach(function(it){
-    if(cards.dict[key].indexOf(it) === -1) cards.dict[key].push(it);
-  });
-  saveCards(); renderDict(); inp.value = '';
-};
-if($('dictClearBtn')) $('dictClearBtn').onclick = function(){
-  var key = (dictTab === 'all') ? null : dictTab;
-  var msg = key ? ('确定清空「' + key + '」分类的词吗？') : '确定清空整个词典吗？此操作不可恢复。';
-  showDialog('清空词典', msg, [
-    { text:'取消' },
-    { text:'清空', danger:true, onClick:function(){ 
-      if(key) cards.dict[key] = []; 
-      else cards.dict = { subject:[], verb:[], object:[], modifier:[], tone:[] }; 
-      saveCards(); renderDict(); 
-    } }
-  ]);
-};
+  // 词典添加和清空事件已移除
 
   if($('taPatAddBtn')) $('taPatAddBtn').onclick = function(){
     var inp = $('taPatInput'); var v = inp.value.trim(); if(!v) return;
@@ -7406,7 +7128,6 @@ if($('dictClearBtn')) $('dictClearBtn').onclick = function(){
 $('myNameInput').value = person.myName || '我';
     $('replySummary').textContent = person.replyMin + ' ~ ' + person.replyMax + ' 秒 · 最多 ' + person.replyCount + ' 条';
     updateCardsSummary();
-    if($('taStickerSummary')) $('taStickerSummary').textContent = taStickers.length + ' 张';
     $('lockSummary').textContent = getLockPwd() ? '已设置' : '未设置';
   }
   /* ============ 多梦角模式 ============ */
@@ -7656,8 +7377,6 @@ function renderBeautify(){
     if(po){ po.className = 'preview-bubble out style-' + person.bubbleStyle; po.style.background = person.bubbleStyle === 'plain' ? 'transparent' : person.colorSelf; }
     if($('colorSelf')) $('colorSelf').value = person.colorSelf;
     if($('colorOther')) $('colorOther').value = person.colorOther;
-    var ff = $('fontFamilyGrid');
-    if(ff) Array.prototype.forEach.call(ff.querySelectorAll('.font-chip'), function(b){ b.classList.toggle('active', b.dataset.font === person.fontFamily); });
     var fs = $('fontSizeGrid');
     if(fs) Array.prototype.forEach.call(fs.querySelectorAll('.font-chip'), function(b){ b.classList.toggle('active', b.dataset.size === person.fontSize); });
     var bg = $('bgGrid');
@@ -7684,9 +7403,7 @@ if($('callCapsuleColorInput')){
   if(ssg) Array.prototype.forEach.call(ssg.querySelectorAll('.sound-chip'), function(b){ b.classList.toggle('active', b.dataset.sound === (person.soundType || 'ding')); });
   renderColorSwatches();
 }
-  if($('openChatSettings')) $('openChatSettings').onclick = function(){ renderBeautify(); $('beautifyPage').classList.add('open'); };
-if($('beautifyEntryRow')) $('beautifyEntryRow').onclick = function(){ renderBeautify(); $('beautifyPage').classList.add('open'); };
-  if($('beautifyBack')) $('beautifyBack').onclick = function(){ $('beautifyPage').classList.remove('open'); };
+if($('beautifyBack')) $('beautifyBack').onclick = function(){ $('beautifyPage').classList.remove('open'); };
   if($('bubbleStyles')) $('bubbleStyles').addEventListener('click', function(e){
     var b = e.target.closest('[data-style]'); if(!b) return;
     person.bubbleStyle = b.dataset.style; savePerson(); renderBeautify(); renderMessages();
@@ -7701,10 +7418,6 @@ if($('beautifyEntryRow')) $('beautifyEntryRow').onclick = function(){ renderBeau
   });
   if($('cssApplyBtn')) $('cssApplyBtn').onclick = function(){ person.customCss = $('customCssInput').value; savePerson(); applyBeautify(); };
   if($('cssClearBtn')) $('cssClearBtn').onclick = function(){ person.customCss = ''; $('customCssInput').value = ''; savePerson(); applyBeautify(); };
-  if($('fontFamilyGrid')) $('fontFamilyGrid').addEventListener('click', function(e){
-    var b = e.target.closest('[data-font]'); if(!b) return;
-    person.fontFamily = b.dataset.font; savePerson(); renderBeautify(); applyBeautify();
-  });
   if($('fontSizeGrid')) $('fontSizeGrid').addEventListener('click', function(e){
     var b = e.target.closest('[data-size]'); if(!b) return;
     person.fontSize = b.dataset.size; savePerson(); renderBeautify(); applyBeautify();
@@ -7753,19 +7466,13 @@ if($('capsuleColorReset')){
       if(person.soundEnabled) playDing();
     });
   }
-  /* 系统预设里改状态后，清掉今天的缓存，让它重抽 */
-document.addEventListener('click', function(e){
-  if(e.target.closest('[data-sys-toggle="mood"]')){
-    try{ localStorage.removeItem(MOOD_KEY); }catch(err){}
-    renderMoodChip();
-  }
-});
+
 if($('beautifyResetBtn')) $('beautifyResetBtn').onclick = function(){
     showDialog('恢复默认美化', '确定恢复默认气泡、字体、背景等设置吗？', [
       { text:'取消' },
       { text:'恢复', danger:true, onClick:function(){
         person.bubbleStyle = 'rounded'; person.colorSelf = DEFAULT_SELF_COLOR; person.colorOther = DEFAULT_OTHER_COLOR;
-        person.fontFamily = 'default'; person.fontSize = '15px';
+person.fontSize = '15px';
         person.bgColor = '#f2f5f6'; person.bgImage = ''; person.customCss = ''; person.soundEnabled = true; person.soundType = 'ding';
         savePerson(); renderBeautify(); renderMessages(); applyBeautify();
       }}
@@ -7802,7 +7509,6 @@ $('stepperInviteVal').textContent = person.inviteChance;
 $('stepperTaInviteVal').textContent = person.taInviteChance;
     $('stepperConcatVal').textContent = person.concatChance;
 $('stepperConcatCountVal').textContent = person.concatCount;
-$('stepperStrictGrammarVal').textContent = person.strictGrammar;
 // 修正 NaN 错误
 if(isNaN(person.letterChance)) person.letterChance = 10;
 if(isNaN(person.letterCount)) person.letterCount = 3;
@@ -7811,10 +7517,8 @@ if(isNaN(person.letterMax)) person.letterMax = 24;
 $('stepperLetterVal').textContent = person.letterChance;
 $('stepperLetterCountVal').textContent = person.letterCount;
 $('stepperLetterMinVal').textContent = person.letterMin;
-$('stepperLetterMaxVal').textContent = person.letterMax;
-$('letterUseDictToggle').checked = !!person.letterUseDict;
-    $('concatUseAllToggle').checked = !!person.concatUseAll;
-  }
+  $('stepperLetterMaxVal').textContent = person.letterMax;
+}
   if($('replyEntryRow')) $('replyEntryRow').onclick = function(){ renderReplySettings(); $('replyPage').classList.add('open'); };
   if($('replyBack')) $('replyBack').onclick = function(){ $('replyPage').classList.remove('open'); };
   Array.prototype.forEach.call(document.querySelectorAll('.stepper-btn'), function(b){
@@ -7832,7 +7536,6 @@ else if(w === 'taInvite'){ k = 'taInviteChance'; step = 5; }
       else if(w === 'voice'){ k = 'voiceChance'; step = 5; }
       else if(w === 'concat'){ k = 'concatChance'; step = 5; }
       else if(w === 'concatCount'){ k = 'concatCount'; step = 1; }
-else if(w === 'strictGrammar'){ k = 'strictGrammar'; step = 5; }
 else if(w === 'letter'){ k = 'letterChance'; step = 5; }
 else if(w === 'letterCount'){ k = 'letterCount'; step = 1; }
 else if(w === 'letterMin'){ k = 'letterMin'; step = 1; }
@@ -7874,18 +7577,6 @@ var v = person[k] + d * step;
       person[k] = v; savePerson(); renderReplySettings();
     };
   });
-  if($('concatUseAllToggle')){
-  $('concatUseAllToggle').addEventListener('change', function(){
-    person.concatUseAll = !!$('concatUseAllToggle').checked;
-    savePerson();
-  });
-}
-if($('letterUseDictToggle')){
-  $('letterUseDictToggle').addEventListener('change', function(){
-    person.letterUseDict = !!$('letterUseDictToggle').checked;
-    savePerson();
-  });
-}
 
   // 自动保存：数字输入
 ['replyMinInput','replyMaxInput','replyCountInput'].forEach(function(id){
@@ -8325,46 +8016,7 @@ function doExportCards(data){
     });
   })();
 
-  /* TA 表情库 */
-  function renderTaStickers(){
-    var g = $('taStickerGrid');
-    if(!g) return;
-    if(!taStickers.length){ g.innerHTML = '<div class="lib-empty">还没有表情包。</div>'; $('taStickerSummary').textContent = '0 张'; return; }
-    g.innerHTML = '<div class="sticker-grid">' + taStickers.map(function(url, i){
-      return '<div class="sticker-cell"><img src="' + esc(url) + '" alt="表情"><button class="sticker-cell-del" data-ta-del="' + i + '"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button></div>';
-    }).join('') + '</div>';
-    if($('taStickerSummary')) $('taStickerSummary').textContent = taStickers.length + ' 张';
-  }
-  if($('taStickerEntryRow')) $('taStickerEntryRow').onclick = function(){ renderTaStickers(); $('taStickerPage').classList.add('open'); };
-  if($('taStickerBack')) $('taStickerBack').onclick = function(){ $('taStickerPage').classList.remove('open'); };
-  if($('taStickerGrid')) $('taStickerGrid').addEventListener('click', function(e){
-    var d = e.target.closest('[data-ta-del]'); if(!d) return;
-    var i = parseInt(d.dataset.taDel, 10); taStickers.splice(i, 1);
-    saveTaStickers(); renderTaStickers(); renderSettingsPreview();
-  });
-  if($('taStickerAddBtn')) $('taStickerAddBtn').onclick = function(){ $('taStickerUploadFile').click(); };
-  if($('taStickerUploadFile')){
-    $('taStickerUploadFile').addEventListener('change', function(){
-      var files = $('taStickerUploadFile').files;
-      if(!files || !files.length) return;
-      var arr = Array.prototype.slice.call(files), done = 0;
-      arr.forEach(function(file){
-        compressImage(file, 400, function(dataUrl){
-          taStickers.push(dataUrl); done++;
-          if(done === arr.length){ saveTaStickers(); renderTaStickers(); renderSettingsPreview(); }
-        });
-      });
-      $('taStickerUploadFile').value = '';
-    });
-  }
-  if($('taStickerUrlBtn')) $('taStickerUrlBtn').onclick = function(){
-    var url = window.prompt('粘贴图片 URL：', '');
-    if(url === null) return; url = url.trim(); if(!url) return;
-    taStickers.push(url); saveTaStickers(); renderTaStickers(); renderSettingsPreview();
-  };
-
   /* 好感度 / 纪念日 */
-  if($('affectionBack')) $('affectionBack').onclick = function(){ $('affectionPage').classList.remove('open'); };
   function fmtMoney(n){ return (Math.round(n * 100) / 100).toFixed(2); }
 
   function renderWalletPage(){
@@ -8405,17 +8057,6 @@ function doExportCards(data){
     }).join('');
   }
 
-  function renderAffectionPage(){
-    var aff = Math.max(0, Math.min(100, stats.affection || 0));
-    $('affectionBigVal').textContent = Math.round(aff) + '%';
-    $('affectionBigFill').style.width = aff + '%';
-    var days = 0;
-    if(stats.startDate){
-      var p = stats.startDate.split('-');
-      if(p.length === 3){ var s = new Date(parseInt(p[0],10), parseInt(p[1],10)-1, parseInt(p[2],10)); days = Math.max(0, Math.floor((Date.now() - s.getTime()) / 86400000)); }
-    }
-    $('affectionBigDays').textContent = days;
-  }
   if($('anniversaryBack')) $('anniversaryBack').onclick = function(){ $('anniversaryPage').classList.remove('open'); };
   function renderAnniversaryPage(){
     $('anniversaryDateInput').value = stats.startDate || '';
@@ -8556,7 +8197,6 @@ if($('backupEntryRow')) $('backupEntryRow').onclick = function(){ $('backupMsgCo
     }
   }
   function onAppReady(){ 
-  checkWaitForYouMessages();
   proactive.lastOpenTime = Date.now(); 
   saveProactive(); 
   checkProactiveOnOpen(); 
@@ -8601,53 +8241,6 @@ function showDiaryPopup(dateStr){
       setTimeout(openDiaryWrite, 400);
     } }
   ], true);
-}
-
-/* ============ 等你回来 ============ */
-function checkWaitForYouMessages(){
-  if(!person.proactiveEnabled) return;
-  var last = proactive.lastOpenTime || 0;
-  if(!last) return;
-  var now = Date.now();
-  var awayMs = now - last;
-  /* 离开不到 30 分钟，不触发 */
-  if(awayMs < 30 * 60 * 1000) return;
-  
-  var pool = [];
-  if(cards && cards.system && Array.isArray(cards.system.waitForYou)){
-    pool = cards.system.waitForYou.filter(function(t){ return t && String(t).trim(); });
-  }
-  if(!pool.length) return;
-
-  /* 按离开时长决定消息条数 */
-  var count = 1;
-  if(awayMs < 60 * 60 * 1000) count = 1 + Math.floor(Math.random() * 2);          // 30min~1h → 1~2 条
-  else if(awayMs < 3 * 60 * 60 * 1000) count = 2 + Math.floor(Math.random() * 2); // 1~3h → 2~3 条
-  else if(awayMs < 12 * 60 * 60 * 1000) count = 3 + Math.floor(Math.random() * 2); // 3~12h → 3~4 条
-  else count = 4 + Math.floor(Math.random() * 2);                                  // 12h+ → 4~5 条
-
-  /* 从卡池里随机抽 N 条不重复的话 */
-  var picked = [];
-  var copy = pool.slice();
-  for(var i = 0; i < count && copy.length; i++){
-    var idx = Math.floor(Math.random() * copy.length);
-    picked.push(copy[idx]);
-    copy.splice(idx, 1);
-  }
-
-  /* 生成伪时间戳：分布在离开的时间段里，保证递增 */
-  var startTime = last + awayMs * 0.2;  /* 从离开的 20% 处开始 */
-  var endTime = now - 60 * 1000;         /* 结束在 1 分钟前 */
-  var step = (endTime - startTime) / (picked.length + 1);
-
-  picked.forEach(function(txt, i){
-    var fakeTime = Math.round(startTime + step * (i + 1) + (Math.random() - 0.5) * step * 0.6);
-    var m = { me: false, type: 'text', text: txt, time: fakeTime, id: uid('m') };
-    messages.push(m);
-  });
-  saveMessages();
-  unreadCount += picked.length;
-  renderHome();
 }
 
   /* App 图标点击 */
@@ -8697,7 +8290,6 @@ else if(app === 'moments'){
     else if(app === 'cards'){ libSearchKeyword = ''; if($('libSearchInput')) $('libSearchInput').value = ''; renderLib(); $('cardsPage').classList.add('open'); }
 else if(app === 'mailbox'){ renderMailbox(); $('mailboxPage').classList.add('open'); }
     else if(app === 'stickers'){ openSettingsPage(); }
-    else if(app === 'affection'){ renderAffectionPage(); $('affectionPage').classList.add('open'); }
     else if(app === 'anniversary'){ renderAnniversaryPage(); $('anniversaryPage').classList.add('open'); }
     else if(app === 'wallet'){ renderWalletPage(); $('walletPage').classList.add('open'); }
 else if(app === 'diary'){ openDiaryPage(); }
@@ -8744,9 +8336,6 @@ if($('chatBack')) $('chatBack').onclick = function(){
   chatOpenNow = false;
   if(pendingNoReplyTimer){ clearTimeout(pendingNoReplyTimer); pendingNoReplyTimer = null; scheduleReply(); }
 };
-if($('chatMusicBack')){
-  $('chatMusicBack').onclick = function(){ openMusicFromChat(); };
-}
   if($('notificationBanner')){
     $('notificationBanner').addEventListener('click', function(){
       $('notificationBanner').classList.remove('show');
@@ -9073,6 +8662,23 @@ if($('chatImageUpload')){
     if(e.target.closest('.bubble-quote')) return;
     vb.classList.toggle('open');
   });
+  /* 点击引用气泡，跳转到原消息 */
+document.addEventListener('click', function(e){
+  var q = e.target.closest('[data-quote-jump]');
+  if(!q) return;
+  var targetId = q.dataset.quoteJump;
+  if(!targetId) return;
+  var target = messages.filter(function(m){ return m.id === targetId; })[0];
+  if(!target) return;
+  var idx = messages.indexOf(target);
+  var el = document.querySelector('[data-msg-idx="' + idx + '"]');
+  if(el){
+    el.scrollIntoView({ behavior:'smooth', block:'center' });
+    el.style.transition = 'background .3s ease';
+    el.style.background = 'rgba(31,95,108,.12)';
+    setTimeout(function(){ el.style.background = ''; }, 1500);
+  }
+});
 
   /* 点击红包气泡领取 */
   document.addEventListener('click', function(e){
@@ -9086,25 +8692,10 @@ if($('chatImageUpload')){
   /* 长按气泡 → 弹菜单 */
   var longPressBubbleTimer = null;
 var longPressStartY = 0;
-var touchStartY = 0;
-var touchEmptyTimer = null;
 
 $('messages').addEventListener('touchstart', function(e){
   var msgEl = e.target.closest('.msg');
-  if(!msgEl) {
-    if(e.target.closest('.bubble-quote')) return;
-    touchStartY = e.touches[0].clientY;
-    touchEmptyTimer = setTimeout(function(){
-      touchEmptyTimer = null;
-      if(navigator.vibrate) navigator.vibrate(20);
-      var pool = (cards && cards.system && Array.isArray(cards.system.touchReplies)) ? cards.system.touchReplies : ['嗯？', '我在的'];
-      var txt = pool[Math.floor(Math.random() * pool.length)];
-      var m = { me:false, type:'text', text: txt, time: Date.now(), id: uid('m') };
-      messages.push(m); saveMessages();
-      if(chatOpenNow) appendMessage(m);
-    }, 500);
-    return;
-  }
+  if(!msgEl) return;
   if(e.target.closest('.bubble-quote')) return;
   longPressStartY = e.touches[0].clientY;
   longPressBubbleTimer = setTimeout(function(){
@@ -9122,17 +8713,10 @@ $('messages').addEventListener('touchmove', function(e){
       longPressBubbleTimer = null;
     }
   }
-  if(touchEmptyTimer){
-    if(Math.abs(e.touches[0].clientY - touchStartY) > 10){
-      clearTimeout(touchEmptyTimer);
-      touchEmptyTimer = null;
-    }
-  }
 }, {passive:true});
 
 $('messages').addEventListener('touchend', function(){
   if(longPressBubbleTimer){ clearTimeout(longPressBubbleTimer); longPressBubbleTimer = null; }
-  if(touchEmptyTimer){ clearTimeout(touchEmptyTimer); touchEmptyTimer = null; }
 });
 
   function openMsgActions(idx){
@@ -9220,14 +8804,19 @@ $('msgActionRecall').onclick = function(){
   closeMsgActions();
 
   // 2. ⚠️ 关键：拦截 TA 即将到来的回复！
-  if(replyTimer){ 
-    clearTimeout(replyTimer); 
-    replyTimer = null; 
-  }
-  if(pendingNoReplyTimer){ 
-    clearTimeout(pendingNoReplyTimer); 
-    pendingNoReplyTimer = null; 
-  }
+if(replyTimer){ 
+  clearTimeout(replyTimer); 
+  replyTimer = null; 
+}
+if(typingTimer){
+  clearTimeout(typingTimer);
+  typingTimer = null;
+}
+hideTyping();
+if(pendingNoReplyTimer){ 
+  clearTimeout(pendingNoReplyTimer); 
+  pendingNoReplyTimer = null; 
+}
 
   // 3. 触发 TA 的随机反应（50% 不回复，50% 好奇追问）
   setTimeout(function(){
@@ -9780,11 +9369,9 @@ preloadAllImages().then(function(){
 loadPersonas();
 renderPersonaChip();
 loadStats();
-  loadProactive();
-  loadSignIn();
-  loadMessages();
+loadProactive();
+loadMessages();
   loadCards();
-  loadTaStickers();
   loadUserStickers();
   loadPats();
   loadWallets();
@@ -9799,12 +9386,10 @@ loadGiftRecords();
   renderMessages();
   renderSettingsPreview();
   renderBeautify();
-  renderTaStickers();
   renderUserStickers();
   renderMyPatList();
-  renderTaPatList();
-  renderDict();
-  renderHome();
+renderTaPatList();
+renderHome();
   
   // 🚨 第三步：强制更新一次时钟，防止停在00:00
   updateClock(); 
@@ -10276,9 +9861,6 @@ if($('momentPostStickerRemove')) $('momentPostStickerRemove').onclick = function
 };
 
   /* ============ 一起听 ============ */
-  var musicLyricIndex = 0;
-  var musicLyricTimer = null;
-  var lyricLines = ['人是漂泊的鸟', '爱是宜居的岛', '你的名字，是我读过最短的情诗', '想和你一起听很多很多歌'];
 
   /* ============ 一起听邀请 ============ */
 function pickRejectListenReply(){
@@ -11405,21 +10987,7 @@ function updateMusicTimerText(){
   $('musicPlayIcon').innerHTML = '<path d="M6 4h4v16H6zm8 0h4v16h-4z"/>';
   refreshChatMusicBanner();
 }
-  function startLyricLoop(){
-    if(musicLyricTimer) clearInterval(musicLyricTimer);
-    musicLyricIndex = 0;
-    musicLyricTimer = setInterval(function(){
-      musicLyricIndex = (musicLyricIndex + 1) % lyricLines.length;
-      var el = $('musicLyricBox').querySelector('.music-lyric');
-      if(el){
-        el.style.animation = 'none';
-        el.offsetHeight;
-        el.style.animation = 'musicFadeIn .5s ease';
-        el.textContent = lyricLines[musicLyricIndex];
-      }
-      $('musicBubbleRight').textContent = lyricLines[musicLyricIndex];
-    }, 4000);
-  }
+  
   function toggleMusicPlay(){
   if(!musicAudio || !musicPlaylist.length) return;
   if(musicAudio.paused){
@@ -13433,13 +13001,7 @@ bg.classList.add('show');
 
 /* ============ 新功能更新提示 ============ */
 // 以后有新功能，直接往这里加 { id: 'xxx', title: 'xxx', text: 'xxx' } 即可
-var FEATURE_HINTS = [
-  { 
-    id: 'longpress_modal_v1', 
-    title: '💡 小彩蛋', 
-    text: '试试长按聊天页的空白处，会有惊喜哦～' 
-  }
-];
+var FEATURE_HINTS = [];
 
 function showFeatureHint(){
   if(!FEATURE_HINTS.length) return;
